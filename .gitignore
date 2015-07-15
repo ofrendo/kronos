@@ -1,6 +1,7 @@
 # Eclipse
 /bin
-.project
+#.project
+#.classpath
 .settings/
 
 # Mac

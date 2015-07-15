@@ -32,7 +32,7 @@ public class TestSuiteDataSources implements ExceptionListener {
         
 			// Create a Session
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
+			
 			// Create the destination (Topic or Queue)
 			Destination destination = session.createTopic("m_orders");
 			
@@ -40,7 +40,7 @@ public class TestSuiteDataSources implements ExceptionListener {
 			MessageConsumer consumer = session.createConsumer(destination);
 
 	        // Wait for a message
-	        Message message = consumer.receive(2000);
+	        Message message = consumer.receive(10000);
 	
 	        if (message instanceof TextMessage) {
 	            TextMessage textMessage = (TextMessage) message;
