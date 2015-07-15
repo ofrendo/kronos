@@ -40,19 +40,17 @@ public class TestSuiteDataSources implements ExceptionListener {
 			MessageConsumer consumer = session.createConsumer(destination);
 
 	        // Wait for a message
-	        Message message = consumer.receive(10000);
-	
-	        if (message instanceof TextMessage) {
-	            TextMessage textMessage = (TextMessage) message;
-	            String text = textMessage.getText();
-	            System.out.println("Received text: " + text);
-	        } else {
-	            System.out.println("Received: " + message);
-	        }
-	
-	        consumer.close();
-	        session.close();
-	        connection.close();
+			while(true){
+		        Message message = consumer.receive(10000);
+		
+		        if (message instanceof TextMessage) {
+		            TextMessage textMessage = (TextMessage) message;
+		            String text = textMessage.getText();
+		            System.out.println("Received text: " + text);
+		        } else {
+		            System.out.println("Received: " + message);
+		        }
+			}
 	    } catch (Exception e) {
 	        Log.error("Caught: " + e);
 	        e.printStackTrace();
