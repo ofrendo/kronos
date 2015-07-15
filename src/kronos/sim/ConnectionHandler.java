@@ -16,9 +16,17 @@ public class ConnectionHandler extends Thread {
 	public final String topicMachineData = "m_opcitems";
 	
 	/**
+	 * Set whether listeners should keep listening to sim
+	 */
+	private static boolean keepListening = true;
+	
+	/**
 	 * Observer for each sim data source
 	 */
 	private final MessageHandler messageHandler;
+	
+	private MessageListener listenerERP;
+	private MessageListener listenerMachineData;
 	
 	public ConnectionHandler() {
 		this.messageHandler = new MessageHandler();
@@ -30,6 +38,19 @@ public class ConnectionHandler extends Thread {
 	 */
 	public MessageHandler getMessageHandler() {
 		return messageHandler;
+	}
+	
+	public static void setKeepListening(boolean listen) {
+		keepListening = listen;
+	}
+	public static boolean getKeepListening() {
+		return keepListening;
+	}
+	public MessageListener getListenerERP() {
+		return listenerERP;
+	}
+	public MessageListener getListenerMachineData() {
+		return listenerMachineData;
 	}
 	
 	/** 
@@ -48,25 +69,34 @@ public class ConnectionHandler extends Thread {
 		return connection;
 	}
 	
+	public Session doSession(Connection connection) throws JMSException {
+		return connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+	}
+	
 	/**
-	 * Creates and starts two listeners, one for each topic
+	 * Creates two listeners, one for each topic
 	 * @param session
 	 * @throws JMSException
 	 */
-	public void startListeners(Session session) throws JMSException {
-		MessageListener handlerERP = new MessageListener(session, topicERP);
-		handlerERP.addObserver(messageHandler);
+	public void createListeners(Session session) throws JMSException {
+		listenerERP = new MessageListener(session, topicERP);
+		listenerERP.addObserver(messageHandler);
 		
-		Thread thread1 = new Thread(handlerERP);
+		listenerMachineData = new MessageListener(session, topicMachineData);
+		listenerMachineData.addObserver(messageHandler);
+		
+	}
+	/**
+	 * Starts both listeners
+	 */
+	public void startListeners() {
+		Thread thread1 = new Thread(listenerERP);
 		thread1.start();
 		
-		
-		MessageListener handlerMachineData = new MessageListener(session, topicMachineData);
-		handlerMachineData.addObserver(messageHandler);
-		
-		Thread thread2 = new Thread(handlerMachineData);
+		Thread thread2 = new Thread(listenerMachineData);
 		thread2.start();
 	}
+	
 	
 	@Override
 	public void run() {
@@ -75,10 +105,11 @@ public class ConnectionHandler extends Thread {
 			Connection connection = doConnect();
 			
 			// Create a Session
-			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			Session session = doSession(connection);
 			
 			// Create and start messagehandlers
-			startListeners(session);
+			createListeners(session);
+			startListeners();
 		}
 		catch (JMSException e) {
 			Log.error(e.getMessage());

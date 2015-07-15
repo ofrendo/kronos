@@ -32,14 +32,14 @@ public class MessageListener extends Observable implements Runnable {
 	
 	@Override
 	public void run() {
-		while (true) {
+		while (ConnectionHandler.getKeepListening() == true) {
 			try {
 				// Wait for next message to arrive
 				TextMessage message = (TextMessage) this.messageConsumer.receive();
 				String text = message.getText();
 				
 				// Send message to observers
-				this.notifyObservers(text);	
+				this.notifyObservers(text);
 			} catch (JMSException e) {
 				Log.error(e.getMessage());
 			}
