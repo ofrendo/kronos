@@ -14,7 +14,7 @@ public class SimulationThread extends Thread {
 		}
 	}
 	
-	public static void main(){
+	public static void main(String[]args){
 		(new SimulationThread()).start();
 	}
 }
