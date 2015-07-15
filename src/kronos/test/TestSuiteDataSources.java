@@ -54,7 +54,7 @@ public class TestSuiteDataSources implements ExceptionListener {
 	        session.close();
 	        connection.close();
 	    } catch (Exception e) {
-	        System.out.println("Caught: " + e);
+	        Log.error("Caught: " + e);
 	        e.printStackTrace();
 	    }
 	}
@@ -64,7 +64,7 @@ public class TestSuiteDataSources implements ExceptionListener {
 	}
 
 	@Override
-	public void onException(JMSException arg0) {
+	public synchronized void onException(JMSException arg0) {
 		System.out.println("JMS Exception occured.  Shutting down client.");
 	}
 
