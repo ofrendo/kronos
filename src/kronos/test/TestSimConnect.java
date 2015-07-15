@@ -9,10 +9,12 @@ import kronos.sim.ConnectionHandler;
 
 import org.junit.Test;
 
-public class TestSimConnect {
-
+public class TestSimConnect extends TestUsesSim {
+	
 	@Test
 	public void testConnect() {
+		
+		
 		ConnectionHandler connectionHandler = new ConnectionHandler();
 		
 		try {
@@ -22,6 +24,7 @@ public class TestSimConnect {
 			fail("Failed to connect to sim.");
 			e.printStackTrace();
 		}
+		
 		
 	}
 

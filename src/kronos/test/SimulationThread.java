@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class SimulationThread extends Thread {
+	
+	@Override
 	public void run(){
 		File batch = new File("sim/startSim.bat");
+		
 		try {
 			Desktop.getDesktop().open(batch);
 		} catch (IOException e) {

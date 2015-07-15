@@ -1,6 +1,6 @@
 package kronos.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -12,11 +12,10 @@ import javax.jms.Session;
 import kronos.sim.ConnectionHandler;
 import kronos.sim.MessageHandler;
 import kronos.sim.MessageListener;
-import kronos.util.Log;
 
 import org.junit.Test;
 
-public class TestSimTopics implements Observer {
+public class TestSimTopics extends TestUsesSim implements Observer {
 
 	boolean erpRecieved = false;
 	boolean machineDataRecieved = false;

@@ -47,11 +47,11 @@ public class MessageListener extends Observable implements Runnable {
 				
 				// Wait for next message to arrive
 				Message message = this.messageConsumer.receive(delay);
-				Log.info("MessageListener: " + topic + ": " + message);
 				
 				if (message != null)  {
 					TextMessage textMessage = (TextMessage) message;
 					String text = textMessage.getText();
+					Log.info("MessageListener: " + topic + ": " + text);
 					
 					// Send message to observers
 					this.setChanged();
