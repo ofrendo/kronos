@@ -3,6 +3,8 @@ package kronos.test;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.ExceptionListener;
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
@@ -10,9 +12,9 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class TestSuiteDataSources {
-
-	public static void main(String[] args) {
+public class TestSuiteDataSources implements ExceptionListener {
+	
+	public void doStuff() {
 		try {
 			System.out.println("Trying to connect...");
 		
@@ -24,7 +26,7 @@ public class TestSuiteDataSources {
 			Connection connection = connectionFactory.createConnection();
 			connection.start();
 		
-			//connection.setExceptionListener(this);
+			connection.setExceptionListener(this);
         
 			// Create a Session
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -53,6 +55,15 @@ public class TestSuiteDataSources {
 	        System.out.println("Caught: " + e);
 	        e.printStackTrace();
 	    }
+	}
+	
+	public static void main(String[] args) {
+		(new TestSuiteDataSources()).doStuff();
+	}
+
+	@Override
+	public void onException(JMSException arg0) {
+		System.out.println("JMS Exception occured.  Shutting down client.");
 	}
 
 }

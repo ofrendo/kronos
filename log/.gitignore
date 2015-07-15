@@ -1,0 +1,4 @@
+# Ignore everything in this directory: log4j will log here
+*
+# Except this file
+!.gitignore
