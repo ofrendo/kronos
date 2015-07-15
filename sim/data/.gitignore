@@ -1,0 +1,4 @@
+# Ignore everything in this directory: the message broker will store data here
+*
+# Except this file
+!.gitignore

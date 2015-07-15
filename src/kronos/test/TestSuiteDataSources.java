@@ -30,13 +30,13 @@ public class TestSuiteDataSources {
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 			// Create the destination (Topic or Queue)
-			Destination destination = session.createQueue("m_orders2");
+			Destination destination = session.createQueue("m_orders");
 			
 			// Create a MessageConsumer from the Session to the Topic or Queue
 			MessageConsumer consumer = session.createConsumer(destination);
 
 	        // Wait for a message
-	        Message message = consumer.receive(50000);
+	        Message message = consumer.receive(2000);
 	
 	        if (message instanceof TextMessage) {
 	            TextMessage textMessage = (TextMessage) message;
