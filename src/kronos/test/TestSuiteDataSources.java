@@ -10,14 +10,16 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import kronos.util.Log;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class TestSuiteDataSources implements ExceptionListener {
 	
 	public void doStuff() {
 		try {
-			System.out.println("Trying to connect...");
-		
+			Log.info("Trying to connect...");
+				
 			String conStr = "tcp://localhost:61616";
 			ConnectionFactory connectionFactory =
 					new ActiveMQConnectionFactory (conStr);
