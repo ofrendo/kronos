@@ -12,8 +12,8 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class ConnectionHandler extends Thread {
 	
 	public final String simConnect = "tcp://localhost:61616";
-	public final String topicERP = "m_orders";
-	public final String topicMachineData = "m_opcitems";
+	public static final String topicERP = "m_orders";
+	public static final String topicMachineData = "m_opcitems";
 	
 	/**
 	 * Set whether listeners should keep listening to sim
@@ -59,6 +59,8 @@ public class ConnectionHandler extends Thread {
 	 * @throws JMSException
 	 */
 	public Connection doConnect() throws JMSException {
+		Log.info("======= Connecting.... =======");
+		
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory (simConnect);
 		
 		Connection connection = connectionFactory.createConnection();

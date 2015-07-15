@@ -4,6 +4,7 @@ import java.util.Observable;
 
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -16,7 +17,8 @@ public class MessageListener extends Observable implements Runnable {
 	 * JMS doing the actual listening to the topic
 	 */
 	private MessageConsumer messageConsumer;
-	
+	private int delay = 15000;
+	private String topic;
 	
 	/**
 	 * Listens to a certain topic in a separate thread
@@ -25,21 +27,36 @@ public class MessageListener extends Observable implements Runnable {
 	 * @throws JMSException
 	 */
 	public MessageListener(Session session, String topic) throws JMSException {
+		Log.info("MessageListener: Constructor on " + topic);
+		this.topic = topic;
+		
 		//Create destination from topic and messageconumser
 		Destination destination = session.createTopic(topic);
 		this.messageConsumer = session.createConsumer(destination);
+	}
+	
+	public String getTopic() {
+		return topic;
 	}
 	
 	@Override
 	public void run() {
 		while (ConnectionHandler.getKeepListening() == true) {
 			try {
-				// Wait for next message to arrive
-				TextMessage message = (TextMessage) this.messageConsumer.receive();
-				String text = message.getText();
+				Log.info("MessageListener: Starting listen " + topic);
 				
-				// Send message to observers
-				this.notifyObservers(text);
+				// Wait for next message to arrive
+				Message message = this.messageConsumer.receive(delay);
+				Log.info("MessageListener: " + topic + ": " + message);
+				
+				if (message != null)  {
+					TextMessage textMessage = (TextMessage) message;
+					String text = textMessage.getText();
+					
+					// Send message to observers
+					this.setChanged();
+					this.notifyObservers(text);
+				}
 			} catch (JMSException e) {
 				Log.error(e.getMessage());
 			}

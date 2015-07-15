@@ -1,5 +1,8 @@
 package kronos.test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -17,6 +20,10 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 public class TestSuiteDataSources implements ExceptionListener {
 	
 	public void doStuff() {
+		Path currentRelativePath = Paths.get("");
+		String s = currentRelativePath.toAbsolutePath().toString();
+		System.out.println("Current relative path is: " + s);
+		
 		try {
 			Log.info("Trying to connect...");
 				

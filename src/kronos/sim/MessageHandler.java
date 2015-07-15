@@ -16,7 +16,6 @@ public class MessageHandler extends Observable implements Observer {
 	public void update(Observable o, Object arg) {
 		String text = (String) arg;
 		onMessage(text);
-		
 	}
 
 	
