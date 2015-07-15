@@ -30,7 +30,7 @@ public class TestSuiteDataSources {
 			Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
 			// Create the destination (Topic or Queue)
-			Destination destination = session.createQueue("m_orders");
+			Destination destination = session.createTopic("m_orders");
 			
 			// Create a MessageConsumer from the Session to the Topic or Queue
 			MessageConsumer consumer = session.createConsumer(destination);
