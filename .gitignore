@@ -8,4 +8,4 @@
 .DS_Store
 
 # Sim stuff
-sim/I4Simulation/activemq-data/localhost/KahaDB/lock
+sim/I4Simulation/activemq-data/localhost/KahaDB/
