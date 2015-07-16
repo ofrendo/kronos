@@ -68,7 +68,6 @@ public class TestSuiteDataSources implements ExceptionListener {
 		(new TestSuiteDataSources()).doStuff();
 	}
 
-	@Override
 	public synchronized void onException(JMSException arg0) {
 		System.out.println("JMS Exception occured.  Shutting down client.");
 	}

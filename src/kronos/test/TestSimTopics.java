@@ -57,7 +57,6 @@ public class TestSimTopics extends TestUsesSim implements Observer {
 		}
 	}
 
-	@Override
 	public void update(Observable o, Object arg) {
 		SimSource s = (SimSource) o;
 		switch (s.getType()) {

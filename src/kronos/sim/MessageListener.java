@@ -39,7 +39,6 @@ public class MessageListener extends Observable implements Runnable, SimSource {
 		return topic;
 	}
 	
-	@Override
 	public void run() {
 		while (ConnectionHandler.getKeepListening() == true) {
 			try {
@@ -63,7 +62,6 @@ public class MessageListener extends Observable implements Runnable, SimSource {
 		}
 	}
 
-	@Override
 	public SimSourceType getType() {
 		return (topic.equals(ConnectionHandler.topicERP)) ? 
 				SimSourceType.erpData :

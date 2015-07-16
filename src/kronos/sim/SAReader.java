@@ -38,7 +38,6 @@ public class SAReader extends Observable implements Runnable, SimSource {
 		}
 	}
 	
-	@Override
 	public void run() {
 		while (ConnectionHandler.getKeepListening() == true) {
 			
@@ -112,7 +111,6 @@ public class SAReader extends Observable implements Runnable, SimSource {
 		(new SAReader()).run();
 	}
 
-	@Override
 	public SimSourceType getType() {
 		return SimSourceType.saData;
 	}
