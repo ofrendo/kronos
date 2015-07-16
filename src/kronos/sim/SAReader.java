@@ -104,6 +104,7 @@ public class SAReader extends Observable implements Runnable, SimSource {
 		}
 		catch (Exception e) {
 			Log.error("SAReader onSAFile() error: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

@@ -42,7 +42,7 @@ public class MessageListener extends Observable implements Runnable, SimSource {
 	public void run() {
 		while (ConnectionHandler.getKeepListening() == true) {
 			try {
-				Log.info("MessageListener: Starting listen " + topic);
+				//Log.info("MessageListener: Starting listen " + topic);
 				
 				// Wait for next message to arrive
 				Message message = this.messageConsumer.receive(delay);
@@ -50,7 +50,7 @@ public class MessageListener extends Observable implements Runnable, SimSource {
 				if (message != null)  {
 					TextMessage textMessage = (TextMessage) message;
 					String text = textMessage.getText();
-					Log.info("MessageListener: " + topic + ": " + text);
+					//Log.info("MessageListener: " + topic + ": " + text);
 					
 					// Send message to observers
 					this.setChanged();
