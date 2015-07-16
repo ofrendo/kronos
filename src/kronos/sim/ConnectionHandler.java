@@ -80,7 +80,7 @@ public class ConnectionHandler extends Thread {
 	}
 	
 	/**
-	 * Creates two listeners, one for each topic
+	 * Creates three listeners, one for each topic and one for the json
 	 * @param session
 	 * @throws JMSException
 	 */
@@ -95,7 +95,7 @@ public class ConnectionHandler extends Thread {
 		saReader.addObserver(messageHandler);
 	}
 	/**
-	 * Starts both listeners
+	 * Starts all three listeners
 	 */
 	public void startListeners() {
 		Thread thread1 = new Thread(listenerERP);
