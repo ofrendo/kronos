@@ -15,7 +15,7 @@ public abstract class TestUsesSim {
 		Log.info("____________ TEST: Starting sim... _____________");
 		sim = new Simulation();
 		sim.start();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 	}
 
 	@After

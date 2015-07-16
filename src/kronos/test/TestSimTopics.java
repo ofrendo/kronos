@@ -10,8 +10,10 @@ import javax.jms.JMSException;
 import javax.jms.Session;
 
 import kronos.sim.ConnectionHandler;
-import kronos.sim.MessageHandler;
 import kronos.sim.MessageListener;
+import kronos.sim.SAReader;
+import kronos.sim.SimSource;
+import kronos.util.Log;
 
 import org.junit.Test;
 
@@ -19,28 +21,30 @@ public class TestSimTopics extends TestUsesSim implements Observer {
 
 	boolean erpRecieved = false;
 	boolean machineDataRecieved = false;
+	boolean saDataRecieved = false;
 	
 	@Test
-	public void test() throws JMSException, InterruptedException {
+	public void testSimTopics() throws JMSException, InterruptedException {
 		ConnectionHandler connectionHandler = new ConnectionHandler();
 		Connection connection = connectionHandler.doConnect();
 		Session session = connectionHandler.doSession(connection);
 		connectionHandler.createListeners(session);
 
-		MessageHandler handler = connectionHandler.getMessageHandler();
-		
 		MessageListener listenerERP = connectionHandler.getListenerERP();
 		listenerERP.addObserver(this);
-		listenerERP.addObserver(handler);
 		
 		MessageListener listenerMachineData = connectionHandler.getListenerMachineData();
 		listenerMachineData.addObserver(this);
-		listenerMachineData.addObserver(handler);
+		
+		SAReader saReader = connectionHandler.getSAReader();
+		saReader.addObserver(this);
+		
 		
 		(new Thread(listenerERP)).start();
 		(new Thread(listenerMachineData)).start();
+		(new Thread(saReader)).start();
 		
-		Thread.sleep(20000);
+		Thread.sleep(120000);
 		
 		if (erpRecieved == false) {
 			fail("Didn't recieve erpData");
@@ -48,16 +52,25 @@ public class TestSimTopics extends TestUsesSim implements Observer {
 		if (machineDataRecieved == false) {
 			fail("Didn't recieve machineData");
 		}
+		if (saDataRecieved == false) {
+			fail("Didn't recieve SAData");
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		MessageListener listener = (MessageListener) o;
-		if (listener.getTopic().equals(ConnectionHandler.topicERP)) {
+		SimSource s = (SimSource) o;
+		switch (s.getType()) {
+		case erpData:
 			erpRecieved = true;
-		}
-		else if (listener.getTopic().equals(ConnectionHandler.topicMachineData)) {
+			break;
+		case machineData:
 			machineDataRecieved = true;
+			break;
+		case saData:
+			saDataRecieved = true;
+			Log.info("_________ TEST: Recieved erpData");
+			break;
 		}
 		
 		//String message = (String) arg;

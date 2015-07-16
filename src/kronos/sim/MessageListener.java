@@ -11,7 +11,7 @@ import javax.jms.TextMessage;
 
 import kronos.util.Log;
 
-public class MessageListener extends Observable implements Runnable {
+public class MessageListener extends Observable implements Runnable, SimSource {
 	
 	/**
 	 * JMS doing the actual listening to the topic
@@ -61,6 +61,13 @@ public class MessageListener extends Observable implements Runnable {
 				Log.error(e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public SimSourceType getType() {
+		return (topic.equals(ConnectionHandler.topicERP)) ? 
+				SimSourceType.erpData :
+				SimSourceType.machineData;
 	}
 	
 }

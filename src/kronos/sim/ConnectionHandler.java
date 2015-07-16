@@ -11,8 +11,19 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class ConnectionHandler extends Thread {
 	
+	/**
+	 * String to connect to locally running sim server
+	 */
 	public final String simConnect = "tcp://localhost:61616";
+	
+	/**
+	 * Topic name for ERP data
+	 */
 	public static final String topicERP = "m_orders";
+	
+	/**
+	 * Topic name for machine data
+	 */
 	public static final String topicMachineData = "m_opcitems";
 	
 	/**
@@ -27,7 +38,11 @@ public class ConnectionHandler extends Thread {
 	
 	private MessageListener listenerERP;
 	private MessageListener listenerMachineData;
+	private SAReader saReader;
 	
+	/**
+	 * Main handler for connecting to the sim server
+	 */
 	public ConnectionHandler() {
 		this.messageHandler = new MessageHandler();
 	}
@@ -52,6 +67,9 @@ public class ConnectionHandler extends Thread {
 	public MessageListener getListenerMachineData() {
 		return listenerMachineData;
 	}
+	public SAReader getSAReader() {
+		return saReader;
+	}
 	
 	/** 
 	 * Creates and starts a connection to the sim
@@ -61,7 +79,7 @@ public class ConnectionHandler extends Thread {
 	public Connection doConnect() throws JMSException {
 		Log.info("======= Connecting.... =======");
 		
-		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory (simConnect);
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(simConnect);
 		
 		Connection connection = connectionFactory.createConnection();
 		connection.start();
@@ -76,7 +94,7 @@ public class ConnectionHandler extends Thread {
 	}
 	
 	/**
-	 * Creates two listeners, one for each topic
+	 * Creates three listeners, one for each topic and one for the json
 	 * @param session
 	 * @throws JMSException
 	 */
@@ -87,9 +105,11 @@ public class ConnectionHandler extends Thread {
 		listenerMachineData = new MessageListener(session, topicMachineData);
 		listenerMachineData.addObserver(messageHandler);
 		
+		saReader = new SAReader();
+		saReader.addObserver(messageHandler);
 	}
 	/**
-	 * Starts both listeners
+	 * Starts all three listeners
 	 */
 	public void startListeners() {
 		Thread thread1 = new Thread(listenerERP);
@@ -97,6 +117,9 @@ public class ConnectionHandler extends Thread {
 		
 		Thread thread2 = new Thread(listenerMachineData);
 		thread2.start();
+		
+		Thread thread3 = new Thread(saReader);
+		thread3.start();
 	}
 	
 	
