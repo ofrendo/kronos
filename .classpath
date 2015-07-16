@@ -4,7 +4,10 @@
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/activemq-all-5.11.1.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.10.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/gson-2.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/java_websocket.jar"/>
+	<classpathentry kind="lib" path="lib/javaxt-server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
