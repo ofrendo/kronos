@@ -11,8 +11,19 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class ConnectionHandler extends Thread {
 	
+	/**
+	 * String to connect to locally running sim server
+	 */
 	public final String simConnect = "tcp://localhost:61616";
+	
+	/**
+	 * Topic name for ERP data
+	 */
 	public static final String topicERP = "m_orders";
+	
+	/**
+	 * Topic name for machine data
+	 */
 	public static final String topicMachineData = "m_opcitems";
 	
 	/**
@@ -29,6 +40,9 @@ public class ConnectionHandler extends Thread {
 	private MessageListener listenerMachineData;
 	private SAReader saReader;
 	
+	/**
+	 * Main handler for connecting to the sim server
+	 */
 	public ConnectionHandler() {
 		this.messageHandler = new MessageHandler();
 	}
