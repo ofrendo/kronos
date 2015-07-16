@@ -40,7 +40,7 @@ public class TestSimTopics extends TestUsesSim implements Observer {
 		(new Thread(listenerERP)).start();
 		(new Thread(listenerMachineData)).start();
 		
-		Thread.sleep(10000);
+		Thread.sleep(20000);
 		
 		if (erpRecieved == false) {
 			fail("Didn't recieve erpData");
