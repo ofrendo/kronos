@@ -100,6 +100,7 @@ public class SAReader extends Observable implements Runnable, SimSource {
 
 			String result = new String(data, "UTF-8");
 			Log.info("SAReader: File length: " + file.length() + ", result: " + result);
+			this.setChanged();
 			this.notifyObservers(result);
 		}
 		catch (Exception e) {

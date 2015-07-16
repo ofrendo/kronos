@@ -13,6 +13,7 @@ import kronos.sim.ConnectionHandler;
 import kronos.sim.MessageListener;
 import kronos.sim.SAReader;
 import kronos.sim.SimSource;
+import kronos.util.Log;
 
 import org.junit.Test;
 
@@ -68,6 +69,7 @@ public class TestSimTopics extends TestUsesSim implements Observer {
 			break;
 		case saData:
 			saDataRecieved = true;
+			Log.info("_________ TEST: Recieved erpData");
 			break;
 		}
 		
