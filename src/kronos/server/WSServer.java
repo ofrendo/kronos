@@ -10,7 +10,8 @@ import org.java_websocket.server.WebSocketServer;
 
 public class WSServer extends WebSocketServer {
 
-	private static InetSocketAddress address = new InetSocketAddress("127.0.0.1", 9003);
+	private static final int port = 9003;
+	private static InetSocketAddress address = new InetSocketAddress("127.0.0.1", port);
 
 	public WSServer() {
 		super(address);
@@ -18,7 +19,7 @@ public class WSServer extends WebSocketServer {
 	
 	@Override
 	public void run() {
-		Log.info("WSServer: Starting WS server...");
+		Log.info("WSServer: Starting WS server on " + port + "...");
 		super.run();
 	}
 
