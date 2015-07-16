@@ -9,6 +9,11 @@ public class MessageHandler extends Observable implements Observer {
 	protected MessageHandler() {}
 	
 	protected synchronized void onMessage(String text) {
+		//Use something like this in observers
+		//SimSource source = (SimSource) o;
+		//switch (source.getType()) {
+		//case erpData:
+		//}
 		this.notifyObservers(text);
 	}
 

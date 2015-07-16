@@ -27,6 +27,7 @@ public class ConnectionHandler extends Thread {
 	
 	private MessageListener listenerERP;
 	private MessageListener listenerMachineData;
+	private SAReader saReader;
 	
 	public ConnectionHandler() {
 		this.messageHandler = new MessageHandler();
@@ -52,6 +53,9 @@ public class ConnectionHandler extends Thread {
 	public MessageListener getListenerMachineData() {
 		return listenerMachineData;
 	}
+	public SAReader getSAReader() {
+		return saReader;
+	}
 	
 	/** 
 	 * Creates and starts a connection to the sim
@@ -61,7 +65,7 @@ public class ConnectionHandler extends Thread {
 	public Connection doConnect() throws JMSException {
 		Log.info("======= Connecting.... =======");
 		
-		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory (simConnect);
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(simConnect);
 		
 		Connection connection = connectionFactory.createConnection();
 		connection.start();
@@ -87,6 +91,8 @@ public class ConnectionHandler extends Thread {
 		listenerMachineData = new MessageListener(session, topicMachineData);
 		listenerMachineData.addObserver(messageHandler);
 		
+		saReader = new SAReader();
+		saReader.addObserver(messageHandler);
 	}
 	/**
 	 * Starts both listeners
@@ -97,6 +103,9 @@ public class ConnectionHandler extends Thread {
 		
 		Thread thread2 = new Thread(listenerMachineData);
 		thread2.start();
+		
+		Thread thread3 = new Thread(saReader);
+		thread3.start();
 	}
 	
 	
