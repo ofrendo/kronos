@@ -26,7 +26,7 @@ public class SimDataFactory {
 			Log.info("Material: " + result.getMaterialNumber());
 			Log.info("Customer: "+ result.getCustomerNumber());
 			Log.info("Order: " + result.getOrderNumber());
-			Log.info("Timestamp: " + result.getTimeStamp());
+			Log.info("Timestamp: " + result.getTime());
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();

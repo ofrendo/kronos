@@ -54,7 +54,7 @@ public class ERPData extends SimData {
 	}
 	
 	public long getTime(){
-		return Timestamp.
+		return TimeStamp.getTime();
 	}
 
 	public void setTimeStamp(Date timeStamp) {
