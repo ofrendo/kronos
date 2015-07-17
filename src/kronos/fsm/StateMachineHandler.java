@@ -17,15 +17,14 @@ public class StateMachineHandler {
 		
 		Action setStartTimeAction = new Action() {
 			public void doIt() {
-				// TODO Auto-generated method stub
+				// TODO Save starting timestamp
 				setStartTime();
 			}
 		};
 		
 		fsmc.configure(PartStates.INIT)
 		.permit(Triggers.LIGHTBARRIER_1_INTERRUPT, PartStates.LIGHTBARRIER_1)
-		.ignore(null)
-		.onEntry(setStartTimeAction ); 
+		.onEntry(setStartTimeAction); 
 		
 		fsmc.configure(PartStates.LIGHTBARRIER_1)
 		.permit(Triggers.LIGHTBARRIER_1_CONNECT, PartStates.BETWEEN_L1_L2);
