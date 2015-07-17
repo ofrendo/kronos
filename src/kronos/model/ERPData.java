@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 */
 
 @XmlRootElement
-public class ERPData {
+public class ERPData extends SimData {
 
     private String OrderNumber;
 
@@ -51,6 +51,10 @@ public class ERPData {
 
 	public Date getTimeStamp() {
 		return TimeStamp;
+	}
+	
+	public long getTime(){
+		return TimeStamp.getTime();
 	}
 
 	public void setTimeStamp(Date timeStamp) {
