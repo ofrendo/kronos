@@ -1,30 +1,25 @@
 package kronos.fsm;
 
 import com.github.oxo42.stateless4j.*;
-import com.github.oxo42.stateless4j.delegates.Action;
 
 public class StateMachineHandler {
 	// 
 	private StateMachineConfig<PartStates, Triggers> fsmc ; 
-	private StateMachine<PartStates, Triggers> fsm  ;
 	
 	public StateMachineHandler(){
 		configure();
+	}
+	
+	public StateMachine<PartStates, Triggers> newStateMachine(){
+		StateMachine<PartStates, Triggers> stateMachine = new StateMachine<>(PartStates.INIT, fsmc);
+		return stateMachine;
 	}
 
 	private void configure() {
 		fsmc = new StateMachineConfig<PartStates, Triggers>(); 
 		
-		Action setStartTimeAction = new Action() {
-			public void doIt() {
-				// TODO Save starting timestamp
-				setStartTime();
-			}
-		};
-		
 		fsmc.configure(PartStates.INIT)
-		.permit(Triggers.LIGHTBARRIER_1_INTERRUPT, PartStates.LIGHTBARRIER_1)
-		.onEntry(setStartTimeAction); 
+		.permit(Triggers.LIGHTBARRIER_1_INTERRUPT, PartStates.LIGHTBARRIER_1); 
 		
 		fsmc.configure(PartStates.LIGHTBARRIER_1)
 		.permit(Triggers.LIGHTBARRIER_1_CONNECT, PartStates.BETWEEN_L1_L2);
@@ -58,20 +53,9 @@ public class StateMachineHandler {
 		fsmc.configure(PartStates.END_OF_PRODUCTION)
 		.permit(Triggers.SPECTAL_ANALYSIS, PartStates.FINISH);
 		
-		Action endProcess = new Action() {
-			
-			public void doIt() {
-				//TODO: Save data and end process
-				
-			}
-		};
 		fsmc.configure(PartStates.FINISH)
-		.onEntry(endProcess);
+		.permit(Triggers.SPECTAL_ANALYSIS, PartStates.FINISH);
 		
-		
-	}
-	
-	public void setStartTime() {
 		
 	}
 }
