@@ -12,7 +12,7 @@ public class TestCEventProcessor {
 	@Test
 	public void test(){
 		CEventProcessor processor = new CEventProcessor();
-		processor.run();
+		processor.init();
 		ERPData erpData = new ERPData();
 		erpData.setCustomerNumber(10);
 		processor.sendEvent(erpData);

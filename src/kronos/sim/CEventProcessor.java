@@ -16,7 +16,7 @@ public class CEventProcessor implements UpdateListener {
 	private EPServiceProvider service;
 	private boolean running = false;
 	
-	public void run(){
+	public void init(){
 		service = EPServiceProviderManager.getDefaultProvider();
 		String expression = "SELECT avg(customerNumber) from kronos.model.ERPData.win:time(10 sec)"; 
 		EPStatement statement = service.getEPAdministrator().createEPL(expression);
