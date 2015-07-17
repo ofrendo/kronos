@@ -38,7 +38,6 @@ public class SAReader extends Observable implements Runnable, SimSource {
 		}
 	}
 	
-	@Override
 	public void run() {
 		while (ConnectionHandler.getKeepListening() == true) {
 			
@@ -100,10 +99,12 @@ public class SAReader extends Observable implements Runnable, SimSource {
 
 			String result = new String(data, "UTF-8");
 			Log.info("SAReader: File length: " + file.length() + ", result: " + result);
+			this.setChanged();
 			this.notifyObservers(result);
 		}
 		catch (Exception e) {
 			Log.error("SAReader onSAFile() error: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -111,7 +112,6 @@ public class SAReader extends Observable implements Runnable, SimSource {
 		(new SAReader()).run();
 	}
 
-	@Override
 	public SimSourceType getType() {
 		return SimSourceType.saData;
 	}

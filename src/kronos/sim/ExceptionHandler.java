@@ -7,7 +7,6 @@ import kronos.util.Log;
 
 public class ExceptionHandler implements ExceptionListener {
 
-	@Override
 	public void onException(JMSException arg0) {
 		Log.error("Error: " + arg0.getMessage());
 	}
