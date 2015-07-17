@@ -52,6 +52,10 @@ public class ERPData {
 	public Date getTimeStamp() {
 		return TimeStamp;
 	}
+	
+	public long getTime(){
+		return Timestamp.
+	}
 
 	public void setTimeStamp(Date timeStamp) {
 		TimeStamp = timeStamp;

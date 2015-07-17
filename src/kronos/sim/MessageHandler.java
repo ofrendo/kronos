@@ -19,6 +19,8 @@ public class MessageHandler implements Observer {
 	
 	protected MessageHandler() {}
 	
+
+	
 	protected synchronized void onMessage(String text, SimSourceType type) {
 		//Use something like this in observers
 		//SimSource source = (SimSource) o;
