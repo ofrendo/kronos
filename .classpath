@@ -6,6 +6,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/stateless4j-2.4.2.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="res">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

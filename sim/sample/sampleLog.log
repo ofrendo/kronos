@@ -1,0 +1,296 @@
+<erpData>
+    <customerNumber>4713</customerNumber>
+    <materialNumber>8235</materialNumber>
+    <orderNumber>7f21ab89-9ebb-4a24-b3d8-158921124be0</orderNumber>
+    <timeStamp>2015-07-16T22:08:31.552+02:00</timeStamp>
+</erpData>
+
+2015-07-16 22:08:31 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:08:35 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 1</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077315677</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:08:35 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:37 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 1</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077317694</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:08:37 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:43 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 2</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077323700</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:08:43 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:45 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 2</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077325707</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:08:45 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:46 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:08:51 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 3</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077331718</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:08:51 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:53 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Station</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077333728</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:08:53 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:53 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077333744</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">12480</value>
+</OpcDataItem>
+
+2015-07-16 22:08:53 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:08:57 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077337765</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">144.94</value>
+</OpcDataItem>
+
+2015-07-16 22:08:57 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:01 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:09:01 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077341772</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">166.68099999999998</value>
+</OpcDataItem>
+
+2015-07-16 22:09:01 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:07 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077347789</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">15000</value>
+</OpcDataItem>
+
+2015-07-16 22:09:07 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:07 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077347798</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">217.41</value>
+</OpcDataItem>
+
+2015-07-16 22:09:07 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:13 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077353806</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">202.916</value>
+</OpcDataItem>
+
+2015-07-16 22:09:13 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:16 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:09:18 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077358817</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</value>
+</OpcDataItem>
+
+2015-07-16 22:09:18 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:18 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077358825</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">144.7</value>
+</OpcDataItem>
+
+2015-07-16 22:09:18 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:20 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077360831</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">40.74</value>
+</OpcDataItem>
+
+2015-07-16 22:09:20 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:20 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Milling Station</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077360838</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:09:20 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:23 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 3</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077363854</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:09:23 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:27 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 4</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077367858</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:09:27 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:30 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Station</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077370864</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:09:30 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:30 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077370874</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">15500</value>
+</OpcDataItem>
+
+2015-07-16 22:09:30 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:31 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:09:34 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077374884</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">206.82</value>
+</OpcDataItem>
+
+2015-07-16 22:09:34 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:38 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077378895</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">237.84299999999996</value>
+</OpcDataItem>
+
+2015-07-16 22:09:38 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:44 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077384907</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">18500</value>
+</OpcDataItem>
+
+2015-07-16 22:09:44 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:44 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077384918</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">310.23</value>
+</OpcDataItem>
+
+2015-07-16 22:09:44 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:46 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:09:50 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077390924</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">289.54799999999994</value>
+</OpcDataItem>
+
+2015-07-16 22:09:50 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Speed</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077394932</timestamp>
+    <value xsi:type="xs:int" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">0</value>
+</OpcDataItem>
+
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Heat</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077394940</timestamp>
+    <value xsi:type="xs:double" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">138.62</value>
+</OpcDataItem>
+
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Drilling Station</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077394945</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:09:54 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:09:56 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 4</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077396953</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:09:56 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:10:01 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:10:05 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 5</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077405960</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+</OpcDataItem>
+
+2015-07-16 22:10:05 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:10:07 INFO  kronos.util.Log     - MessageListener: m_opcitems: <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpcDataItem>
+    <itemName>Lichtschranke 5</itemName>
+    <status>GOOD</status>
+    <timestamp>1437077407964</timestamp>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">true</value>
+</OpcDataItem>
+
+2015-07-16 22:10:07 INFO  kronos.util.Log     - MessageListener: Starting listen m_opcitems
+2015-07-16 22:10:16 INFO  kronos.util.Log     - MessageListener: Starting listen m_orders
+2015-07-16 22:10:20 INFO  kronos.util.Log     - SAReader: Reading file C:\Users\D059352\git\kronos\sim\data\4096fec7e00f4e968fc833f39f2702be.erp...
+2015-07-16 22:10:20 INFO  kronos.util.Log     - SAReader: File length: 216, result: {"em1":1552.7530892695609,"em2":1385.414251902231,"a1":18.513798809271986,"a2":7.775795499894234,"b2":10772.697905430705,"b1":28747.358295212194,"overallStatus":"NOK","ts_start":1437077412977,"ts_stop":1437077419980}
