@@ -9,7 +9,8 @@ public class ProductHandler {
 
 	ArrayList<Product> products;
 	private static ProductHandler productHandler;
-	
+	private CEventProcessor cEventProcessor;
+
 	public static ProductHandler getProductHandler(){
 		if (productHandler != null) {
 			productHandler = new ProductHandler();
@@ -18,8 +19,10 @@ public class ProductHandler {
 		return productHandler;
 	}
 	
-	public ProductHandler () {
+	private ProductHandler () {
 		products = new ArrayList<Product>();
+		cEventProcessor = new CEventProcessor();
+		cEventProcessor.init();
 	}
 	
 	public void createNewProduct (ERPData erp) {
@@ -31,9 +34,9 @@ public class ProductHandler {
 		if (products.size() == 0) {
 			throw new Exception("No Procuts available for new Events");
 		}
+		// processing event
 		
-		
-		
+		// sending to espertech for further processing
 		
 	}
 	
