@@ -33,7 +33,7 @@ public class SAData {
 	}
 	
 	public void print (){
-		Log.info("#####################");
+		Log.info("######SAItem########");
 		Log.info("Status: "+overallStatus);
 		Log.info("Start: " + ts_start);
 		Log.info("Stop: " + ts_stop);

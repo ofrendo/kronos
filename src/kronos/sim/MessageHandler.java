@@ -59,7 +59,7 @@ public class MessageHandler implements Observer {
 			ERPData erpData2 = (ERPData) _unmarshaller.unmarshal(sReader);
 			
 			
-			Log.info("###################################");
+			Log.info("###########ERPItem#############");
 			Log.info("Material: " + erpData2.getMaterialNumber());
 			Log.info("Customer: "+ erpData2.getCustomerNumber());
 			Log.info("Order: " + erpData2.getOrderNumber());
@@ -82,7 +82,7 @@ public class MessageHandler implements Observer {
 			
 			
 			
-			Log.info("###################################");
+			Log.info("##########OPCItem#############");
 			
 			Log.info("Name: " + dataItem.getItemName());
 			Log.info("Status: " + dataItem.getStatus());
