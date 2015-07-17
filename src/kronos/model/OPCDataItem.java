@@ -7,9 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Created by julian Reichwald
  */
 @XmlRootElement(name = "OpcDataItem")
-public class OPCDataItem<T> {
+public class OPCDataItem extends SimData {
 
-    private T value;
+    private Object value;
 
     private String status;
 
@@ -24,7 +24,7 @@ public class OPCDataItem<T> {
 
     }    
     
-    public OPCDataItem(T v, String name) {
+    public OPCDataItem(Object v, String name) {
         this.value = v;
         this.itemName = name;
         this.timestamp = System.currentTimeMillis();
@@ -48,11 +48,11 @@ public class OPCDataItem<T> {
         this.itemName = itemName;
     }
 
-    public T getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(T value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 

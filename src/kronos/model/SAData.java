@@ -1,14 +1,10 @@
 package kronos.model;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
-
-import kronos.util.Log;
 
 
 @XmlRootElement
-public class SAData {
+public class SAData extends SimData {
 
 	private double em1;
 	
@@ -32,13 +28,6 @@ public class SAData {
 		
 	}
 	
-	public void print (){
-		Log.info("######SAItem########");
-		Log.info("Status: "+overallStatus);
-		Log.info("Start: " + ts_start);
-		Log.info("Stop: " + ts_stop);
-	}
-
 	public double getEm1() {
 		return em1;
 	}
@@ -99,8 +88,15 @@ public class SAData {
 	public void setTs_start(long ts_start) {
 		this.ts_start = ts_start;
 	}
+	public long getTs_start() {
+		return this.ts_start;
+	}
 
 	public void setTs_stop(long ts_stop) {
 		this.ts_stop = ts_stop;
 	}
+	public long getTs_stop() {
+		return this.ts_stop;
+	}
+	
 }

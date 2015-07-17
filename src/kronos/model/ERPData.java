@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 */
 
 @XmlRootElement
-public class ERPData {
+public class ERPData extends SimData {
 
     private String OrderNumber;
 
