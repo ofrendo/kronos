@@ -8,7 +8,7 @@ public class HTTPServer extends javaxt.http.Server {
 	private static final int port = 9002;
 	
 	public HTTPServer() {
-		super(port, 10, new HTTPServlet());
+		super(port, 100, new HTTPServlet());
 	}
 	
 	@Override
