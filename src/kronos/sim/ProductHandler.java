@@ -12,7 +12,7 @@ public class ProductHandler {
 	private CEventProcessor cEventProcessor;
 
 	public static ProductHandler getProductHandler(){
-		if (productHandler != null) {
+		if (productHandler == null) {
 			productHandler = new ProductHandler();
 		}
 		
@@ -27,6 +27,7 @@ public class ProductHandler {
 	
 	public void createNewProduct (ERPData erp) {
 		products.add(new Product(erp));
+		System.out.println("new product in Queue");
 	}
 	
 	public void fireEvent() throws Exception{

@@ -18,9 +18,13 @@ import com.google.gson.Gson;
 
 public class MessageHandler implements Observer {
 	
-	protected MessageHandler() {}
+	protected MessageHandler() {
+		products = ProductHandler.getProductHandler();
+	}
 	
-
+	private ProductHandler products;
+	
+	
 	
 	protected synchronized void onMessage(String text, SimSourceType type) {
 		switch (type) {
@@ -48,6 +52,7 @@ public class MessageHandler implements Observer {
 	public void handleERP(String xml){
 		//TODO Matthias
 		ERPData erpData = SimDataFactory.createERPData(xml);
+		products.createNewProduct(erpData);
 		
 	}
 	

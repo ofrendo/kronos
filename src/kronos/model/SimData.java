@@ -7,5 +7,10 @@ public abstract class SimData {
 		return "";
 	}
 	
+	public String getTrigger(){
+		return "";
+		
+	}
+	
 	
 }
