@@ -4,13 +4,16 @@ import java.util.ArrayList;
 
 import kronos.model.ERPData;
 import kronos.model.Product;
+import kronos.model.SimData;
+import kronos.server.WSServer;
 
 public class ProductHandler {
 
 	ArrayList<Product> products;
 	private static ProductHandler productHandler;
 	private CEventProcessor cEventProcessor;
-
+	private WSServer wsServer;
+	
 	public static ProductHandler getProductHandler(){
 		if (productHandler == null) {
 			productHandler = new ProductHandler();
@@ -23,6 +26,10 @@ public class ProductHandler {
 		products = new ArrayList<Product>();
 		cEventProcessor = new CEventProcessor();
 		cEventProcessor.init();
+	}
+	
+	public void setWSListener(WSServer wsServer) {
+		this.wsServer = wsServer;
 	}
 	
 	public void createNewProduct (ERPData erp) {
@@ -40,6 +47,12 @@ public class ProductHandler {
 		// sending to espertech for further processing
 		
 	}
+
+	public void TEST_onSimData(SimData simData) {
+		if (wsServer != null) {
+			wsServer.onSimData(1, simData);
+		}
+	}	
 	
 	
 }
