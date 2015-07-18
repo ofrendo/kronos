@@ -5,6 +5,8 @@ import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
+import kronos.sim.source.MessageListener;
+import kronos.sim.source.SAReader;
 import kronos.util.Log;
 
 import org.apache.activemq.ActiveMQConnectionFactory;

@@ -1,4 +1,4 @@
-package kronos.sim;
+package kronos.sim.source;
 
 public enum SimSourceType {
 	

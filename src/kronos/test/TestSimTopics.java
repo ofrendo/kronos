@@ -10,9 +10,9 @@ import javax.jms.JMSException;
 import javax.jms.Session;
 
 import kronos.sim.ConnectionHandler;
-import kronos.sim.MessageListener;
-import kronos.sim.SAReader;
-import kronos.sim.SimSource;
+import kronos.sim.source.MessageListener;
+import kronos.sim.source.SAReader;
+import kronos.sim.source.SimSource;
 import kronos.util.Log;
 
 import org.junit.Test;

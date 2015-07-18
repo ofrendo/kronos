@@ -1,4 +1,4 @@
-package kronos.sim;
+package kronos.sim.source;
 
 import java.util.Observable;
 
@@ -9,6 +9,7 @@ import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
+import kronos.sim.ConnectionHandler;
 import kronos.util.Log;
 
 public class MessageListener extends Observable implements Runnable, SimSource {

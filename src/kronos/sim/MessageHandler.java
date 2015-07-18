@@ -1,20 +1,14 @@
 package kronos.sim;
 
-import java.io.StringReader;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
 import kronos.model.SAData;
 import kronos.model.SimDataFactory;
-import kronos.util.Log;
-
-import com.google.gson.Gson;
+import kronos.sim.source.SimSource;
+import kronos.sim.source.SimSourceType;
 
 public class MessageHandler implements Observer {
 	

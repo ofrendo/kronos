@@ -1,4 +1,4 @@
-package kronos.sim;
+package kronos.sim.source;
 
 import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
@@ -12,6 +12,7 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.Observable;
 
+import kronos.sim.ConnectionHandler;
 import kronos.util.Log;
 
 public class SAReader extends Observable implements Runnable, SimSource {
