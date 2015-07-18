@@ -36,6 +36,10 @@ public class HTTPServlet extends HttpServlet {
         String service = path.toLowerCase();
         if (service.contains("/")) service = service.substring(0, service.indexOf("/"));
         
+        if (path.equals("/")) {
+        	path = "index.html";
+        }
+        
         //Construct a physical file path using the url
         File file = new File("http/" + path);
         
