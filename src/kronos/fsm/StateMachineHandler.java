@@ -11,7 +11,7 @@ public class StateMachineHandler {
 	}
 	
 	public StateMachine<PartStates, Triggers> newStateMachine(){
-		StateMachine<PartStates, Triggers> stateMachine = new StateMachine<>(PartStates.INIT, fsmc);
+		StateMachine<PartStates, Triggers> stateMachine = new StateMachine<PartStates, Triggers>(PartStates.INIT, fsmc);
 		return stateMachine;
 	}
 

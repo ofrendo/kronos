@@ -7,6 +7,12 @@ import kronos.model.ERPData;
 import kronos.model.SAData;
 import kronos.sim.CEventProcessor;
 
+/**
+ * There is no useful test yet because of missing functionality!!!
+ * @author Matthias
+ *
+ */
+
 public class TestCEventProcessor {
 	
 	@Test
