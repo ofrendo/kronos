@@ -13,17 +13,13 @@ public class Simulation extends Thread {
 		Log.info("Simulation: Starting sim...");
 		Runtime rt = Runtime.getRuntime();
 		try {
-			rt.exec("CMD /C sim/startSim.bat");
+			rt.exec("CMD /C start sim\\startSim.bat");
 			
 		} catch (IOException e) {
-			//e.printStackTrace();
-			
+			e.printStackTrace();
 			try {
-				
 				p = rt.exec("./sim/startSim.sh");
-				
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -33,7 +29,7 @@ public class Simulation extends Thread {
 		Log.info("Simulation: Stopping sim...");
 		try {
 			p.destroyForcibly();
-			//Runtime.getRuntime().exec("taskkill /im cmd.exe");
+			Runtime.getRuntime().exec("taskkill /im cmd.exe");
 		} catch (Exception e) {
 			Log.error("Error killing cmd: " + e.getMessage());
 			
