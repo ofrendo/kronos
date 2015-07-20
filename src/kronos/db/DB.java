@@ -163,7 +163,14 @@ public class DB {
 			stmt.setLong(5, product.getSAData().getTs_stop());
 			stmt.setString(6, product.getSAData().getOverallStatus());
 			stmt.setLong(7, product.getSAData().getTs_stop() - product.getSAData().getTs_start());
-			int prodId = stmt.executeUpdate();
+			int no_rows = stmt.executeUpdate();
+			int prodId = -1;
+			if(no_rows == 1){
+				ResultSet generatedKeys = stmt.getGeneratedKeys();
+				if(generatedKeys.next()){
+					prodId = generatedKeys.getInt(1);
+				}
+			}
 			stmt.close();
 			// insert into measures table
 			stmt= conn.prepareStatement(
