@@ -1,62 +1,34 @@
 package kronos.sim;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import kronos.model.ERPData;
-import kronos.model.OPCDataItem;
-import kronos.model.SAData;
-import kronos.model.SimData;
-import kronos.model.SimDataFactory;
 import kronos.sim.source.SimSource;
-import kronos.sim.source.SimSourceType;
 
 public class MessageHandler implements Observer {
 	
-	protected MessageHandler() {
-		productHandler = ProductHandler.getProductHandler();
+	private ArrayList<MessageObject> messageQueue;
+	
+	public MessageHandler(){
+		messageQueue = new ArrayList<MessageObject>();
 	}
 	
-	private ProductHandler productHandler;
-	
-	
-	
-	protected synchronized void onMessage(String text, SimSourceType type) {
-		switch (type) {
-		case erpData:
-			handleERP(text);
-			break;
-		case machineData:
-			handleOPC(text);
-			break;
-		case saData:
-			handleSA(text);
-			break;
-		default:
-			break;
-		}
+	public synchronized void update(Observable o, Object arg) {
+		String text = (String) arg;
 		
-		
+		// Add to queue
+		messageQueue.add(new MessageObject(text, ((SimSource) o).getType()));
+	}
+	public boolean hasNextMessage() {
+		return (messageQueue.size() > 0);
+	}
+	public MessageObject getNextMessage (){
+		MessageObject result = messageQueue.get(0);
+		messageQueue.remove(0);
+		return result;
 	}
 
-	public void update(Observable o, Object arg) {
-		String text = (String) arg;
-		onMessage(text, ((SimSource) o).getType());
-	}
 	
-	public void handleERP(String xml){
-		ERPData erpData = SimDataFactory.createERPData(xml);
-		productHandler.createNewProduct(erpData);
-	}
-	
-	public void handleOPC(String xml){
-		OPCDataItem opcDataItem = SimDataFactory.createOPCDataItem(xml);
-		productHandler.fireOPCEvent(opcDataItem);
-	}
-	
-	public void handleSA(String json){
-		SAData saData = SimDataFactory.createSAData(json);
-		productHandler.fireSAEvent(saData);
-	}
 	
 }

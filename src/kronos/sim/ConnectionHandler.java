@@ -47,6 +47,8 @@ public class ConnectionHandler extends Thread {
 	 */
 	public ConnectionHandler() {
 		this.messageHandler = new MessageHandler();
+		MessageWorker worker = new MessageWorker(messageHandler);
+		worker.start();
 	}
 	
 	/**
