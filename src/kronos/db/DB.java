@@ -66,7 +66,7 @@ public class DB {
 	private static final String DRILLING_SPEED = stations[4];
 	private static final String DRILLING_HEAT = stations[5];
 	
-	private DB() throws Exception {
+	private DB() {
 		try {
 			Log.info("DB: Loading JDBC drivers for sqlite...");
 		    Class.forName("org.sqlite.JDBC");
@@ -79,7 +79,6 @@ public class DB {
 		} catch (Exception e) {
 			conn = null;
 			Log.error("DB: " + e.getMessage());
-			throw e;
 		}
 	}
 	
