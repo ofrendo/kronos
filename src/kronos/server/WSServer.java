@@ -18,8 +18,16 @@ public class WSServer extends WebSocketServer {
 
 	private static final int port = 9003;
 	private static InetSocketAddress address = new InetSocketAddress("127.0.0.1", port);
+	
+	/**
+	 * List of currently connected clients
+	 */
 	private ArrayList<WebSocket> connectedWS;
 	
+	/**
+	 * Used for starting a WebSocket server on port 9003 to send events to a 
+	 * frontend client in real time.
+	 */
 	public WSServer() {
 		super(address);
 		connectedWS = new ArrayList<WebSocket>();
@@ -44,7 +52,6 @@ public class WSServer extends WebSocketServer {
 
 	@Override
 	public void onMessage(WebSocket arg0, String arg1) {
-		System.out.println("Message! " + arg1);
 	}
 
 	@Override
@@ -53,6 +60,12 @@ public class WSServer extends WebSocketServer {
 		connectedWS.add(arg0);
 	}
 
+	/**
+	 * Call this when a new event is sent from the simulation. This method
+	 * will send the event to all connected clients in the form of a WSMessage.
+	 * @param p The product to send, so meta data can be sent with the event
+	 * @param simData The event
+	 */
 	public void onSimData(Product p, SimData simData) {
 		SimSourceType type = SimData.getType(simData);
 		Gson gson = new Gson();
