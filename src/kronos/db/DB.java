@@ -8,9 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import kronos.model.ERPData;
+import kronos.model.Product;
 import kronos.util.Log;
 
 /**
@@ -21,7 +24,7 @@ import kronos.util.Log;
 public class DB {
 	private static DB instance;
 	private Connection conn;
-	private final Path DB_PATH = Paths.get("data/test.db");
+	private final Path DB_PATH = Paths.get("data/historical.db");
 	
 	// table names
 	public static final String TABLE_PRODUCT = "Product";
@@ -87,6 +90,7 @@ public class DB {
 		    		+ ")";
 		    stmt.executeUpdate(sql);
 		    stmt.close();
+		    conn.commit();
 		    Log.info("DB: All tables created.");
 		} catch (SQLException e) {
 			Log.error("DB: Table creation failed: " + e.getMessage());
@@ -112,6 +116,41 @@ public class DB {
 		    throw e;
 		}
 		Log.info("DB: Database deleted.");
+	}
+	
+	public void insertIntoDB(Product product) throws SQLException {
+		try {
+			// insert into product table
+			PreparedStatement stmt = conn.prepareStatement(
+					"INSERT INTO " + TABLE_PRODUCT + " (" + 
+							COL_ORDER_NO + ", " + 
+							COL_CUSTOMER_NO + ", " + 
+							COL_MATERIAL_NO + ", " + 
+							COL_PRODUCTION_START + ", " + 
+							COL_PRODUCTION_END + ", " + 
+							COL_ANALYSIS_RESULT + ") VALUES (?, ?, ?, ?, ?, ?)");
+			ERPData erp = product.getErpData();
+			stmt.setString(1, erp.getOrderNumber());
+			stmt.setInt(2, erp.getCustomerNumber());
+			stmt.setInt(3, erp.getMaterialNumber());
+			stmt.setLong(4, erp.getTimeStamp().getTime());
+			stmt.setLong(5, fromSomewhereProductionEnd);
+			stmt.setLong(6, fromSomeWhereAnalysisResult);
+			stmt.executeUpdate();
+			stmt.close();
+			// insert into measures table
+			stmt= conn.prepareStatement(
+					"INSERT INTO " + TABLE_MEASURE + " (" + 
+							COL_PRODUCT_ID + ", " + 
+							COL_MEASURE + ", " + 
+							COL_STATION + ", " + 
+							COL_VALUE + ") VALUES (?, ?, ?, ?)");
+			// commit changes
+			conn.commit();
+		} catch (SQLException e) {
+			Log.error("DB: Error on inserting a product into the database: " + e.getMessage());
+			throw e;
+		}
 	}
 	
 	

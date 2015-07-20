@@ -28,6 +28,9 @@ public class Product {
 	public PartStates getState() {
 		return stateMachine.getState();
 	}
-	
+
+	public ERPData getErpData() {
+		return erpData;
+	}
 	
 }
