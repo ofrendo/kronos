@@ -10,6 +10,7 @@ import kronos.model.Product;
 import kronos.model.SAData;
 import kronos.model.SimData;
 import kronos.server.WSServer;
+import kronos.util.Log;
 
 public class ProductHandler {
 
@@ -56,8 +57,7 @@ public class ProductHandler {
 			DB.getDB().insertIntoDB(p);
 			DB.getDB().logDB();
 		} catch (Exception e) {
-			// TODO Somebody has to think about error handling!!!
-			e.printStackTrace();
+			Log.error(e.getMessage());
 		}
 		
 		// Notify EsperTech
