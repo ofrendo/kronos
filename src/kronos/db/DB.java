@@ -95,6 +95,7 @@ public class DB {
 	}
 	
 	public void deleteDatabase() throws IOException{
+		Log.info("DB: Deleting database \"" + DB_PATH + "\"...");
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -110,6 +111,7 @@ public class DB {
 		    Log.error("DB: The database couldn't be deleted! " + e.getMessage());
 		    throw e;
 		}
+		Log.info("DB: Database deleted.");
 	}
 	
 	
