@@ -48,6 +48,7 @@ public class DB {
 	public static final String COL_STATION = "Station";
 	public static final String COL_VALUE = "Value";
 	public static final String COL_TIMESTAMP = "Timestamp";
+	public static final String COL_ANALYSIS_TIME = "AnalysisTime";
 	
 	// stations to be logged to database
 	public static final String[] stations = {
@@ -101,7 +102,8 @@ public class DB {
 					+ COL_MATERIAL_NO + " INTEGER NOT NULL, "
 					+ COL_PRODUCTION_START + " INTEGER NOT NULL, " 	// timestamp
 					+ COL_PRODUCTION_END + " INTEGER NOT NULL, "	// timestamp
-					+ COL_ANALYSIS_RESULT + " TEXT NOT NULL"
+					+ COL_ANALYSIS_RESULT + " TEXT NOT NULL, "
+					+ COL_ANALYSIS_TIME + " INTEGER NOT NULL"
 					+ ")";
 		    stmt.executeUpdate(sql);
 		    // create measurements table
@@ -152,7 +154,8 @@ public class DB {
 							COL_MATERIAL_NO + ", " + 
 							COL_PRODUCTION_START + ", " + 
 							COL_PRODUCTION_END + ", " + 
-							COL_ANALYSIS_RESULT + ") VALUES (?, ?, ?, ?, ?, ?)");
+							COL_ANALYSIS_RESULT + ", " + 
+							COL_ANALYSIS_TIME + ") VALUES (?, ?, ?, ?, ?, ?, ?)");
 			ERPData erp = product.getErpData();
 			stmt.setString(1, erp.getOrderNumber());
 			stmt.setInt(2, erp.getCustomerNumber());
@@ -160,6 +163,7 @@ public class DB {
 			stmt.setLong(4, erp.getTimeStamp().getTime());
 			stmt.setLong(5, product.getSAData().getTs_stop());
 			stmt.setString(6, product.getSAData().getOverallStatus());
+			stmt.setLong(7, product.getSAData().getTs_stop() - product.getSAData().getTs_start());
 			int prodId = stmt.executeUpdate();
 			stmt.close();
 			// insert into measures table
