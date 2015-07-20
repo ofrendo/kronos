@@ -103,7 +103,7 @@ public class SAData extends SimData {
 
 	@Override
 	public Triggers getTrigger() {
-		return Triggers.SPECTAL_ANALYSIS;
+		return Triggers.SPECTRAL_ANALYSIS;
 	}
 	
 }

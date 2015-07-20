@@ -13,7 +13,7 @@ public enum Triggers {
 	LIGHTBARRIER_4_CONNECT("Lichtschranke 4 true"),
 	LIGHTBARRIER_5_INTERRUPT("Lichtschranke 5 false"),
 	LIGHTBARRIER_5_CONNECT("Lichtschranke 5 true"),
-	SPECTAL_ANALYSIS("SPECTRAL_ANALYSIS"); //Maybe change this?
+	SPECTRAL_ANALYSIS("SPECTRAL_ANALYSIS");
 	
 	public String eventName;
 	Triggers(String eventName) {

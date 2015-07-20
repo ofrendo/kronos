@@ -51,7 +51,7 @@ public class StateMachineHandler {
 		.permit(Triggers.LIGHTBARRIER_5_CONNECT, PartStates.END_OF_PRODUCTION);
 		
 		fsmc.configure(PartStates.END_OF_PRODUCTION)
-		.permit(Triggers.SPECTAL_ANALYSIS, PartStates.FINISH);
+		.permit(Triggers.SPECTRAL_ANALYSIS, PartStates.FINISH);
 		
 		fsmc.configure(PartStates.FINISH);
 		//.permit(Triggers.SPECTAL_ANALYSIS, PartStates.FINISH);
