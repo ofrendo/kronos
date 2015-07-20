@@ -2,8 +2,11 @@ package kronos.sim;
 
 import java.util.ArrayList;
 
+import kronos.fsm.StateMachineHandler;
 import kronos.model.ERPData;
+import kronos.model.OPCDataItem;
 import kronos.model.Product;
+import kronos.model.SAData;
 import kronos.model.SimData;
 import kronos.server.WSServer;
 
@@ -11,6 +14,8 @@ public class ProductHandler {
 
 	ArrayList<Product> products;
 	private static ProductHandler productHandler;
+	
+	private StateMachineHandler stateMachineHandler;
 	private CEventProcessor cEventProcessor;
 	private WSServer wsServer;
 	
@@ -24,6 +29,7 @@ public class ProductHandler {
 	
 	private ProductHandler () {
 		products = new ArrayList<Product>();
+		stateMachineHandler = new StateMachineHandler();
 		cEventProcessor = new CEventProcessor();
 		cEventProcessor.init();
 	}
@@ -32,25 +38,54 @@ public class ProductHandler {
 		this.wsServer = wsServer;
 	}
 	
-	public void createNewProduct (ERPData erp) {
-		products.add(new Product(erp));
-		System.out.println("new product in Queue");
+	public void createNewProduct (ERPData erpData) {
+		Product p = new Product(erpData, stateMachineHandler.createStateMachine());
+		products.add(p);
+		// System.out.println("new product in Queue");
+		
+		sendToWS(p, erpData);
 	}
 	
-	public void fireEvent() throws Exception{
-		//maybe TO DO: real Exception
-		if (products.size() == 0) {
-			throw new Exception("No Procuts available for new Events");
-		}
-		// processing event
+	public void fireSAEvent(SAData saData) {
+		Product p = this.fireEvent(saData);
 		
-		// sending to espertech for further processing
+		// Notify DB
 		
+		// Notify EsperTech
+		
+		// Notify WS
+		sendToWS(p, saData);
 	}
+	public void fireOPCEvent(OPCDataItem opcDataItem) {
+		Product p = this.fireEvent(opcDataItem);
+		
+		// Notify DB
+		
+		// Notify EsperTech
+		
+		// Notify WS
+		sendToWS(p, opcDataItem);
+	}
+	
+	public Product fireEvent(SimData simData) {
+		Product result = null;
+		for (Product p : products) {
+			if (p.canFire(simData)) {
+				p.fireEvent(simData);
+				result = p;
+				break;
+			}
+		}
+		// System.out.println(result.getState());
 
-	public void TEST_onSimData(SimData simData) {
+		
+		return result;
+	}
+	
+	
+	public void sendToWS(Product p, SimData simData) {
 		if (wsServer != null) {
-			wsServer.onSimData(1, simData);
+			wsServer.onSimData(p, simData);
 		}
 	}	
 	

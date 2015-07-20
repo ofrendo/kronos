@@ -3,6 +3,8 @@ package kronos.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import kronos.fsm.Triggers;
+
 /**
  * Created by julian Reichwald
  */
@@ -63,4 +65,17 @@ public class OPCDataItem extends SimData {
     public void setStatus(String status) {
         this.status = status;
     }
+
+	@Override
+	public Triggers getTrigger() {
+		for (Triggers t : Triggers.values()) {
+			if (t.eventName.equals(this.itemName + " " + value)) {
+				return t;
+			}
+			else if (this.itemName.contains(t.eventName)) {
+				return t;
+			}
+		}
+		return null;
+	}
 }

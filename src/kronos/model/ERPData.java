@@ -1,7 +1,10 @@
 package kronos.model;
 
 import java.util.Date;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
+import kronos.fsm.Triggers;
 
 /**
 * This class represents an ERP data item arriving via JMS 
@@ -59,6 +62,11 @@ public class ERPData extends SimData {
 
 	public void setTimeStamp(Date timeStamp) {
 		TimeStamp = timeStamp;
+	}
+
+	@Override
+	public Triggers getTrigger() {
+		return null;
 	}
     
     

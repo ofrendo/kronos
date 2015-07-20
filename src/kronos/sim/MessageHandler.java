@@ -14,10 +14,10 @@ import kronos.sim.source.SimSourceType;
 public class MessageHandler implements Observer {
 	
 	protected MessageHandler() {
-		products = ProductHandler.getProductHandler();
+		productHandler = ProductHandler.getProductHandler();
 	}
 	
-	private ProductHandler products;
+	private ProductHandler productHandler;
 	
 	
 	
@@ -45,28 +45,18 @@ public class MessageHandler implements Observer {
 	}
 	
 	public void handleERP(String xml){
-		//TODO Matthias
 		ERPData erpData = SimDataFactory.createERPData(xml);
-		products.createNewProduct(erpData);
-		
-		TEST_sendToWS(erpData);
+		productHandler.createNewProduct(erpData);
 	}
 	
 	public void handleOPC(String xml){
-		//TODO Matthias
 		OPCDataItem opcDataItem = SimDataFactory.createOPCDataItem(xml);
-		
-		TEST_sendToWS(opcDataItem);
+		productHandler.fireOPCEvent(opcDataItem);
 	}
 	
 	public void handleSA(String json){
-		//TODO Matthias
 		SAData saData = SimDataFactory.createSAData(json);
-		
-		TEST_sendToWS(saData);
+		productHandler.fireSAEvent(saData);
 	}
 	
-	private void TEST_sendToWS(SimData simData) {
-		ProductHandler.getProductHandler().TEST_onSimData(simData);
-	}
 }

@@ -1,16 +1,22 @@
 package kronos.server;
 
+import kronos.fsm.PartStates;
 import kronos.model.SimData;
 import kronos.sim.source.SimSourceType;
 
 public class WSMessage {
-	public int productID;
+	public String orderNumber;
 	public SimSourceType type;
+	public PartStates state;
 	public SimData simData;
 	
-	public WSMessage(int productID, SimSourceType type, SimData simData) {
-		this.productID = productID;
+	public WSMessage(String orderNumber, 
+			SimSourceType type, 
+			PartStates state,
+			SimData simData) {
+		this.orderNumber = orderNumber;
 		this.type = type;
+		this.state = state;
 		this.simData = simData;
 	}
 }

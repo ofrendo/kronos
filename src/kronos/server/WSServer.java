@@ -3,6 +3,7 @@ package kronos.server;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
+import kronos.model.Product;
 import kronos.model.SimData;
 import kronos.sim.source.SimSourceType;
 import kronos.util.Log;
@@ -52,10 +53,14 @@ public class WSServer extends WebSocketServer {
 		connectedWS.add(arg0);
 	}
 
-	public void onSimData(int productID, SimData simData) {
+	public void onSimData(Product p, SimData simData) {
 		SimSourceType type = SimData.getType(simData);
 		Gson gson = new Gson();
-		WSMessage message = new WSMessage(productID, type, simData);
+		WSMessage message = new WSMessage(
+				p.erpData.getOrderNumber(), 
+				type, 
+				p.getState(),
+				simData);
 		String json = gson.toJson(message);
 		for (WebSocket ws : connectedWS) {
 			ws.send(json);

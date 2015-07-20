@@ -2,6 +2,8 @@ package kronos.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import kronos.fsm.Triggers;
+
 
 @XmlRootElement
 public class SAData extends SimData {
@@ -97,6 +99,11 @@ public class SAData extends SimData {
 	}
 	public long getTs_stop() {
 		return this.ts_stop;
+	}
+
+	@Override
+	public Triggers getTrigger() {
+		return Triggers.SPECTAL_ANALYSIS;
 	}
 	
 }

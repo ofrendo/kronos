@@ -1,5 +1,6 @@
 package kronos.model;
 
+import kronos.fsm.Triggers;
 import kronos.sim.source.SimSourceType;
 
 public abstract class SimData {
@@ -9,10 +10,7 @@ public abstract class SimData {
 		return "";
 	}
 	
-	public String getTrigger(){
-		return "";
-		
-	}
+	public abstract Triggers getTrigger();
 	
 	public static SimSourceType getType(SimData simData) {
 		if (simData instanceof ERPData) {
