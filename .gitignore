@@ -10,3 +10,4 @@
 # Sim stuff
 sim/I4Simulation/activemq-data/localhost/KahaDB/
 /target/
+.Rproj.user

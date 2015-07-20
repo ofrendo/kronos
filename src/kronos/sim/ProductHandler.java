@@ -48,8 +48,10 @@ public class ProductHandler {
 	
 	public void fireSAEvent(SAData saData) {
 		Product p = this.fireEvent(saData);
+		p.setSAData(saData);
 		
-		// Notify DB
+		// Notify DB that product is finished
+		
 		
 		// Notify EsperTech
 		
@@ -58,8 +60,7 @@ public class ProductHandler {
 	}
 	public void fireOPCEvent(OPCDataItem opcDataItem) {
 		Product p = this.fireEvent(opcDataItem);
-		
-		// Notify DB
+		p.addSimData(opcDataItem);
 		
 		// Notify EsperTech
 		
