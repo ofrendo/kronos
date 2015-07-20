@@ -2,6 +2,7 @@ package kronos.sim;
 
 import java.util.ArrayList;
 
+import kronos.db.DB;
 import kronos.fsm.StateMachineHandler;
 import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
@@ -51,7 +52,13 @@ public class ProductHandler {
 		p.setSAData(saData);
 		
 		// Notify DB that product is finished
-		
+		try {
+			DB.getDB().insertIntoDB(p);
+			DB.getDB().logDB();
+		} catch (Exception e) {
+			// TODO Somebody has to think about error handling!!!
+			e.printStackTrace();
+		}
 		
 		// Notify EsperTech
 		

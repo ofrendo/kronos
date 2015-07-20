@@ -9,10 +9,16 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.apache.activemq.transport.tcp.ExceededMaximumConnectionsException;
 
 import kronos.model.ERPData;
+import kronos.model.OPCDataItem;
 import kronos.model.Product;
 import kronos.util.Log;
 
@@ -41,6 +47,23 @@ public class DB {
 	public static final String COL_MEASURE = "Measure";
 	public static final String COL_STATION = "Station";
 	public static final String COL_VALUE = "Value";
+	public static final String COL_TIMESTAMP = "Timestamp";
+	
+	// stations to be logged to database
+	public static final String[] stations = {
+			"Milling Station",	// light barrier of milling station
+			"Milling Speed",
+			"Milling Heat",
+			"Drilling Station",	// light barrier of drilling station
+			"Drilling Speed",
+			"Drilling Heat"
+			};
+	private static final String MILLING_STATION = stations[0];
+	private static final String MILLING_SPEED = stations[1];
+	private static final String MILLING_HEAT = stations[2];
+	private static final String DRILLING_STATION = stations[3];
+	private static final String DRILLING_SPEED = stations[4];
+	private static final String DRILLING_HEAT = stations[5];
 	
 	private DB() throws Exception {
 		try {
@@ -65,7 +88,7 @@ public class DB {
 		return instance;
 	}
 	
-	public void createTables() throws SQLException {
+	public void createTables() throws Exception {
 		try {
 			Log.info("DB: Creating tables on database...");
 			Statement stmt = conn.createStatement();
@@ -84,13 +107,12 @@ public class DB {
 		    sql = "CREATE TABLE IF NOT EXISTS " + TABLE_MEASURE + " ("
 		    		+ COL_MEASURE_ID + " INTEGER PRIMARY KEY, "
 		    		+ COL_PRODUCT_ID + " INTEGER REFERENCES " + TABLE_PRODUCT + "(" + COL_PRODUCT_ID + "), "
-		    		+ COL_MEASURE + " TEXT NOT NULL, "
 		    		+ COL_STATION + " TEXT NOT NULL, "
+		    		+ COL_TIMESTAMP + " INTEGER NOT NULL, "
 		    		+ COL_VALUE + " NUMERIC NOT NULL"
 		    		+ ")";
 		    stmt.executeUpdate(sql);
 		    stmt.close();
-		    conn.commit();
 		    Log.info("DB: All tables created.");
 		} catch (SQLException e) {
 			Log.error("DB: Table creation failed: " + e.getMessage());
@@ -98,7 +120,7 @@ public class DB {
 		}
 	}
 	
-	public void deleteDatabase() throws IOException{
+	public void deleteDatabase() throws Exception {
 		Log.info("DB: Deleting database \"" + DB_PATH + "\"...");
 		try {
 			conn.close();
@@ -107,6 +129,7 @@ public class DB {
 		}
 		try {
 		    Files.delete(DB_PATH);
+		    conn = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
 		} catch (NoSuchFileException e) {
 			// if the database didn't exist anyway --> don't throw an error
 		    Log.warn("DB: The database to be deleted on path \"" + DB_PATH.toString() + "\" doesn't exist!");
@@ -118,7 +141,7 @@ public class DB {
 		Log.info("DB: Database deleted.");
 	}
 	
-	public void insertIntoDB(Product product) throws SQLException {
+	public void insertIntoDB(Product product) throws Exception {
 		try {
 			// insert into product table
 			PreparedStatement stmt = conn.prepareStatement(
@@ -134,22 +157,126 @@ public class DB {
 			stmt.setInt(2, erp.getCustomerNumber());
 			stmt.setInt(3, erp.getMaterialNumber());
 			stmt.setLong(4, erp.getTimeStamp().getTime());
-			stmt.setLong(5, fromSomewhereProductionEnd);
-			stmt.setLong(6, fromSomeWhereAnalysisResult);
-			stmt.executeUpdate();
+			stmt.setLong(5, product.getSAData().getTs_stop());
+			stmt.setString(6, product.getSAData().getOverallStatus());
+			int prodId = stmt.executeUpdate();
 			stmt.close();
 			// insert into measures table
 			stmt= conn.prepareStatement(
 					"INSERT INTO " + TABLE_MEASURE + " (" + 
 							COL_PRODUCT_ID + ", " + 
-							COL_MEASURE + ", " + 
 							COL_STATION + ", " + 
+							COL_TIMESTAMP + ", " + 
 							COL_VALUE + ") VALUES (?, ?, ?, ?)");
-			// commit changes
-			conn.commit();
+			ArrayList<OPCDataItem> opcs = product.getOPCDataItems();
+			for(int i = 0; i < opcs.size(); i++){
+				OPCDataItem opc = opcs.get(i);
+				if(Arrays.asList(stations).contains(opc.getItemName())){
+					if((opc.getItemName().equals(MILLING_STATION) || opc.getItemName().equals(DRILLING_STATION))){ // it is a light barrier
+						if((boolean) opc.getValue()){ // it is an interrupting light barrier
+							// get closing light barrier to calculate time
+							long time = -1;
+							for(int j = i+1; j < opcs.size(); j++){
+								OPCDataItem opc1 = opcs.get(j);
+								if(opc.getItemName().equals(opc1.getItemName())){ // it is the same light barrier
+									if(!(boolean)opc1.getValue()){ // it is a closing light barrier
+										time = opc1.getTimestamp() - opc.getTimestamp();
+									}
+								}
+							}
+							// catch if no data was found
+							if(time == -1){
+								throw new Exception("The data is corrupt! Light barrier " + opc.getItemName() + " has no reconnecting event!");
+							}
+							// insert data on database
+							stmt.setInt(1, prodId);
+							stmt.setString(2, opc.getItemName());
+							stmt.setLong(3, opc.getTimestamp());
+							stmt.setLong(4, time);
+							stmt.executeUpdate();
+						}
+					} else { // it isn't a light barrier
+						stmt.setInt(1, prodId);
+						stmt.setString(2, opc.getItemName());
+						stmt.setLong(3, opc.getTimestamp());
+						// get the proper data type
+						if(opc.getValue() instanceof Integer){
+							stmt.setInt(4, (int) opc.getValue());
+						} else if(opc.getValue() instanceof Double){
+							stmt.setDouble(4, (double) opc.getValue());
+						} else if(opc.getValue() instanceof Long){
+							stmt.setLong(4, (long) opc.getValue());
+						} else {
+							throw new Exception("Couldn't insert value into database: Data type " + opc.getValue().getClass() + " not supported yet!");
+						}
+						stmt.executeUpdate();
+					}
+				}
+			}
+			
+			
 		} catch (SQLException e) {
 			Log.error("DB: Error on inserting a product into the database: " + e.getMessage());
 			throw e;
+		}
+	}
+	
+	public void logDB(){
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+			while(rs.next()){
+				logTable(rs.getString(1));
+			}
+		} catch (Exception e) {
+			Log.error("DB: Database couldn't be logged!");
+		}
+	}
+	
+	private void logTableContent(String tableName, ArrayList<String> types) throws Exception{
+		String log = "";
+		Statement stmt = conn.createStatement();
+		String sql = "SELECT * FROM " + tableName;
+		ResultSet rs = stmt.executeQuery(sql);
+		while(rs.next()){
+			for (int i = 1; i <= types.size(); i++) {
+				switch(types.get(i-1)){
+				case "INTEGER":
+					log += rs.getLong(i);
+					break;
+				case "NUMERIC":
+				case "REAL":
+					log += rs.getDouble(i);
+					break;
+				case "TEXT":
+					log += rs.getString(i);
+					break;
+				default:
+					throw new Exception("DB: Data type \"" + types.get(i) + "\" is not supported for logging yet!");
+				}
+				log += " ";
+			}
+			log += "\n";
+		}
+		Log.info("DB: " + log);
+	}
+
+	public void logTable(String tableName) {
+		try {
+			ArrayList<String> types = new ArrayList<String>();
+			String columns = "";
+			String sql = "PRAGMA table_info(" + tableName + ");";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()){
+				columns += rs.getString(2) + " ";
+				types.add(rs.getString(3));
+			}
+			Log.info("DB: Table \"" + tableName + "\": " + columns);
+			logTableContent(tableName, types);
+		} catch (Exception e) {
+			Log.error("DB: Table \"" + tableName + "\" couldn't be logged!");
 		}
 	}
 	
