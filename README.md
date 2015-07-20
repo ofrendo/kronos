@@ -1,5 +1,21 @@
 # kronos
-Backend repository for Summer School  project 6th semester
+Repository for the Summer School in Canada project (6th semester)
+
+# Table of contents
+
+# Directories
+* __/data/__ Stores partly aggregated event data for a finished 
+  product in a SQLite database
+* __/http/__ Directory used to statically serve files via an http server
+* __/lib/__ Stores .jar files for libraries not in Maven
+* __/log/__ Stores .log files that are logged via Log4J
+* __/R/__
+* __/res/__ Stores resource files
+* __/sim/__ Directory for the simulation .jar, documentation and batch file to start
+the simulation
+* __/src/__ Java files
+* __/target/__ Binary compiled Java files
+
 
 
 # Sample sim data
@@ -21,7 +37,8 @@ m_opcitems
     <itemName>Lichtschranke 1</itemName>
     <status>GOOD</status>
     <timestamp>1436981636743</timestamp>
-    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
+    <value xsi:type="xs:boolean" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">false</value>
 </OpcDataItem>
 ```
 
