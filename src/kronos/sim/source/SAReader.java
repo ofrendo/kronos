@@ -47,9 +47,13 @@ public class SAReader extends Observable implements Runnable, SimSource {
 				WatchService watcher = dir.getFileSystem().newWatchService();
 				
 				dir.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
-			    
+			    System.out.println();
+				
 			    // Wait for key to be signaled
 			    WatchKey key = watcher.take();
+			    
+			    Thread.sleep(100);
+			    
 			    onFileEvent(key);
 			    
 			    // Reset the key for future events

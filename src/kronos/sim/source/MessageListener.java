@@ -59,6 +59,7 @@ public class MessageListener extends Observable implements Runnable, SimSource {
 				}
 			} catch (JMSException e) {
 				Log.error(e.getMessage());
+				ConnectionHandler.setKeepListening(false);
 			}
 		}
 	}
