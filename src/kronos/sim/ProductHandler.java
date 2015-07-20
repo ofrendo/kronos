@@ -57,7 +57,6 @@ public class ProductHandler {
 		// Notify DB that product is finished
 		try {
 			DB.getDB().insertIntoDB(p);
-			DB.getDB().logDB();
 		} catch (Exception e) {
 			Log.error(e.getMessage());
 		}
