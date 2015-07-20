@@ -73,6 +73,7 @@ public class DB {
 		    
 		    Log.info("DB: Connecting to sqlite database...");
 		    conn = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+		    createTables();
 		    Log.info("DB: Connection established.");
 		} catch (Exception e) {
 			conn = null;
