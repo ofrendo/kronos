@@ -177,13 +177,13 @@ public class DB {
 				OPCDataItem opc = opcs.get(i);
 				if(Arrays.asList(stations).contains(opc.getItemName())){
 					if((opc.getItemName().equals(MILLING_STATION) || opc.getItemName().equals(DRILLING_STATION))){ // it is a light barrier
-						if((boolean) opc.getValue()){ // it is an interrupting light barrier
+						if((Boolean) opc.getValue()){ // it is an interrupting light barrier
 							// get closing light barrier to calculate time
 							long time = -1;
 							for(int j = i+1; j < opcs.size(); j++){
 								OPCDataItem opc1 = opcs.get(j);
 								if(opc.getItemName().equals(opc1.getItemName())){ // it is the same light barrier
-									if(!(boolean)opc1.getValue()){ // it is a closing light barrier
+									if(!(Boolean)opc1.getValue()){ // it is a closing light barrier
 										time = opc1.getTimestamp() - opc.getTimestamp();
 									}
 								}
@@ -205,11 +205,11 @@ public class DB {
 						stmt.setLong(3, opc.getTimestamp());
 						// get the proper data type
 						if(opc.getValue() instanceof Integer){
-							stmt.setInt(4, (int) opc.getValue());
+							stmt.setInt(4, (Integer) opc.getValue());
 						} else if(opc.getValue() instanceof Double){
-							stmt.setDouble(4, (double) opc.getValue());
+							stmt.setDouble(4, (Double) opc.getValue());
 						} else if(opc.getValue() instanceof Long){
-							stmt.setLong(4, (long) opc.getValue());
+							stmt.setLong(4, (Long) opc.getValue());
 						} else {
 							throw new Exception("Couldn't insert value into database: Data type " + opc.getValue().getClass() + " not supported yet!");
 						}
@@ -245,18 +245,17 @@ public class DB {
 		ResultSet rs = stmt.executeQuery(sql);
 		while(rs.next()){
 			for (int i = 1; i <= types.size(); i++) {
-				switch(types.get(i-1)){
-				case "INTEGER":
+				String type = types.get(i-1);
+				if (type.equals("INTEGER")) {
 					log += rs.getLong(i);
-					break;
-				case "NUMERIC":
-				case "REAL":
+				}
+				else if (type.equals("NUMERIC")) {
 					log += rs.getDouble(i);
-					break;
-				case "TEXT":
+				}
+				else if (type.equals("TEXT")) {
 					log += rs.getString(i);
-					break;
-				default:
+				}
+				else {
 					throw new Exception("DB: Data type \"" + types.get(i) + "\" is not supported for logging yet!");
 				}
 				log += " ";
