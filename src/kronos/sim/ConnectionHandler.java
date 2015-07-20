@@ -86,8 +86,6 @@ public class ConnectionHandler extends Thread {
 		Connection connection = connectionFactory.createConnection();
 		connection.start();
 		
-		connection.setExceptionListener(new ExceptionHandler());
-		
 		return connection;
 	}
 	
