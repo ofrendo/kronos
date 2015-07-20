@@ -11,6 +11,7 @@ public class TestDB {
 	@Test
 	public void testConn(){
 		try {
+			@SuppressWarnings("unused")
 			DB db = DB.getDB();
 		} catch (Exception e) {
 			fail(e.getMessage());
@@ -18,10 +19,11 @@ public class TestDB {
 	}
 	
 	@Test
-	public void testTableCreation(){
+	public void testTableCreationDeletion(){
 		try {
 			DB db = DB.getDB();
 			db.createTables();
+			db.deleteDatabase();
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}

@@ -1,5 +1,11 @@
 package kronos.db;
 
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +21,7 @@ import kronos.util.Log;
 public class DB {
 	private static DB instance;
 	private Connection conn;
-	private final String DB_PATH = "data/test.db";
+	private final Path DB_PATH = Paths.get("data/test.db");
 	
 	// table names
 	public static final String TABLE_PRODUCT = "Product";
@@ -85,6 +91,24 @@ public class DB {
 		} catch (SQLException e) {
 			Log.error("DB: Table creation failed: " + e.getMessage());
 			throw e;
+		}
+	}
+	
+	public void deleteDatabase() throws IOException{
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			Log.error("DB: The database connection couldn't be closed: " + e.getMessage());
+		}
+		try {
+		    Files.delete(DB_PATH);
+		} catch (NoSuchFileException e) {
+			// if the database didn't exist anyway --> don't throw an error
+		    Log.warn("DB: The database to be deleted on path \"" + DB_PATH.toString() + "\" doesn't exist!");
+		} catch (IOException e) {
+		    // problems occurring with file permissions (like write lock etc.)
+		    Log.error("DB: The database couldn't be deleted! " + e.getMessage());
+		    throw e;
 		}
 	}
 	
