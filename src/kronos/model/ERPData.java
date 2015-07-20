@@ -12,7 +12,6 @@ import kronos.fsm.Triggers;
 * @author julian.reichwald@dhbw-mannheim.de
 *
 */
-
 @XmlRootElement
 public class ERPData extends SimData {
 

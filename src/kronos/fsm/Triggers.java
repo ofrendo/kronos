@@ -1,5 +1,10 @@
 package kronos.fsm;
 
+/**
+ * Collection of triggers that transfers a product to a new state.
+ * @author D059373
+ *
+ */
 public enum Triggers {
 	LIGHTBARRIER_1_INTERRUPT("Lichtschranke 1 false"), //something is between the light barrier
 	LIGHTBARRIER_1_CONNECT("Lichtschranke 1 true"),   //the object moved on and the light barrier is connected
@@ -15,7 +20,11 @@ public enum Triggers {
 	LIGHTBARRIER_5_CONNECT("Lichtschranke 5 true"),
 	SPECTRAL_ANALYSIS("SPECTRAL_ANALYSIS");
 	
+	/**
+	 * Event name to map the xml data to the proper trigger.
+	 */
 	public String eventName;
+	
 	Triggers(String eventName) {
 		this.eventName = eventName;
 	}

@@ -4,7 +4,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import kronos.fsm.Triggers;
 
-
+/**
+ * This class represents one spectral analysis event which can be 
+ * assigned to a product.
+ * @author D059373
+ *
+ */
 @XmlRootElement
 public class SAData extends SimData {
 

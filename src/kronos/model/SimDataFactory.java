@@ -10,8 +10,20 @@ import com.google.gson.Gson;
 
 import kronos.util.Log;
 
+/**
+ * This class is used statically to create new event items from 
+ * xml and json strings.
+ * @author D059373
+ *
+ */
 public class SimDataFactory {
 	
+	/**
+	 * Creates a new ERPData instance to describe meta data of a 
+	 * product. 
+	 * @param xml An XML String from the simulation
+	 * @return An instance of ERPData
+	 */
 	public static ERPData createERPData(String xml) {
 		ERPData result = null;
 		try {	
@@ -34,6 +46,12 @@ public class SimDataFactory {
 		return result;
 	}
 	
+	/**
+	 * Creates a new OPCDataItem instance to describe an event of a product
+	 * on the factory line.
+	 * @param xml An XML String from the simulation
+	 * @return An instance of OPCDataItem
+	 */
 	public static OPCDataItem createOPCDataItem(String xml) {
 		OPCDataItem result = null;
 		try {	
@@ -60,6 +78,12 @@ public class SimDataFactory {
 		return result;
 	}
 	
+	/**
+	 * Creates a new SAData instance to describe the finishing event 
+	 * (the spectral analysis data) of a product.
+	 * @param json An JSON String from the simulation
+	 * @return An instance of SAData
+	 */
 	public static SAData createSAData(String json) {
 		Gson gson = new Gson();
 		SAData result = gson.fromJson(json, SAData.class);

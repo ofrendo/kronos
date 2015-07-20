@@ -6,15 +6,27 @@ public class StateMachineHandler {
 	// 
 	private StateMachineConfig<PartStates, Triggers> fsmc; 
 	
+	/**
+	 * Is responsible for creating the state machine to be used to
+	 * save which state a product is in during production.
+	 */
 	public StateMachineHandler() {
 		configure();
 	}
 	
+	/**
+	 * Creates a new state machine.
+	 * @return A new state machine
+	 */
 	public StateMachine<PartStates, Triggers> createStateMachine() {
 		StateMachine<PartStates, Triggers> stateMachine = new StateMachine<PartStates, Triggers>(PartStates.INIT, fsmc);
 		return stateMachine;
 	}
 
+	/**
+	 * Configures the StateMachineConfig to be used for state machines. The
+	 * sequence of states a product can be in is linear.
+	 */
 	private void configure() {
 		fsmc = new StateMachineConfig<PartStates, Triggers>(); 
 		

@@ -5,13 +5,13 @@ import kronos.sim.source.SimSourceType;
 
 public abstract class SimData {
 	
-	public String toJSONString() {
-		//TODO
-		return "";
-	}
-	
 	public abstract Triggers getTrigger();
 	
+	/**
+	 * Check which type of data a certain event is.
+	 * @param simData A subclass of SimData
+	 * @return An item of SimSourceType
+	 */
 	public static SimSourceType getType(SimData simData) {
 		if (simData instanceof ERPData) {
 			return SimSourceType.erpData;
