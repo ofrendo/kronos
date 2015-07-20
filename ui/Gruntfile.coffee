@@ -2,16 +2,10 @@
 LIVERELOAD_PORT = 35728
 lrSnippet = require("connect-livereload")(port: LIVERELOAD_PORT)
 
-# var conf = require('./conf.'+process.env.NODE_ENV);
 mountFolder = (connect, dir) ->
     connect.static require("path").resolve(dir)
 
 
-# # Globbing
-# for performance reasons we're only matching one level down:
-# 'test/spec/{,*}*.js'
-# use this if you want to recursively match all subfolders:
-# 'test/spec/**/*.js'
 module.exports = (grunt) ->
     require("load-grunt-tasks") grunt
     require("time-grunt") grunt
@@ -19,7 +13,7 @@ module.exports = (grunt) ->
     # configurable paths
     yeomanConfig =
         app: "client"
-        dist: "dist"
+        dist: "../http"
         docs: "documentation"
 
     try
@@ -62,7 +56,6 @@ module.exports = (grunt) ->
             options:
                 port: 9000
                 
-                # Change this to '0.0.0.0' to access the server from outside.
                 hostname: "localhost"
 
             livereload:
@@ -254,9 +247,6 @@ module.exports = (grunt) ->
                         # bower components that has image, font dependencies
                         "bower_components/font-awesome/css/*"
                         "bower_components/font-awesome/fonts/*"
-                        "bower_components/weather-icons/css/*"
-                        "bower_components/weather-icons/fonts/*"
-                        "bower_components/weather-icons/font/*"
 
                         "fonts/**/*"
                         "i18n/**/*"
