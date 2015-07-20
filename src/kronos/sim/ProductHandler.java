@@ -2,6 +2,8 @@ package kronos.sim;
 
 import java.util.ArrayList;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 import kronos.db.DB;
 import kronos.fsm.StateMachineHandler;
 import kronos.model.ERPData;
@@ -50,6 +52,9 @@ public class ProductHandler {
 	
 	public void fireSAEvent(SAData saData) {
 		Product p = this.fireEvent(saData);
+		if(p == null){
+			return;
+		}
 		p.setSAData(saData);
 		
 		// Notify DB that product is finished
@@ -67,6 +72,9 @@ public class ProductHandler {
 	}
 	public void fireOPCEvent(OPCDataItem opcDataItem) {
 		Product p = this.fireEvent(opcDataItem);
+		if(p == null){
+			return;
+		}
 		p.addSimData(opcDataItem);
 		
 		// Notify EsperTech
@@ -78,6 +86,7 @@ public class ProductHandler {
 	public Product fireEvent(SimData simData) {
 		Product result = null;
 		for (Product p : products) {
+			System.out.println(p);
 			if (p.canFire(simData)) {
 				p.fireEvent(simData);
 				result = p;
