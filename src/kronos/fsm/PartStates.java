@@ -1,5 +1,10 @@
 package kronos.fsm;
 
+/**
+ * Collection of states that a product can be in.
+ * @author D059373
+ *
+ */
 public enum PartStates {
 		INIT,
 		LIGHTBARRIER_1,

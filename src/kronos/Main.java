@@ -6,6 +6,13 @@ import kronos.sim.ConnectionHandler;
 import kronos.sim.ProductHandler;
 import kronos.sim.Simulation;
 
+/**
+ * This class serves as the entrance point for starting the sim, 
+ * the connections to the sim, the WebSocket server and the HTTP
+ * server.
+ * @author D059373
+ *
+ */
 public class Main {
 	
 	public static void main(String[] args) {

@@ -6,7 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import kronos.fsm.Triggers;
 
 /**
- * Created by julian Reichwald
+ * Represents an OPCDataItem arriving via JMS. Can be created via marshalling
+ * or used to generate a JSOn string.
  */
 @XmlRootElement(name = "OpcDataItem")
 public class OPCDataItem extends SimData {

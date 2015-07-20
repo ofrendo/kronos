@@ -17,10 +17,16 @@ import kronos.util.Log;
 public class HTTPServlet extends HttpServlet {
 	
 	/**
-	 * Servlet for serving files statically
+	 * Servlet for serving files statically from directory /http
 	 */
 	public HTTPServlet() {}
 	
+	/**
+	 * Processes an HTTP request: 
+	 * "/" ==> writes contents of index.html to response
+	 * A valid file in /http/ ==> writes that file to response
+	 * An invalid file ==> writes a 404 error to response
+	 */
 	@Override
 	public void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -55,9 +61,13 @@ public class HTTPServlet extends HttpServlet {
         }
         
 	}
-
-	public String getContentType(File file){
-		 
+	
+	/**
+	 * Gets the content type from a file name to be used for HTTP
+	 * @param file File to be analysed
+	 * @return Possible return values: "text/css", "text/javascript", "text/html"
+	 */
+	public String getContentType(File file) {
 		String fileName = file.getName();
 		String fileExtension = "";
         if (fileName.contains(".")){
