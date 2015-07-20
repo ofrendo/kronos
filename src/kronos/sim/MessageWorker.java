@@ -5,6 +5,7 @@ import kronos.model.OPCDataItem;
 import kronos.model.SAData;
 import kronos.model.SimDataFactory;
 import kronos.sim.source.SimSourceType;
+import kronos.util.Log;
 
 public class MessageWorker extends Thread {
 	
@@ -27,7 +28,7 @@ public class MessageWorker extends Thread {
 			try {
 				sleep(100);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				Log.error(e.getMessage());
 				e.printStackTrace();
 			}
 		}

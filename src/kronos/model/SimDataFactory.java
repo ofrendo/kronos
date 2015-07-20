@@ -42,6 +42,7 @@ public class SimDataFactory {
 			
 		} catch (JAXBException e) {
 			e.printStackTrace();
+			Log.error(e.getMessage());
 		}
 		return result;
 	}
@@ -73,6 +74,7 @@ public class SimDataFactory {
 			//Log.info("Timestamp: " + erpData2.getTimeStamp());
 			
 		} catch (JAXBException e) {
+			Log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return result;

@@ -16,6 +16,7 @@ public class Simulation extends Thread {
 			rt.exec("CMD /C start sim\\startSim.bat");
 			
 		} catch (IOException e) {
+			Log.error(e.getMessage());
 			e.printStackTrace();
 			try {
 				p = rt.exec("./sim/startSim.sh");
