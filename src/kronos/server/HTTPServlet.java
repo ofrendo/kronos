@@ -7,6 +7,7 @@ import javaxt.http.servlet.HttpServlet;
 import javaxt.http.servlet.HttpServletRequest;
 import javaxt.http.servlet.HttpServletResponse;
 import javaxt.http.servlet.ServletException;
+
 import kronos.util.Log;
 
 /**
@@ -16,10 +17,14 @@ import kronos.util.Log;
  */
 public class HTTPServlet extends HttpServlet {
 	
+	private RouteHandler routeHandler;
+	
 	/**
 	 * Servlet for serving files statically from directory /http
 	 */
-	public HTTPServlet() {}
+	public HTTPServlet() {
+		this.routeHandler = new RouteHandler();		
+	}
 	
 	/**
 	 * Processes an HTTP request: 
@@ -49,11 +54,13 @@ public class HTTPServlet extends HttpServlet {
         //Construct a physical file path using the url
         File file = new File("http/" + path);
         
-        //If the file doesn't exist, return an error
+        //If the file doesn't exist, check REST API or return an error
         if (!file.exists() || file.isDirectory()) {
-        	response.setStatus(404);
-        	Log.info("HTTPServlet: Returning 404");
-            return;
+        	if (routeHandler.handleRoute(path) == false) {
+        		response.setStatus(404);
+            	Log.info("HTTPServlet: Returning 404");
+        	}
+        	return;
         }
         else{ //Dump the file content to the servlet output stream
             response.write(file, getContentType(file), true);

@@ -1,7 +1,7 @@
 package kronos.test;
 
 import kronos.server.HTTPServer;
-import kronos.server.WSServer;
+import kronos.server.ws.WSServer;
 
 import org.junit.Test;
 
