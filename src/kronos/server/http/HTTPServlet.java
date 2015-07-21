@@ -1,4 +1,4 @@
-package kronos.server;
+package kronos.server.http;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import javaxt.http.servlet.HttpServlet;
 import javaxt.http.servlet.HttpServletRequest;
 import javaxt.http.servlet.HttpServletResponse;
 import javaxt.http.servlet.ServletException;
-
+import kronos.server.http.rest.RouteHandler;
 import kronos.util.Log;
 
 /**

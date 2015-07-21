@@ -1,4 +1,4 @@
-package kronos.server;
+package kronos.server.http.rest;
 
 
 public class Route {

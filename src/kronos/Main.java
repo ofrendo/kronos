@@ -1,6 +1,6 @@
 package kronos;
 
-import kronos.server.HTTPServer;
+import kronos.server.http.HTTPServer;
 import kronos.server.ws.WSServer;
 import kronos.sim.ConnectionHandler;
 import kronos.sim.ProductHandler;
