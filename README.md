@@ -92,4 +92,4 @@ with following triggers:
 - SPECTRAL_ANALYSIS
 
 
-![alt tag](https://github.com/ofrendo/kronos/master/pictures/FiniteStateMachineUML.png)
+![alt tag](https://github.com/ofrendo/kronos/tree/master/pictures/FiniteStateMachineUML.png)
