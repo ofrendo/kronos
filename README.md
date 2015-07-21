@@ -56,3 +56,40 @@ JSON file
 	"ts_stop":1436978792262
 }
 ```
+
+# Finite State Machine
+
+To track the current position of a product a Finite State machine is used. 
+
+The finite State machine has following states:
+- INIT
+- LIGHTBARRIER_1,
+- BETWEEN_L1_L2,
+- LIGHTBARRIER_2,
+- BETWEEN_L2_L3,
+- MILLING_STATION,
+- BETWEEN_L3_L4,
+- DRILLING_STATION,
+- BETWEEN_L4_L5,
+- LIGHTBARRIER_5,
+- END_OF_PRODUCTION,
+- SPECTRAL_ANALYSIS,
+- FINISH
+
+with following triggers:
+- LIGHTBARRIER_1_INTERRUPT
+- LIGHTBARRIER_1_CONNECT
+- LIGHTBARRIER_2_INTERRUPT
+- LIGHTBARRIER_2_CONNECT
+- LIGHTBARRIER_3_INTERRUPT
+- MILLING_STATION
+- LIGHTBARRIER_3_CONNECT
+- LIGHTBARRIER_4_INTERRUPT
+- DRILLING_STATION
+- LIGHTBARRIER_4_CONNECT
+- LIGHTBARRIER_5_INTERRUPT
+- LIGHTBARRIER_5_CONNECT
+- SPECTRAL_ANALYSIS
+
+
+![alt tag](https://raw.githubusercontent.com/ofrendo/kronos/master/pictures/FiniteStateMachineUML.png)
