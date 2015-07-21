@@ -1,4 +1,4 @@
-package kronos.server;
+package kronos.server.http;
 
 import kronos.util.Log;
 
