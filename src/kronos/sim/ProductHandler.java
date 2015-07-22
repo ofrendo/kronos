@@ -11,7 +11,7 @@ import kronos.model.OPCDataItem;
 import kronos.model.Product;
 import kronos.model.SAData;
 import kronos.model.SimData;
-import kronos.server.WSServer;
+import kronos.server.ws.WSServer;
 import kronos.util.Log;
 
 public class ProductHandler {

@@ -1,4 +1,4 @@
-package kronos.server;
+package kronos.server.ws;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;

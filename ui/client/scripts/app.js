@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('app', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'easypiechart', 'mgo-angular-wizard', 'textAngular', 'ngTagsInput', 'ngWebsocket', 'app.ui.ctrls', 'app.ui.directives', 'app.ui.services', 'app.controllers', 'app.directives', 'app.form.validation', 'app.ui.form.ctrls', 'app.ui.form.directives', 'app.tables', 'app.chart.ctrls', 'app.chart.directives', 'app.page.ctrls']).config([
+    angular.module('app', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'easypiechart', 'textAngular', 'ngTagsInput', 'ngWebsocket', 'app.ui.ctrls', 'app.ui.directives', 'app.ui.services', 'app.controllers', 'app.directives', 'app.form.validation', 'app.ui.form.ctrls', 'app.ui.form.directives', 'app.tables', 'app.chart.ctrls', 'app.chart.directives', 'app.page.ctrls']).config([
         '$routeProvider',
         function($routeProvider) {
             return $routeProvider.when('/', {
@@ -31,8 +31,6 @@
                 templateUrl: 'views/forms/layouts.html'
             }).when('/forms/validation', {
                 templateUrl: 'views/forms/validation.html'
-            }).when('/forms/wizard', {
-                templateUrl: 'views/forms/wizard.html'
             }).when('/tables/static', {
                 templateUrl: 'views/tables/static.html'
             }).when('/tables/responsive', {
@@ -45,12 +43,6 @@
                 templateUrl: 'views/charts/morris.html'
             }).when('/charts/flot', {
                 templateUrl: 'views/charts/flot.html'
-            }).when('/mail/inbox', {
-                templateUrl: 'views/mail/inbox.html'
-            }).when('/mail/compose', {
-                templateUrl: 'views/mail/compose.html'
-            }).when('/mail/single', {
-                templateUrl: 'views/mail/single.html'
             }).when('/pages/features', {
                 templateUrl: 'views/pages/features.html'
             }).when('/404', {
@@ -59,12 +51,6 @@
                 templateUrl: 'views/pages/500.html'
             }).when('/pages/blank', {
                 templateUrl: 'views/pages/blank.html'
-            }).when('/pages/invoice', {
-                templateUrl: 'views/pages/invoice.html'
-            }).when('/pages/services', {
-                templateUrl: 'views/pages/services.html'
-            }).when('/pages/contact', {
-                templateUrl: 'views/pages/contact.html'
             }).otherwise({
                 redirectTo: '/404'
             });

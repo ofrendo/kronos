@@ -10,7 +10,7 @@ module.exports = (grunt) ->
     require("load-grunt-tasks") grunt
     require("time-grunt") grunt
     
-    # configurable paths
+    #paths
     yeomanConfig =
         app: "client"
         dist: "../http"
@@ -217,15 +217,6 @@ module.exports = (grunt) ->
             dist:
                 options: {}
                 
-                #removeCommentsFromCDATA: true,
-                #                    // https://github.com/yeoman/grunt-usemin/issues/44
-                #                    //collapseWhitespace: true,
-                #                    collapseBooleanAttributes: true,
-                #                    removeAttributeQuotes: true,
-                #                    removeRedundantAttributes: true,
-                #                    useShortDoctype: true,
-                #                    removeEmptyAttributes: true,
-                #                    removeOptionalTags: true
                 files: [
                     expand: true
                     cwd: "<%= yeoman.app %>"
@@ -234,7 +225,6 @@ module.exports = (grunt) ->
                 ]
 
         
-        # Put files not handled in other tasks here
         copy:
             dist:
                 files: [
@@ -244,14 +234,12 @@ module.exports = (grunt) ->
                     dest: "<%= yeoman.dist %>"
                     src: [
                         "favicon.ico"
-                        # bower components that has image, font dependencies
                         "bower_components/font-awesome/css/*"
                         "bower_components/font-awesome/fonts/*"
 
                         "fonts/**/*"
                         "i18n/**/*"
                         "images/**/*"
-                        # "styles/bootstrap/**/*"
                         "styles/fonts/**/*"
                         "styles/img/**/*"
                         "styles/ui/images/*"

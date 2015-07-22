@@ -20,11 +20,11 @@
             console.log("Connection established");
         });
         ws.$on('$message', function(data) {
-            console.info("Receiving message...");
             $scope.$apply(function() { //we need to manually apply a scope change, so dynamic array changes will be reflected in view
-                console.log($scope.erpData);
                 if (data.type == "erpData") {
+                console.info("Receiving ERP data...");
                   $scope.erpData.push(data); //TODO: apply pop() to remove finished products?
+                  $scope.erpAmount = $scope.erpData.length;
                   //TODO: calculate progress by looking at the current station
                 };
                 

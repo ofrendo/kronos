@@ -1,4 +1,4 @@
-package kronos.server;
+package kronos.server.ws;
 
 import kronos.fsm.PartStates;
 import kronos.model.SimData;
