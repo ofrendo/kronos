@@ -2,11 +2,17 @@ DROP VIEW IF EXISTS AnalysisResultMinMaxAvgMeasures;
 CREATE VIEW IF NOT EXISTS AnalysisResultMinMaxAvgMeasures AS
 SELECT *
 FROM (
-	SELECT
+	SELECT 
 		AnalysisResult,
+		COUNT(*) as TotalNo,
 		MIN(AnalysisTime) as MinAnalysisTime,
 		AVG(AnalysisTime) as AvgAnalysisTime,
-		MAX(AnalysisTime) as MaxAnalysisTime,
+		MAX(AnalysisTime) as MaxAnalysisTime
+	FROM Product
+	GROUP BY AnalysisResult
+) NATURAL JOIN(
+	SELECT
+		AnalysisResult,
 		MIN(Value) as MinMillingHeat, 
 		AVG(Value) AS AvgMillingHeat, 
 		MAX(Value) as MaxMillingHeat 
