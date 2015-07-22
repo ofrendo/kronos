@@ -1,8 +1,11 @@
+DROP VIEW IF EXISTS ProdMinMaxAvgMeasures;
 CREATE VIEW IF NOT EXISTS ProdMinMaxAvgMeasures AS
 SELECT *
 FROM (
 	SELECT 
 		OrderNo,
+		ProductionStart,
+		ProductionEnd,
 		MaterialNo,
 		AnalysisResult,
 		AnalysisTime,

@@ -22,6 +22,18 @@ public class TestServerRestAPI {
 	}
 	
 	@Test
+	public void getLastProducts() {
+		String path = "data/getLastProducts";
+		testCall(path);
+	}
+	
+	@Test
+	public void getDataByAnalysisResult() {
+		String path = "data/getDataByAnalysisResult";
+		testCall(path);
+	}
+	
+	@Test
 	public void testGetDataByMat() {
 		String path = "data/getDataByMat";
 		testCall(path);
@@ -30,12 +42,6 @@ public class TestServerRestAPI {
 	@Test
 	public void testGetDataByMatGrp() {
 		String path = "data/getDataByMatGrp";
-		testCall(path);
-	}
-	
-	@Test
-	public void testGetProductData() {
-		String path = "data/getDataByAnalysisResult";
 		testCall(path);
 	}
 	

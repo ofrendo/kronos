@@ -89,6 +89,9 @@ public class DB {
 	public void createViews() {
 		Log.info("DB: Creating views on database...");
 		
+		// Create aggregated product
+		createView("ProdMinMaxAvgMeasures.sql");
+		
 		// Create Group by analysisresult
 		createView("AnalysisResultMinMaxAvgMeasures.sql");
 		
@@ -337,6 +340,18 @@ public class DB {
 		}
 		catch (Exception e) {
 			Log.error("DB: Error getting file: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public String getLastProducts() {
+		String result = null;
+		try {
+			String sql = "SELECT * FROM ProdMinMaxAvgMeasures ORDER BY ProductionStart DESC LIMIT 25";
+			result = getJsonData(sql);
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting getLastProducts: " + e.getMessage());
 		}
 		return result;
 	}
