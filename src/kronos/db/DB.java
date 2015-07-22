@@ -1,7 +1,6 @@
 package kronos.db;
 
 import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -15,15 +14,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.activemq.transport.tcp.ExceededMaximumConnectionsException;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
 import kronos.model.Product;
 import kronos.util.Log;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 /**
  * Used for database connection. Singleton.
@@ -63,11 +60,11 @@ public class DB {
 			"Drilling Heat"
 			};
 	private static final String MILLING_STATION = stations[0];
-	private static final String MILLING_SPEED = stations[1];
-	private static final String MILLING_HEAT = stations[2];
+	//private static final String MILLING_SPEED = stations[1];
+	//private static final String MILLING_HEAT = stations[2];
 	private static final String DRILLING_STATION = stations[3];
-	private static final String DRILLING_SPEED = stations[4];
-	private static final String DRILLING_HEAT = stations[5];
+	//private static final String DRILLING_SPEED = stations[4];
+	//private static final String DRILLING_HEAT = stations[5];
 	
 	private DB() {
 		try {
@@ -96,7 +93,6 @@ public class DB {
 			
 			Log.info("DB: Views created successfully.");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			Log.error("DB: Error on creating views: " + e.getMessage());
 		}
 	}
@@ -324,6 +320,7 @@ public class DB {
 				row.addProperty("OKPercentage", rs.getDouble(2));
 				row.addProperty("NoOK", rs.getInt(3));
 				row.addProperty("NoTotal", rs.getInt(4));
+				resultArray.add(row);
 			}
 		} catch (Exception e) {
 			Log.error("DB: Error getting getAnalysisResultByMat: " + e.getMessage());
