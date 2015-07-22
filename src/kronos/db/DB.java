@@ -1,7 +1,6 @@
 package kronos.db;
 
 import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -14,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.apache.activemq.transport.tcp.ExceededMaximumConnectionsException;
 
 import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
@@ -90,10 +87,9 @@ public class DB {
 			Statement stmt = conn.createStatement();
 			String sql = "CREATE VIEW IF NOT EXISTS AnalysisResultByMat AS SELECT MaterialNo, (NoOK * 1.0 / NoTotal) as OKPercentage, NoOk, NoTotal FROM(SELECT MaterialNo, COUNT(*) AS NoOk FROM Product WHERE AnalysisResult = 'OK' GROUP BY MaterialNo) OKTable NATURAL JOIN(SELECT MaterialNo, COUNT(*) as NoTotal FROM Product GROUP BY MaterialNo) TotalTable ORDER BY OKPercentage";
 			stmt.executeUpdate(sql);
-			
+			stmt.close();
 			Log.info("DB: Views created successfully.");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			Log.error("DB: Error on creating views: " + e.getMessage());
 		}
 	}
