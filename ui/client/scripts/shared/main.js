@@ -13,7 +13,7 @@
                 name: 'Lisa Doe'
             };
         }
-    ]).controller('DashboardCtrl', ['$scope', '$websocket', function($scope, $websocket) {
+    ]).controller('DashboardCtrl', ['$scope', '$websocket', '$timeout', function($scope, $websocket) {
         var ws = $websocket.$new("ws://localhost:9003"); //define new ws-address and connect
 
         $scope.hallo = "60";
@@ -25,29 +25,32 @@
             console.log("Connection established");
         });
         ws.$on('$message', function(data) {
+            console.log(data);
             $scope.$apply(function() { //we need to manually apply a scope change, so dynamic array changes will be reflected in view
                 if (data.type == "erpData") {
                     $scope.products[data.orderNumber] = {};
                     $scope.products[data.orderNumber].erpData = data.simData;
                     $scope.products[data.orderNumber].state = data.state;
                     $scope.products[data.orderNumber].progress = 0;
-
-                    console.info($scope.products);
-                    // $scope.erpData.push(data); //TODO: apply pop() to remove finished products?
-                    // $scope.erpAmount = $scope.erpData.length;
-                    // //TODO: calculate progress by looking at the current station
                 };
                 if (data.type == "machineData") {
                     if ($scope.products[data.orderNumber]) {
                         $scope.products[data.orderNumber].state = data.state;
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
-                        console.log($scope.products[data.orderNumber].progress);
+                    }
+                }
+                if (data.type == "saData") {
+                    if ($scope.products[data.orderNumber]) {
+                        $scope.products[data.orderNumber].state = data.state;
+                        $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
                         if ($scope.products[data.orderNumber].state == "FINISH") {
-                            delete $scope.products[data.orderNumber];
+                            $scope.products[data.orderNumber].analysisStatus = data.simData.overallStatus;
+                            var scoperef = $scope;
+                            setTimeout(function() {
+                                delete scoperef.products[data.orderNumber];
+                            }, 3000);
                         };
                     }
-
-
                 }
 
             });
@@ -55,29 +58,27 @@
                 console.log(state);
                 switch (state) {
                     case "INIT":
-                        return 1;
+                        return 2;
                     case "LIGHTBARRIER_1":
-                        return 1;
+                        return 2;
                     case "BETWEEN_L1_L2":
-                        return 1;
+                        return 2;
                     case "LIGHTBARRIER_2":
-                        return 1;
+                        return 2;
                     case "BETWEEN_L2_L3":
-                        return 1;
+                        return 2;
                     case "MILLING_STATION":
-                        return 1;
+                        return 4;
                     case "BETWEEN_L3_L4":
-                        return 10;
+                        return 2;
                     case "DRILLING_STATION":
-                        return 6;
+                        return 3;
                     case "BETWEEN_L4_L5":
                         return 2;
                     case "LIGHTBARRIER_5":
                         return 2;
                     case "END_OF_PRODUCTION":
-                        return 1;
-                    case "SPECTRAL_ANALYSIS":
-                        return 1;
+                        return 9;
                     case "FINISH":
                         return 1;
                 }
@@ -90,13 +91,13 @@
     }]).controller('HistoryCtrl', ['$scope', '$http', function($scope, $http) {
         console.log("Sind drin");
         $http.get('/data/getDataByAnalysisResult')
-        .success(function(data, status, headers, config){
-            console.log("YIPPIE");
-            console.log(data);
-        })
-        .error(function(data,status,headers,config){
-            console.log("Scheiße gelaufen");
-        });
+            .success(function(data, status, headers, config) {
+                console.log("YIPPIE");
+                console.log(data);
+            })
+            .error(function(data, status, headers, config) {
+                console.log("Scheiße gelaufen");
+            });
     }]);
 
 

@@ -106,16 +106,18 @@
                         <th>Order Number</th>
                         <th>Customer Number</th>
                         <th>Material Number</th>
-                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Overall Status</th>
                         <th>Progress</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in products">
-                        <td><span class="color-success"><i class="fa fa-level-up"></i></span>{{item.erpData.OrderNumber}}</td>
+                        <td>{{item.erpData.OrderNumber}}</td>
                         <td>{{item.erpData.CustomerNumber}}</td>
                         <td>{{item.erpData.MaterialNumber}}</td>
-                        <td><span class="label label-info">{{item.state}}</span></td>
+                        <td><span class="label label-warning">{{item.state}}</span></td>
+                        <td><span class="label" ng-class="item.analysisStatus == 'NOK' ? 'label-danger' : 'label-success'">{{item.analysisStatus}}</span></td>
                         <td>
                             <progressbar class="progressbar-xs progress-striped active" value="item.progress"></progressbar>
                     </tr>
