@@ -85,7 +85,7 @@ module.exports = (grunt) ->
             dist:
                 files: [
                     dot: true
-                    src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
+                    src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*", "!<%= yeoman.dist %>/styles/**"]
                 ]
             all: [
                 ".tmp", ".sass-cache"
@@ -266,8 +266,9 @@ module.exports = (grunt) ->
             olli:
                 cwd: "<%= yeoman.app %>"
                 dest: "<%= yeoman.dist %>"
-                src : "**/*"
+                src: ["**/*", "!styles/**"]
                 expand: true
+
 
 
         concurrent:
