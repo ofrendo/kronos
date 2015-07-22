@@ -2,10 +2,13 @@
 #library("RSQLite")
 #connection = dbConnect(drv="SQLite", dbname="C:/Users/D059373/git/kronos/data/historical.db")
 
+source("saveImg.R")
+
 library(sqldf)
+library(ggplot2)
 db <- dbConnect(SQLite(), dbname="../data/historical.db")
 
-sqlOnlyProducts <- "SELECT * FROM Product"
+sqlOnlyProducts <- "SELECT * FROM Product ORDER BY ID"
 dataOnlyProducts <- dbGetQuery(conn = db, sqlOnlyProducts)
 dataOnlyProducts$materialGroup <- ifelse(dataOnlyProducts$MaterialNo==4248 |
                                            dataOnlyProducts$MaterialNo==5653 |
@@ -14,7 +17,7 @@ dataOnlyProducts$materialGroup <- ifelse(dataOnlyProducts$MaterialNo==4248 |
                                            dataOnlyProducts$MaterialNo==7423 |
                                            dataOnlyProducts$MaterialNo==7432, 1, 2)
 
-sqlProducts <- "SELECT * FROM Product NATURAL JOIN Measure"
+sqlProducts <- "SELECT * FROM Product NATURAL JOIN Measure ORDER BY ID"
 dataProducts <- dbGetQuery(conn = db, sqlProducts)
 print(paste0("Number of products: ", nrow(dataOnlyProducts)))
 
@@ -35,8 +38,9 @@ dbDisconnect(db);
 
 
 # Time to vorbereiten some data for ze Diskriminanzanalyse
-productID <- unique(dataProducts$ID)
-analysisResult <- aggregate(AnalysisResult ~ ID, dataProducts, unique)[, 2]
+#metaData <- dataOnlyProducts[c("ID", "MaterialNo", "materialGroup")]
+  #aggregate(MaterialNo ~ ID, dataProducts, unique)  # unique(dataProducts$ID)
+#analysisResult <- aggregate(AnalysisResult ~ ID, dataProducts, unique)[,2]
   
 dataProductsMillingHeat <- subset(dataProducts, Station=="Milling Heat")
 millingHeatAvg <- aggregate(Value ~ ID, dataProductsMillingHeat, mean)[,2]
@@ -58,18 +62,24 @@ analysisTime <- aggregate(AnalysisTime ~ ID, dataProducts, mean)[, 2]
 
 productionTime <- aggregate((ProductionEnd - ProductionStart) ~ ID, dataProducts, mean)[, 2]
 
-aData <- data.frame(productID, analysisResult,
+aData <- data.frame(dataOnlyProducts$ID, 
+                    dataOnlyProducts$MaterialNo, 
+                    dataOnlyProducts$materialGroup,
+                    dataOnlyProducts$AnalysisResult,
+                    #analysisResult,
                     millingHeatAvg, millingSpeedAvg, millingTime, 
                     drillingHeatAvg, drillingSpeedAvg, drillingTime
                     , analysisTime
                     , productionTime
 )
+aData <- subset(aData, dataOnlyProducts.materialGroup == 2)
+
 
 # ANALYSE: Diskriminanzanalyse
 library("MASS")
-fit <- lda(analysisResult ~ 
-             scale(millingHeatAvg)# + millingSpeedAvg + millingTime 
-             + scale(drillingHeatAvg)# + drillingSpeedAvg + drillingTime
+fit <- lda(dataOnlyProducts.AnalysisResult ~ 
+             scale(millingHeatAvg)# + millingTime # + millingSpeedAvg
+             + scale(drillingHeatAvg)# + drillingTime  #+ drillingSpeedAvg 
              #+ analysisTime + productionTime 
            , data=aData)
            #na.action="na.omit", CV=TRUE)
@@ -126,9 +136,21 @@ ggplot(dataOnlyProducts, aes(factor(AnalysisResult), AnalysisTime)) +
   facet_grid(. ~ MaterialNo)
 
 
-# Anzahl Produkte in Abhängigkeit vom MaterialNo und CustomerNo
-n <- aggregate(AnalysisResult ~ MaterialNo + CustomerNo, dataOnlyProducts, getResultRatio)
+# Anzahl Produkte in Abhängigkeit vom CustomerNo
+dataByCustomer <- aggregate(AnalysisResult ~ CustomerNo, dataOnlyProducts, getResultRatio)
+dataByCustomer$N <- aggregate(ID ~ CustomerNo, dataOnlyProducts, length)[, 2]
+names(dataByCustomer) <- c("CustomerNo", "AnalysisResultRatio", "N")
 
+g1 <- ggplot(dataByCustomer, aes(factor(CustomerNo), N)) + 
+  geom_bar(stat="identity") +
+  xlab("CustomerNo") + ggtitle("N by CustomerNo")
+g2 <- ggplot(dataByCustomer, aes(factor(CustomerNo), AnalysisResultRatio)) + 
+  geom_bar(stat="identity") +
+  xlab("CustomerNo") + ggtitle("AnalysisResultRatio by CustomerNo")
+
+openImg("compareNAnalysisResultByCustomerNo.png")
+multiplot(g1, g2, cols=2)
+closeImg()
 
 # ANALYSE: Clusteranalyse
 dataMillingHeatAvg <- aggregate(Value ~ ID, dataProductsMillingHeat, mean)[, 2]
@@ -144,7 +166,7 @@ plot(clusterData, col = cl$cluster)
 #         labels=2, lines=0)
 
 
-# Analyse einzelnes Produkt
+# Analyse einzelnes Produkt (NICHT BENUTZT)
 productOK <- subset(dataProducts, AnalysisResult=="OK" & ID==3)
 productNOK <- subset(dataProducts, AnalysisResult=="NOK" & MaterialNo==7432 & ID==52)
 
@@ -154,36 +176,88 @@ ggplot(subset(dataProducts,Station=="Drilling Heat" & (ID==3 | ID==52)),
   geom_point() + 
   facet_grid(. ~ AnalysisResult, scales = "free")
 
+
+
 # Milling Speed und Heat in Abhängigkeit von Zeit
 # Beide A
 # 11 OK, 1 NOK, beide von MaterialNo 7423
 # 247 NOK, 23 OK, beide von MaterialNo 4248
-visualizeSpeedHeat <- function(speedName, heatName, IDPar) {
+visualizeSpeedHeat <- function(ggValues, IDPar, tMin) {
+  varName <- ggValues$varName
+  xLimits <- ggValues$x
+  yLimits <- ggValues$y
+  
   data <- subset(dataProducts, 
-                 (Station==speedName | Station==heatName) & ID==IDPar)[c("Timestamp", "Value", "Station")]
-  data$Timestamp <- data$Timestamp - min(data$Timestamp)
+                 (Station==varName) & ID==IDPar)[c("Timestamp", "Value", "Station")]
+  data$Timestamp <- data$Timestamp - tMin #min(data$Timestamp)
   dataProduct <- subset(dataProducts, ID==IDPar)
-  ggplot(data, aes(x=Timestamp, y=Value)) + 
+  g <- ggplot(data, aes(x=Timestamp, y=Value)) + 
     geom_line() + 
     geom_point() + 
     geom_text(aes(label=floor(Timestamp/1000)), hjust=1.5, vjust=-0.3) + 
-    facet_grid(Station ~ ., scale = "free_y") +
+    #facet_grid(Station ~ ., scale = "free_y") +
     ggtitle(paste0("ID=", IDPar, 
                    ", AnalysisResult=", dataProduct$AnalysisResult[1], "\n",
                    "MNo=", dataProduct$MaterialNo[1],
                    ", MGroup=", dataProduct$materialGroup[1])) +
-    scale_x_continuous(limits = c(0, 30000)) +
-    scale_y_continuous(expand=c(0.15, 0))
+    getGGTheme() + 
+    ylab(varName) + 
+    scale_x_continuous(limits=xLimits) +
+    scale_y_continuous(limits=yLimits, expand=c(0.15, 0))
+  return (g)
 }
 
+# ggValues
+ggMillingHeat <- data.frame(varName="Milling Heat",
+                            x=c(0, 30000), 
+                            y=c(0, 250)) 
+ggMillingSpeed <- data.frame(varName="Milling Speed",
+                             x=ggMillingHeat$x,
+                             y=c(0, 17000)) 
+ggDrillingHeat <- data.frame(varName="Drilling Heat", 
+                             x=c(0, 25000), 
+                             y=c(100, 350))
+ggDrillingSpeed <- data.frame(varName="Drilling Speed",
+                              x=ggDrillingHeat$x,
+                              y=c(0, 20000))
 
-g1 <- visualizeSpeedHeat("Drilling Speed", "Drilling Heat", 70)
-g2 <- visualizeSpeedHeat("Drilling Speed", "Drilling Heat", 4)
-multiplot(g1, g2, cols=2)
+plotAndSaveSpeedHeat <- function(IDPar1, IDPar2, fName1, fName2) {
+  # Products from different MatGrps, both OK
+  # Milling
+  tMin <- min(subset(dataProducts, Station=="Milling Speed" & ID==IDPar1)$Timestamp)
+  g1 <- visualizeSpeedHeat(ggMillingHeat, IDPar1, tMin)
+  g2 <- visualizeSpeedHeat(ggMillingSpeed, IDPar1, tMin)
+  tMin <- min(subset(dataProducts, Station=="Milling Speed" & ID==IDPar2)$Timestamp)
+  g3 <- visualizeSpeedHeat(ggMillingHeat, IDPar2, tMin)
+  g4 <- visualizeSpeedHeat(ggMillingSpeed, IDPar2, tMin)
+  openImg(fName1)
+  multiplot(g1, g2, g3, g4, cols=2)
+  closeImg()
+  
+  # Drilling
+  tMin <- min(subset(dataProducts, Station=="Drilling Speed" & ID==IDPar1)$Timestamp)
+  g1 <- visualizeSpeedHeat(ggDrillingHeat, IDPar1, tMin)
+  g2 <- visualizeSpeedHeat(ggDrillingSpeed, IDPar1, tMin)
+  tMin <- min(subset(dataProducts, Station=="Drilling Speed" & ID==IDPar2)$Timestamp)
+  g3 <- visualizeSpeedHeat(ggDrillingHeat, IDPar2, tMin)
+  g4 <- visualizeSpeedHeat(ggDrillingSpeed, IDPar2, tMin)
+  openImg(fName2)
+  multiplot(g1, g2, g3, g4, cols=2)
+  closeImg()
+}
+
+# Different matGrps
+plotAndSaveSpeedHeat(70, 4, 
+                "compareMaterialGroupsMilling.png", 
+                "compareMaterialGroupsDrilling.png")
+# Products from same MatNo, different result,11 OK, 1 NOK, beide von MaterialNo 7423
+plotAndSaveSpeedHeat(11, 1, 
+                "compareProductsMilling.png", 
+                "compareProductsDrilling.png")
+
 
 
 # VISUALIZE THE BIG DATA
-library("ggplot2")
 
 #productSubset <- subset(dataProduct, Station=="Milling Heat")
 #print(ggplot(data=productSubset, aes(x=Timestamp, y=Value)) + geom_line())
