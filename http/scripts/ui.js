@@ -7710,16 +7710,7 @@ function(){"Use Strict";function a(a){try{return 0!==angular.element(a).length}c
         };
 
         me.$$init = function (cfg) {
-
-            if (cfg.mock) {
-                me.$$ws = new $$mockWebsocket(cfg.mock, $http);
-            }
-            else if (cfg.protocols) {
-                me.$$ws = new WebSocket(cfg.url, cfg.protocols);
-            }
-            else {
-                me.$$ws = new WebSocket(cfg.url);
-            }
+            me.$$ws = cfg.mock ? new $$mockWebsocket(cfg.mock, $http) : new WebSocket(cfg.url, cfg.protocols);
 
             me.$$ws.onmessage = function (message) {
                 try {

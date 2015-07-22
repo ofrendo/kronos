@@ -7,6 +7,8 @@
                 redirectTo: '/dashboard'
             }).when('/dashboard', {
                 templateUrl: 'views/dashboard.html'
+            }).when('/history', {
+                templateUrl: 'views/history.html'
             }).when('/ui/typography', {
                 templateUrl: 'views/ui/typography.html'
             }).when('/ui/buttons', {

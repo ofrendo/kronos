@@ -61,7 +61,7 @@ public class HTTPServlet extends HttpServlet {
         		response.setStatus(404);
             	Log.info("HTTPServlet: Returning 404");
         	}
-        	response.write(APIResult);
+        	response.setContentType("application/json");
         	return;
         }
         else{ //Dump the file content to the servlet output stream
