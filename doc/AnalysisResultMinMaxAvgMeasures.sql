@@ -2,11 +2,8 @@ DROP VIEW IF EXISTS AnalysisResultMinMaxAvgMeasures;
 CREATE VIEW IF NOT EXISTS AnalysisResultMinMaxAvgMeasures AS
 SELECT *
 FROM (
-	SELECT 
-		OrderNo,
+	SELECT
 		AnalysisResult,
-		ProductionStart,
-		ProductionEnd,
 		MIN(AnalysisTime) as MinAnalysisTime,
 		AVG(AnalysisTime) as AvgAnalysisTime,
 		MAX(AnalysisTime) as MaxAnalysisTime,
@@ -61,6 +58,4 @@ FROM (
 	FROM Product 
 	Natural Join Measure 
 	WHERE Station = "Drilling Station" GROUP BY AnalysisResult
-)
-ORDER BY ProductionStart
-LIMIT 25;
+);
