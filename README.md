@@ -28,6 +28,11 @@ analysiert.
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
 #### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
+##### Milling Heat
+![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
+
+##### Drilling Heat
+![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
 #### Clusteranalyse: Als 2. Beweis für Materialgruppen
 
@@ -124,4 +129,4 @@ with following triggers:
 - SPECTRAL_ANALYSIS
 
 The product takes following path:
-![UML Model](https://raw.githubusercontent.com/ofrendo/kronos/master/pictures/FiniteStateMachineUML.png)
+![UML Model](pictures/FiniteStateMachineUML.png)
