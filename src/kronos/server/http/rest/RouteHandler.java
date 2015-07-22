@@ -15,11 +15,23 @@ public class RouteHandler {
 			db = DB.getDB();
 			
 			routes = new ArrayList<Route>();
-			routes.add(new Route("data/getAnalysisResultByMat", new Route.Callback() {
+			routes.add(new Route("data/getDataByMat", new Route.Callback() {
 				public String onCallback() {
-					return db.getAnalysisResultByMat();				
+					return db.getDataByMat();				
 				}
 			}));
+			routes.add(new Route("data/getDataByMatGrp", new Route.Callback() {
+				public String onCallback() {
+					return db.getDataByMatGrp();
+				}
+			}));
+			routes.add(new Route("data/getDataByAnalysisResult", new Route.Callback() {
+				public String onCallback() {
+					return db.getDataByAnalysisResult();
+				}
+			}));
+			
+			
 		}
 		catch (Exception e) {
 			Log.error("RouteHandler: Error getting DB");

@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS ProdGroupOKPercentage;
 CREATE VIEW IF NOT EXISTS ProdGroupOKPercentage AS 
 	SELECT MatGroup, (NoOK * 1.0 / NoTotal) as OKPercentage FROM
 	(
@@ -14,4 +15,4 @@ CREATE VIEW IF NOT EXISTS ProdGroupOKPercentage AS
 		FROM ProdMatGroups
 		GROUP BY MatGroup
 	) TotalTable
-	ORDER BY OKPercentage
+	ORDER BY MatGroup

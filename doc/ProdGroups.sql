@@ -1,4 +1,5 @@
-CREATE VIEW ProdMatGroups AS
+DROP VIEW IF EXISTS ProdMatGroups;
+CREATE VIEW IF NOT EXISTS ProdMatGroups AS
 	SELECT 
 		*, 
 		'A' as MatGroup 
@@ -20,3 +21,4 @@ CREATE VIEW ProdMatGroups AS
 			MaterialNo = 8414 OR 
 			MaterialNo = 8932 OR 
 			MaterialNo = 9823
+	

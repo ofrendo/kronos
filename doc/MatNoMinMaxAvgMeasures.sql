@@ -1,10 +1,11 @@
+DROP VIEW IF EXISTS MatNoMinMaxAvgMeasures;
 CREATE VIEW IF NOT EXISTS MatNoMinMaxAvgMeasures AS
 SELECT *
 FROM (
 	SELECT 
 		MaterialNo,
 		MIN(AnalysisTime) as MinAnalysisTime,
-		AVG(AnalysisTime) as AvgAnalysisTime,
+		AVG(AnalysisTime) as AvgAnalysisTime, 
 		MAX(AnalysisTime) as MaxAnalysisTime,
 		MIN(Value) as MinMillingHeat, 
 		AVG(Value) AS AvgMillingHeat, 

@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS AnalysisResultByMat;
 CREATE VIEW IF NOT EXISTS AnalysisResultByMat AS 
 	SELECT MaterialNo, (NoOK * 1.0 / NoTotal) as OKPercentage, NoOk, NoTotal FROM
 	(

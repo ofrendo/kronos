@@ -1,5 +1,7 @@
 package kronos.db;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -9,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -84,16 +87,31 @@ public class DB {
 	}
 	
 	public void createViews() {
-		Log.info("Creating views on database...");
+		Log.info("DB: Creating views on database...");
+		
+		// Create Group by analysisresult
+		createView("AnalysisResultMinMaxAvgMeasures.sql");
+		
+		// create Group by MatNo views
+		createView("MatNoOkPercentage.sql");
+		createView("MatNoMinMaxAvgMeasures.sql");
+		
+		// Create Group by MatGrp views
+		createView("ProdGroups.sql");
+		createView("ProdGroupOkPercentage.sql");
+		
+		Log.info("DB: Views created successfully.");
+	}
+	
+	private void createView(String sqlFile) {
 		try {
-			// create AnalysisResultByMat view
 			Statement stmt = conn.createStatement();
-			String sql = "CREATE VIEW IF NOT EXISTS AnalysisResultByMat AS SELECT MaterialNo, (NoOK * 1.0 / NoTotal) as OKPercentage, NoOk, NoTotal FROM(SELECT MaterialNo, COUNT(*) AS NoOk FROM Product WHERE AnalysisResult = 'OK' GROUP BY MaterialNo) OKTable NATURAL JOIN(SELECT MaterialNo, COUNT(*) as NoTotal FROM Product GROUP BY MaterialNo) TotalTable ORDER BY OKPercentage";
+			String sql = getSqlFromFile(sqlFile);
 			stmt.executeUpdate(sql);
 			stmt.close();
-			Log.info("DB: Views created successfully.");
-		} catch (SQLException e) {
-			Log.error("DB: Error on creating views: " + e.getMessage());
+		}
+		catch (SQLException e) {
+			Log.error("DB: Error creating view from " + sqlFile + ": " + e.getMessage());
 		}
 	}
 
@@ -306,27 +324,94 @@ public class DB {
 	}
 	
 	
-	public String getAnalysisResultByMat() {
+	public String getSqlFromFile(String fileName) {
+		String result = null;
+		try {
+			File file = new File("doc/" + fileName);
+			FileInputStream fis = new FileInputStream(file);
+			byte[] data = new byte[(int) file.length()];
+			fis.read(data);
+			fis.close();
+
+			result = new String(data, "UTF-8");
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting file: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	public String getDataByAnalysisResult() {
+		String result = null;
+		try {
+			String sql = "SELECT * FROM AnalysisResultMinMaxAvgMeasures";
+			result = getJsonData(sql);
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting getDataByAnalysisResult: " + e.getMessage());
+		}	
+		return result;
+	}
+	
+	public String getDataByMat() {
+		String result = null;
+		try {
+			String sql = "SELECT * FROM AnalysisResultByMat NATURAL JOIN MatNoMinMaxAvgMeasures";
+			result = getJsonData(sql);
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting getDataByMat: " + e.getMessage());
+		}	
+		return result;
+	}
+	
+	public String getDataByMatGrp() {
+		String result = null;
+		try {
+			String sql = "SELECT * FROM ProdGroupOKPercentage";
+			result = getJsonData(sql);
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting getDataByMatGrp: " + e.getMessage());
+		}
+		return result;
+	}
+	
+	private String getJsonData(String sql) throws SQLException {
 		JsonObject result = new JsonObject();
 		JsonArray resultArray = new JsonArray();
-		Statement stmt;
-		try {
-			stmt = conn.createStatement();
-			String query = "SELECT * FROM AnalysisResultByMat";
-			ResultSet rs = stmt.executeQuery(query);
-			while(rs.next()){
-				JsonObject row = new JsonObject();
-				row.addProperty("MaterialNo", (Integer) rs.getInt(1));
-				row.addProperty("OKPercentage", rs.getDouble(2));
-				row.addProperty("NoOK", rs.getInt(3));
-				row.addProperty("NoTotal", rs.getInt(4));
-				resultArray.add(row);
-			}
-		} catch (Exception e) {
-			Log.error("DB: Error getting getAnalysisResultByMat: " + e.getMessage());
+		
+		Statement stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		ResultSetMetaData metaData = rs.getMetaData();
+		while(rs.next()) {
+			JsonObject row = buildRow(rs, metaData);
+			resultArray.add(row);
 		}
 		result.add("data", resultArray);
 		return result.toString();
+	}
+
+	private JsonObject buildRow(ResultSet rs, ResultSetMetaData metaData) throws SQLException {
+		//Add columns to json row
+		JsonObject row = new JsonObject();
+		for (int i = 1; i < metaData.getColumnCount()+1; i++) {
+			String columnLabel = metaData.getColumnName(i);
+			Object value = rs.getObject(i);
+			if (value instanceof Integer) {
+				row.addProperty(columnLabel, (Integer) value);
+			}
+			else if (value instanceof Double) {
+				row.addProperty(columnLabel, (Double) value);
+			}
+			else if (value instanceof String) {
+				row.addProperty(columnLabel, (String) value);
+			}
+			else if (value instanceof Long) {
+				row.addProperty(columnLabel, (Long) value);
+			}
+		}
+		return row;
 	}
 	
 	
