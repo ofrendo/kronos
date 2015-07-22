@@ -101,18 +101,33 @@ easyAnalysis <- data.frame(analysisResultNumbers, n)
 
 
 # Boxplot daten: Verteilung von OK/NOK Daten in Abhängigkeit Material
+plotAndSaveBoxplot <- function(varName, title, fName) {
+  data <- subset(dataProducts, Station==varName)
+  g <- ggplot(data, aes(relevel(factor(AnalysisResult), "OK"), Value)) + 
+    geom_boxplot() +
+    facet_grid(. ~ MaterialNo) +
+    ggtitle(paste0(title, ", n=", length(unique(data$ID)))) + xlab("AnalysisResult")
+  openImg(fName)
+  print(g)
+  closeImg()
+  
+  return (g)
+}
+
 
 # Zeigt vielleicht was? Hitze für NOK meistens etwas höher
-dataMillingHeat <- subset(dataProducts, Station=="Milling Heat")
-ggplot(dataMillingHeat, aes(factor(AnalysisResult), Value)) + geom_boxplot() + facet_grid(. ~ materialGroup)
+#dataMillingHeat <- subset(dataProducts, Station=="Milling Heat")
+plotAndSaveBoxplot("Milling Heat", "MillingHeat distribution by MaterialNo", "compareMillingHeatByMatNo.png")
 
 # Das hier zeigt nichts
 dataMillingSpeed <- subset(dataProducts, Station=="Milling Speed")
 ggplot(dataMillingSpeed, aes(factor(AnalysisResult), Value)) + geom_boxplot() + facet_grid(. ~ materialGroup)
 
 # So wie milling heat
-dataDrillingHeat <- subset(dataProducts, Station=="Drilling Heat")
-ggplot(dataDrillingHeat, aes(factor(AnalysisResult), Value)) + geom_boxplot() + facet_grid(. ~ MaterialNo)
+#dataDrillingHeat <- subset(dataProducts, Station=="Drilling Heat")
+#ggplot(dataDrillingHeat, aes(factor(AnalysisResult), Value)) + geom_boxplot() + facet_grid(. ~ MaterialNo)
+plotAndSaveBoxplot("Drilling Heat", "DrillingHeat distribution by MaterialNo", "compareDrillingHeatByMatNo.png")
+
 
 # Zeigt nischt
 dataDrillingSpeed <- subset(dataProducts, Station=="Drilling Speed")
