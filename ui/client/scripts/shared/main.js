@@ -21,11 +21,11 @@
         $scope.erpData = []; //the array, where our erp data is pushed to
         $scope.machineData = []; //the array, where our machine data ist pushed to
         $scope.products = {};
+        $scope.drillingSpeed = 0;
         ws.$on('$open', function() { //some status info in console, TODO: status info as toast
             console.log("Connection established");
         });
         ws.$on('$message', function(data) {
-            console.log(data);
             $scope.$apply(function() { //we need to manually apply a scope change, so dynamic array changes will be reflected in view
                 if (data.type == "erpData") {
                     $scope.products[data.orderNumber] = {};
@@ -37,6 +37,14 @@
                     if ($scope.products[data.orderNumber]) {
                         $scope.products[data.orderNumber].state = data.state;
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
+                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION") {
+                            $scope.drillingSpeed = $scope.products[data.orderNumber].simData.value;
+                            console.log($scope.products[data.orderNumber].state);
+                        }
+                        if ($scope.products[data.orderNumber].state == "MILLING_STATION") {
+                            //$scope.millingSpeed = $scope.products[data.orderNumber].simData.value;
+                            //console.log($scope.products[data.orderNumber].state);
+                        }
                     }
                 }
                 if (data.type == "saData") {
@@ -55,7 +63,6 @@
 
             });
             $scope.calculateProgress = function(state) {
-                console.log(state);
                 switch (state) {
                     case "INIT":
                         return 2;
@@ -87,6 +94,33 @@
         ws.$on('$close', function() {
             console.error("Connection lost");
         });
+
+        $scope.gaugeChart1 = {
+            data: {
+                maxValue: 25000, //milling 150000 drilling 25000
+                animationSpeed: 40,
+                val: 2500
+            },
+            options: {
+                lines: 12,
+                angle: 0,
+                lineWidth: 0.47,
+                pointer: {
+                    length: 0.6,
+                    strokeWidth: 0.03,
+                    color: '#000000'
+                },
+                limitMax: 'false',
+                colorStart: '#A3C86D',
+                colorStop: '#A3C86D',
+                strokeColor: '#E0E0E0',
+                generateGradient: true,
+                percentColors: [
+                    [0.0, '#60CD9B'],
+                    [1.0, '#60CD9B']
+                ]
+            }
+        };
 
     }]).controller('HistoryCtrl', ['$scope', '$http', function($scope, $http) {
         console.log("Sind drin");

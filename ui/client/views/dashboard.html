@@ -1,5 +1,17 @@
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
     <div class="panel panel-default">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Gauge Chart</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <canvas data-gauge-chart data-data="gaugeChart1.data" data-options="gaugeChart1.options" style="width: 220px; height: 110px; "></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Production Live View</strong></div>
         <div class="panel-body">
             <div class="grid-structure">
@@ -70,17 +82,6 @@
                 <div class="box-info">
                     <p class="size-h2">xxx</p>
                     <p class="text-muted"><span>Customers</span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
-                <span class="box-icon bg-warning">
-                    <i class="fa fa-area-chart"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">xx %</p>
-                    <p class="text-muted"><span>Avg. Plant Utilization</span></p>
                 </div>
             </div>
         </div>
