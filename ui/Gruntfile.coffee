@@ -85,7 +85,7 @@ module.exports = (grunt) ->
             dist:
                 files: [
                     dot: true
-                    src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
+                    src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*", "!<%= yeoman.dist %>/styles/**"]
                 ]
             all: [
                 ".tmp", ".sass-cache"
@@ -264,29 +264,10 @@ module.exports = (grunt) ->
                 src: "**/*.css"
 
             olli:
-                files: [
-                    cwd: "<%= yeoman.app %>"
-                    dest: "<%= yeoman.dist %>"
-                    src: [
-                        "favicon.ico"
-                        "bower_components/font-awesome/css/*"
-                        "bower_components/font-awesome/fonts/*"
-
-                        "fonts/**/*"
-                        "i18n/**/*"
-                        "images/**/*"
-                        "styles/fonts/**/*"
-                        "styles/img/**/*"
-                        "styles/ui/images/*"
-                        "views/**/*"
-                    ]
-                    expand: true
-                ,
-                    expand: true
-                    cwd: ".tmp"
-                    dest: "<%= yeoman.dist %>"
-                    src: ["styles/**", "assets/**"]
-                ]
+                cwd: "<%= yeoman.app %>"
+                dest: "<%= yeoman.dist %>"
+                src: ["**/*", "!styles/**"]
+                expand: true
 
 
 
