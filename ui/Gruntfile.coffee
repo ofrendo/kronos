@@ -264,10 +264,30 @@ module.exports = (grunt) ->
                 src: "**/*.css"
 
             olli:
-                cwd: "<%= yeoman.app %>"
-                dest: "<%= yeoman.dist %>"
-                src : "**/*"
-                expand: true
+                files: [
+                    cwd: "<%= yeoman.app %>"
+                    dest: "<%= yeoman.dist %>"
+                    src: [
+                        "favicon.ico"
+                        "bower_components/font-awesome/css/*"
+                        "bower_components/font-awesome/fonts/*"
+
+                        "fonts/**/*"
+                        "i18n/**/*"
+                        "images/**/*"
+                        "styles/fonts/**/*"
+                        "styles/img/**/*"
+                        "styles/ui/images/*"
+                        "views/**/*"
+                    ]
+                    expand: true
+                ,
+                    expand: true
+                    cwd: ".tmp"
+                    dest: "<%= yeoman.dist %>"
+                    src: ["styles/**", "assets/**"]
+                ]
+
 
 
         concurrent:
