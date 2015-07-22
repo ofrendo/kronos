@@ -56,12 +56,13 @@ public class HTTPServlet extends HttpServlet {
         
         //If the file doesn't exist, check REST API or return an error
         if (!file.exists() || file.isDirectory()) {
-        	String APIResult = routeHandler.handleRoute(path);
-        	if (APIResult == null) {
+        	String apiResult = routeHandler.handleRoute(path);
+        	if (apiResult == null) {
         		response.setStatus(404);
             	Log.info("HTTPServlet: Returning 404");
         	}
         	response.setContentType("application/json");
+        	response.write(apiResult);
         	return;
         }
         else{ //Dump the file content to the servlet output stream
