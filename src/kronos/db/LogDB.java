@@ -6,7 +6,6 @@ public class LogDB {
 		try {
 			DB.getDB().logDB();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

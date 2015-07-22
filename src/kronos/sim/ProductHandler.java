@@ -2,8 +2,6 @@ package kronos.sim;
 
 import java.util.ArrayList;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import kronos.db.DB;
 import kronos.fsm.StateMachineHandler;
 import kronos.model.ERPData;

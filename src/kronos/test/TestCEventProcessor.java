@@ -2,7 +2,6 @@ package kronos.test;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
 import kronos.model.ERPData;
 import kronos.model.SAData;
 import kronos.sim.CEventProcessor;

@@ -1,6 +1,6 @@
 package kronos.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.util.Date;
 
@@ -12,7 +12,6 @@ import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
 import kronos.model.Product;
 import kronos.model.SAData;
-import kronos.util.Log;
 
 public class TestDB {
 	
