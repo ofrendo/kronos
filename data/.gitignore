@@ -1,4 +1,5 @@
 *
 !.gitignore
 !historical_data.db
+!historical_max.db
 !History.xls
