@@ -263,6 +263,12 @@ module.exports = (grunt) ->
                 dest: ".tmp/styles/"
                 src: "**/*.css"
 
+            olli:
+                cwd: "<%= yeoman.app %>"
+                dest: "<%= yeoman.dist %>"
+                src : "**/*"
+                expand: true
+
 
         concurrent:
             server: ["coffee:server", "compass:server", "copy:styles"]
@@ -309,6 +315,7 @@ module.exports = (grunt) ->
         grunt.task.run ["clean:server", "concurrent:lessServer", "connect:livereload", "open", "watch"]
 
     grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "copy:dist", "cssmin", "concat"]
+    grunt.registerTask "buildOlli", ["clean:dist", "copy:olli"]
     grunt.registerTask "lessBuild", ["clean:dist", "useminPrepare", "concurrent:lessDist", "copy:dist", "cssmin", "concat", "uglify", "usemin"]
 
     grunt.registerTask "default", ["server"]
