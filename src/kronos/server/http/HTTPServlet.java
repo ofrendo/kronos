@@ -56,7 +56,8 @@ public class HTTPServlet extends HttpServlet {
         
         //If the file doesn't exist, check REST API or return an error
         if (!file.exists() || file.isDirectory()) {
-        	if (routeHandler.handleRoute(path) == false) {
+        	String APIResult = routeHandler.handleRoute(path);
+        	if (APIResult == null) {
         		response.setStatus(404);
             	Log.info("HTTPServlet: Returning 404");
         	}

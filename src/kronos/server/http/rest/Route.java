@@ -19,6 +19,6 @@ public class Route {
 	}
 	
 	public interface Callback {
-		public void onCallback(); 
+		public String onCallback(); 
 	}
 }

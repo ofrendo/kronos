@@ -17,6 +17,9 @@ import java.util.Arrays;
 
 import org.apache.activemq.transport.tcp.ExceededMaximumConnectionsException;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import kronos.model.ERPData;
 import kronos.model.OPCDataItem;
 import kronos.model.Product;
@@ -115,7 +118,7 @@ public class DB {
 		    		+ ")";
 		    stmt.executeUpdate(sql);
 		    stmt.close();
-		    Log.info("DB: All tables created.");
+		    Log.info("DB: All tables created if they didn't exist.");
 		} catch (SQLException e) {
 			Log.error("DB: Table creation failed: " + e.getMessage());
 			throw e;
@@ -288,6 +291,29 @@ public class DB {
 		} catch (Exception e) {
 			Log.error("DB: Table \"" + tableName + "\" couldn't be logged!");
 		}
+	}
+	
+	
+	public String getAnalysisResultByMat() {
+		JsonObject result = new JsonObject();
+		JsonArray resultArray = new JsonArray();
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			String query = "SELECT * FROM AnalysisResultByMat";
+			ResultSet rs = stmt.executeQuery(query);
+			while(rs.next()){
+				JsonObject row = new JsonObject();
+				row.addProperty("MaterialNo", (Integer) rs.getInt(1));
+				row.addProperty("OKPercentage", rs.getDouble(2));
+				row.addProperty("NoOK", rs.getInt(3));
+				row.addProperty("NoTotal", rs.getInt(4));
+			}
+		} catch (Exception e) {
+			Log.error("DB: Error getting getAnalysisResultByMat: " + e.getMessage());
+		}
+		result.add("data", resultArray);
+		return result.toString();
 	}
 	
 	

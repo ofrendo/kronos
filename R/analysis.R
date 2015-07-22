@@ -154,11 +154,80 @@ ggplot(subset(dataProducts,Station=="Drilling Heat" & (ID==3 | ID==52)),
   geom_point() + 
   facet_grid(. ~ AnalysisResult, scales = "free")
 
+# Milling Speed und Heat in Abhängigkeit von Zeit
+# Beide A
+# 11 OK, 1 NOK, beide von MaterialNo 7423
+# 247 NOK, 23 OK, beide von MaterialNo 4248
+visualizeSpeedHeat <- function(speedName, heatName, IDPar) {
+  data <- subset(dataProducts, 
+                 (Station==speedName | Station==heatName) & ID==IDPar)[c("Timestamp", "Value", "Station")]
+  data$Timestamp <- data$Timestamp - min(data$Timestamp)
+  dataProduct <- subset(dataProducts, ID==IDPar)
+  ggplot(data, aes(x=Timestamp, y=Value)) + 
+    geom_line() + 
+    geom_point() + 
+    geom_text(aes(label=floor(Timestamp/1000)), hjust=1.5, vjust=-0.3) + 
+    facet_grid(Station ~ ., scale = "free_y") +
+    ggtitle(paste0("ID=", IDPar, 
+                   ", AnalysisResult=", dataProduct$AnalysisResult[1], "\n",
+                   "MNo=", dataProduct$MaterialNo[1],
+                   ", MGroup=", dataProduct$materialGroup[1])) +
+    scale_x_continuous(limits = c(0, 30000)) +
+    scale_y_continuous(expand=c(0.15, 0))
+}
+
+
+g1 <- visualizeSpeedHeat("Drilling Speed", "Drilling Heat", 70)
+g2 <- visualizeSpeedHeat("Drilling Speed", "Drilling Heat", 4)
+multiplot(g1, g2, cols=2)
+
+
 # VISUALIZE THE BIG DATA
 library("ggplot2")
 
 #productSubset <- subset(dataProduct, Station=="Milling Heat")
 #print(ggplot(data=productSubset, aes(x=Timestamp, y=Value)) + geom_line())
+
+
+
+
+
+
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+  
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+  
+  numPlots = length(plots)
+  
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+  
+  if (numPlots==1) {
+    print(plots[[1]])
+    
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+    
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+      
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
 
 
 

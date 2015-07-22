@@ -2,27 +2,36 @@ package kronos.server.http.rest;
 
 import java.util.ArrayList;
 
+import kronos.db.DB;
+import kronos.util.Log;
+
 public class RouteHandler {
 	
 	private ArrayList<Route> routes;
+	private DB db;
 	
 	public RouteHandler() {
-		routes = new ArrayList<Route>();
-		routes.add(new Route("data/test", new Route.Callback() {
-			public void onCallback() {
-				
-			}
-		}));
-		
+		try {
+			db = DB.getDB();
+			
+			routes = new ArrayList<Route>();
+			routes.add(new Route("data/getAnalysisResultByMat", new Route.Callback() {
+				public String onCallback() {
+					return db.getAnalysisResultByMat();				
+				}
+			}));
+		}
+		catch (Exception e) {
+			Log.error("RouteHandler: Error getting DB");
+		}
 	}
 	
-	public boolean handleRoute(String path) {
+	public String handleRoute(String path) {
 		for (Route route : routes) {
 			if (route.getPath().equals(path)) {
-				route.getCallback().onCallback();
-				return true;
+				return route.getCallback().onCallback();
 			}
 		}
-		return false;
+		return null;
 	}
 }
