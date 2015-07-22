@@ -88,7 +88,7 @@ public class DB {
 		try {
 			// create AnalysisResultByMat view
 			Statement stmt = conn.createStatement();
-			String sql = "CREATE VIEW IF NOT EXISTS AnalysisResultByMat AS SELECT MaterialNo, (NoOK * 1.0 / NoTotal) as OKPercentage, NoOk, NoTotal FROM(SELECT MaterialNo, COUNT(*) AS NoOk FROM Product WHERE AnalysisResult = 'OK' GROUP BY MaterialNo) OKTableNATURAL JOIN(SELECT MaterialNo, COUNT(*) as NoTotal FROM Product GROUP BY MaterialNo) TotalTableORDER BY OKPercentage";
+			String sql = "CREATE VIEW IF NOT EXISTS AnalysisResultByMat AS SELECT MaterialNo, (NoOK * 1.0 / NoTotal) as OKPercentage, NoOk, NoTotal FROM(SELECT MaterialNo, COUNT(*) AS NoOk FROM Product WHERE AnalysisResult = 'OK' GROUP BY MaterialNo) OKTable NATURAL JOIN(SELECT MaterialNo, COUNT(*) as NoTotal FROM Product GROUP BY MaterialNo) TotalTable ORDER BY OKPercentage";
 			stmt.executeUpdate(sql);
 			
 			Log.info("DB: Views created successfully.");
