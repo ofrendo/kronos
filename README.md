@@ -91,5 +91,5 @@ with following triggers:
 - LIGHTBARRIER_5_CONNECT
 - SPECTRAL_ANALYSIS
 
-
+The product takes following path:
 ![alt tag](https://raw.githubusercontent.com/ofrendo/kronos/master/pictures/FiniteStateMachineUML.png)
