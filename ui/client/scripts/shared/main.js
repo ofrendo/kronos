@@ -130,13 +130,28 @@
                 console.log("YIPPIE");
                 console.log(data);
                 $scope.compareData = data.data;
+                var colorFunc = function(row, series, type){
+                    if(row.label == "OK") return "#61A656";
+                    else return "#d32030";
+                };
+
+                for(var i = 0; i < $scope.compareData.length; i++){
+                    $scope.compareData[i].AvgDrillingHeat = Math.round($scope.compareData[i].AvgDrillingHeat * 10) / 10;
+                    $scope.compareData[i].AvgMillingHeat = Math.round($scope.compareData[i].AvgMillingHeat * 10) / 10;
+                    $scope.compareData[i].AvgDrillingSpeed = Math.round($scope.compareData[i].AvgDrillingSpeed);
+                    $scope.compareData[i].AvgMillingSpeed = Math.round($scope.compareData[i].AvgMillingSpeed);
+                    $scope.compareData[i].AvgDrillingTime = Math.round($scope.compareData[i].AvgDrillingTime / 1000 * 100) / 100;
+                    $scope.compareData[i].AvgMillingTime = Math.round($scope.compareData[i].AvgMillingTime / 1000 * 100) / 100;
+                };
+
                 Morris.Bar({
                     element: 'compareDrillingHeat',
                     data: $scope.compareData,
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgDrillingHeat'],
                     labels: ['Drilling Heat'],
-                    barColors: ['#E8070F'],
+                    barColors: colorFunc,
+                    postUnits: '°C'
                 });
                 Morris.Bar({
                     element: 'compareDrillingSpeed',
@@ -144,7 +159,8 @@
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgDrillingSpeed'],
                     labels: ['Drilling Speed'],
-                    barColors: ['#8D8686'],
+                    barColors: colorFunc,
+                    postUnits: ' rpm'
                 });
                 Morris.Bar({
                     element: 'compareDrillingTime',
@@ -152,7 +168,8 @@
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgDrillingTime'],
                     labels: ['Drilling Time'],
-                    barColors: ['#3EC9EC'],
+                    barColors: colorFunc,
+                    postUnits: ' s'
                 });
                 Morris.Bar({
                     element: 'compareMillingHeat',
@@ -160,7 +177,8 @@
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgMillingHeat'],
                     labels: ['Milling Heat'],
-                    barColors: ['#E8070F'],
+                    barColors: colorFunc,
+                    postUnits: '°C'
                 });
                 Morris.Bar({
                     element: 'compareMillingSpeed',
@@ -168,7 +186,8 @@
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgMillingSpeed'],
                     labels: ['Milling Speed'],
-                    barColors: ['#8D8686'],
+                    barColors: colorFunc,
+                    postUnits: ' rpm'
                 });
                 Morris.Bar({
                     element: 'compareMillingTime',
@@ -176,7 +195,8 @@
                     xkey: 'AnalysisResult',
                     ykeys: ['AvgMillingTime'],
                     labels: ['Milling Time'],
-                    barColors: ['#3EC9EC'],
+                    barColors: colorFunc,
+                    postUnits: ' s'
                 });
 
         })
@@ -191,13 +211,29 @@
                 console.log("YIPPIE-Material");
                 console.log(data);
                 $scope.compareMaterial = data.data;
+                var colorFunc = function(row, series, type){
+                    if(row.label < "7500") return "#5B90BF";
+                    else return "#d08770";
+                };
+
+                for(var i = 0; i < $scope.compareMaterial.length; i++){
+                    $scope.compareMaterial[i].AvgDrillingHeat = Math.round($scope.compareMaterial[i].AvgDrillingHeat * 10) / 10;
+                    $scope.compareMaterial[i].AvgMillingHeat = Math.round($scope.compareMaterial[i].AvgMillingHeat * 10) / 10;
+                    $scope.compareMaterial[i].AvgDrillingSpeed = Math.round($scope.compareMaterial[i].AvgDrillingSpeed);
+                    $scope.compareMaterial[i].AvgMillingSpeed = Math.round($scope.compareMaterial[i].AvgMillingSpeed);
+                    $scope.compareMaterial[i].AvgDrillingTime = Math.round($scope.compareMaterial[i].AvgDrillingTime / 1000 * 100) / 100;
+                    $scope.compareMaterial[i].AvgMillingTime = Math.round($scope.compareMaterial[i].AvgMillingTime / 1000 * 100) / 100;
+                    $scope.compareMaterial[i].OKPercentage = Math.round((1 - $scope.compareMaterial[i].OKPercentage) * 10000) / 100;
+                };
+
                 Morris.Bar({
                     element: 'compareDrillingHeat',
                     data: $scope.compareMaterial,
                     xkey: 'MaterialNo',
                     ykeys: ['AvgDrillingHeat'],
                     labels: ['Drilling Heat'],
-                    barColors: ['#E8070F'],
+                    barColors: colorFunc,
+                    postUnits: '°C'
                 });
                 Morris.Bar({
                     element: 'compareDrillingSpeed',
@@ -205,7 +241,8 @@
                     xkey: 'MaterialNo',
                     ykeys: ['AvgDrillingSpeed'],
                     labels: ['Drilling Speed'],
-                    barColors: ['#8D8686'],
+                    barColors: colorFunc,
+                    postUnits: ' rpm'
                 });
                 Morris.Bar({
                     element: 'compareDrillingTime',
@@ -213,7 +250,8 @@
                     xkey: 'MaterialNo',
                     ykeys: ['AvgDrillingTime'],
                     labels: ['Drilling Time'],
-                    barColors: ['#3EC9EC'],
+                    barColors: colorFunc,
+                    postUnits: ' s'
                 });
                 Morris.Bar({
                     element: 'compareMillingHeat',
@@ -221,7 +259,8 @@
                     xkey: 'MaterialNo',
                     ykeys: ['AvgMillingHeat'],
                     labels: ['Milling Heat'],
-                    barColors: ['#E8070F'],
+                    barColors: colorFunc,
+                    postUnits: '°C'
                 });
                 Morris.Bar({
                     element: 'compareMillingSpeed',
@@ -229,7 +268,8 @@
                     xkey: 'MaterialNo',
                     ykeys: ['AvgMillingSpeed'],
                     labels: ['Milling Speed'],
-                    barColors: ['#8D8686'],
+                    barColors: colorFunc,
+                    postUnits: ' rpm'
                 });
                 Morris.Bar({
                     element: 'compareMillingTime',
@@ -237,7 +277,17 @@
                     xkey: 'MaterialNo',
                     ykeys: ['AvgMillingTime'],
                     labels: ['Milling Time'],
-                    barColors: ['#3EC9EC'],
+                    barColors: colorFunc,
+                    postUnits: ' s'
+                });
+                Morris.Bar({
+                    element: 'analysisResultPercentage',
+                    data: $scope.compareMaterial,
+                    xkey: 'MaterialNo',
+                    ykeys: ['OKPercentage'],
+                    labels: ['Defective Goods'],
+                    barColors: colorFunc,
+                    postUnits: '%'
                 });
 
         })
