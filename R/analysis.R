@@ -84,7 +84,23 @@ fit <- lda(dataOnlyProducts.AnalysisResult ~
            , data=aData)
            #na.action="na.omit", CV=TRUE)
 #print(fit) # show results
-#plot(fit)
+# Get results from fit
+c1 <- fit$scaling[1]
+c2 <- fit$scaling[2]
+
+f1 <- function(aData) {
+  return (c1 * aData$millingHeatAvg + c2*aData$drillingHeatAvg)
+}
+aData$lda <- scale(f1(aData))
+
+g <- ggplot(aData, aes(lda)) + geom_bar() +
+  facet_grid(dataOnlyProducts.AnalysisResult ~ .) +
+  xlab("F1") + 
+  ggtitle(paste0("Discriminant analysis Milling/Drilling Heat Avg, MatGrp=", aData[1, 3]))
+
+openImg("discriminantDrillingMillingHeat.png")
+print(g)
+closeImg()
 
 
 getResultRatio <- function(productAnalysisResult) {
@@ -173,7 +189,18 @@ dataDrillingHeatAvg <- aggregate(Value ~ ID, dataProductsDrillingHeat, mean)[, 2
 
 clusterData = data.frame(dataMillingHeatAvg, dataDrillingHeatAvg)
 cl <- kmeans(clusterData, 2)
-plot(clusterData, col = cl$cluster)
+clusterData$cluster <- cl$cluster
+g <- ggplot(clusterData, aes(x=dataMillingHeatAvg, y=dataDrillingHeatAvg, colour=cluster)) + 
+  geom_point() +
+  xlab("Milling Heat Avg") + ylab("Drilling Heat Avg") +
+  ggtitle("Cluster by Drilling/Milling Heat Avg") +
+  theme(legend.position="none")
+
+openImg("clusterDrillingMillingHeat.png")
+print(g)
+closeImg()
+
+#plot(clusterData, col = cl$cluster)
 #text(clusterData, labels=dataMillingHeatAvg[, 1], col=dataMillingHeatAvg[, 1])
 
 #library(cluster) 
@@ -263,12 +290,12 @@ plotAndSaveSpeedHeat <- function(IDPar1, IDPar2, fName1, fName2) {
 
 # Different matGrps
 plotAndSaveSpeedHeat(70, 4, 
-                "compareMaterialGroupsMilling.png", 
-                "compareMaterialGroupsDrilling.png")
+                "compareProductMillingByDiffMatGrp.png", 
+                "compareProductDrillingByDiffMatGrp.png")
 # Products from same MatNo, different result,11 OK, 1 NOK, beide von MaterialNo 7423
 plotAndSaveSpeedHeat(11, 1, 
-                "compareProductsMilling.png", 
-                "compareProductsDrilling.png")
+                "compareProductMillingBySameMatGrp.png", 
+                "compareProductDrillingBySameMatGrp.png")
 
 
 

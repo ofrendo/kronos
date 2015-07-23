@@ -35,23 +35,23 @@ analysiert.
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
 #### Clusteranalyse: Als 2. Beweis für Materialgruppen
+![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 #### "Milling" Prozess: 3. Unterschiedliche Prozesse je Materialgruppe
+![MillingByDiffMatGrp](pictures/compareProductMillingByDiffMatGrp.png)
 #### "Drilling" Prozess: 4. ""
+![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
-### Kundennummern: Alle Kunden etwa gleich viel, und kein Unterschied OK/NOK
-#### Erst N Produkte je Kunde
-#### Dann Auschusssrate
 
 ## AnalysisResult: Keine Vorhersage möglich?
-### Vergleich zwischen "OK" und "NOK" 
+### Vergleich zwischen "OK" und "NOK" in selber MatNo
 #### "Milling" Prozess
+![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
 #### "Drilling" Prozess
+![DrillingBySameMatGrp](pictures/compareProductDrillingBySameMatGrp.png)
 
 ### Diskriminanzanalyse
-
-
-
+![DiscriminantMillingDrillingHeatAvg](pictures/discriminantDrillingMillingHeat.png)
 
 
 
