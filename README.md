@@ -16,17 +16,59 @@ the simulation
 * __/src/__ Java files
 * __/target/__ Binary compiled Java files
 
+# Java Project
+The Java-project is devided into 6 big Parts:
+* [Collect data](#collect)
+* [Create objects] (#create) 
+* [Product state] (#product)
+* [WebSocket-Server] (#ws)
+* [Database] (#db)
+* [HTTP-Server] (#http)
 
-# Analyseergebnisse
-Die Daten wurden in Form einer SQLite Datenbank abgespeichert und anschließend mit R
-analysiert.
+The Main-class starts the simulation and a ConnectionHandler to collect the data from the event-stream as well as the HTTP- and the WebSocket-Server.
 
-## Metadaten
+## <a name="collect">Collect data</a>
+To collect the data from the simulation, the connectionHandler starts 3 Listeners that run in different Threads. Two of them are MessageListeners which use a MessageConsumer to read the ERP- and OPC-Data from the event-stream. The Third one uses a FileWatcher, that gets notified when a new file is created with the Spectral-Analysis-data. All 3 Listeners are Observable and give the JSON/XML-String to the Observer.
+The Observer is a MessageHandler, which writes the events into a queue, to be processed further.
 
-### Materialnummern
-#### N Produkte je Kunde und Ausschussrate
+## <a name="create">Create objects</a>
+The queue is processeD by a MessageWorker, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
+
+## <a name="product">Product state</a>
+After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a state-machine which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
+
+After the event is connected to a product it is given to the WebSocket-Server and the Database.
+
+## <a name="ws">WebSocket-Server</a>
+The WebSocket-Server takes the events, creates a MessageObject, which is then converted to JSON and send to a client, which is connected to the WebSocket.
+
+## <a name="db">Database</a>
+After a product is finished (after the spectral-analysis), the data which is contained in each product is stored in an SQLite-database.
+
+## <a name="http">HTTP-Server</a>
+The HTTP-Server takes aggregated data out of the database and exposes this data in an REST-API.
+
+
+# Analysis results
+Data was saved in a SQLite database. It was then analyzed and visualized with R. We analyzed 
+three different variables containing information about a product: The customer (`CustomerNo`),
+the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
+carried out at the end of the production line.
+
+* There are 8 customers
+* There are 12 types of materials
+* The result of the spectral analysis can be `OK` or `Not OK`
+
+## Customer
+First, we analyzed information about products aggregating by customers. The following graphs
+shows that each customer orders a similar number of products and that the ratio of `OK` to `NOK`
+products is alike. 
+
+As such the spectral analysis result is __not__ dependant on the customer.
+
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
+### MaterialNumber
 #### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
 ##### Milling Heat
 ![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
@@ -35,23 +77,23 @@ analysiert.
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
 #### Clusteranalyse: Als 2. Beweis für Materialgruppen
+![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 #### "Milling" Prozess: 3. Unterschiedliche Prozesse je Materialgruppe
+![MillingByDiffMatGrp](pictures/compareProductMillingByDiffMatGrp.png)
 #### "Drilling" Prozess: 4. ""
+![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
-### Kundennummern: Alle Kunden etwa gleich viel, und kein Unterschied OK/NOK
-#### Erst N Produkte je Kunde
-#### Dann Auschusssrate
 
 ## AnalysisResult: Keine Vorhersage möglich?
-### Vergleich zwischen "OK" und "NOK" 
+### Vergleich zwischen "OK" und "NOK" in selber MatNo
 #### "Milling" Prozess
+![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
 #### "Drilling" Prozess
+![DrillingBySameMatGrp](pictures/compareProductDrillingBySameMatGrp.png)
 
 ### Diskriminanzanalyse
-
-
-
+![DiscriminantMillingDrillingHeatAvg](pictures/discriminantDrillingMillingHeat.png)
 
 
 
