@@ -32,24 +32,30 @@ To collect data from the simulation, the `ConnectionHandler` starts 3 listeners 
 The Observer is a `MessageHandler`, which writes the events into a queue, to be processed further.
 
 ## <a name="create">Create objects</a>
-The queue is processed by a `MessageWorker`, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which converts the data into a Java object depending on the type (`ERPItem`, `OPCItem`, `SAItem`).
+The queue is processed by a `MessageWorker`, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which converts the data into a Java object depending on the type (ERP, OPC, SA).
 
 ## <a name="product">Product state</a>
-After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
+After the objects are created, the `MessageWorker` passes them to the `ProductHandler`. If the object is a ERP data a new `Product` object is created. Each `Product` contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the `ProductHandler` is an `OPCDataItem` or a `SAData` the `ProductHandler` loops over every active `Product` to check if the event can be assigned to the product. This is evaluated with the current state of the `Product` and the trigger which is connected to the object.
 
-After the event is connected to a product it is given to the WebSocket-Server and the Database.
+After the event is assigned to a `Product` it is given to the WebSocket server and the database.
 
-## <a name="ws">WebSocket-Server</a>
-The WebSocket-Server takes the events, creates a MessageObject, which is then converted to JSON and send to a client, which is connected to the WebSocket.
+## <a name="ws">WebSocket server</a>
+The WebSocket server recieves each new event, creates a `MessageObject`, which is then converted to JSON. This string is sent to each client connected to the server.
 
 ## <a name="db">Database</a>
-After a product is finished (after the spectral-analysis), the data which is contained in each product is stored in an SQLite-database.
+After a product is finished (after the spectral analysis), the data contained in each product is stored in an SQLite database.
 
-## <a name="http">HTTP-Server</a>
-The HTTP-Server takes aggregated data out of the database and exposes this data in an REST-API.
+## <a name="http">HTTP server</a>
+The HTTP server takes aggregated historical data out of the database and exposes this data in a REST API. The following calls are available:
+
+* `/data/getLastProducts`: Gets aggregated data about the last 25 products
+* `/data/getDataByAnalysisResult`: Gets data grouped by spectral analysis result
+* `/data/getDataByMat`: Gets data grouped by material number
+* `/data/getDataByMatGrp`: Gets data grouped by material group (see [Analysis results](#analysisResults))
 
 
-# Analysis results
+
+# <a name="analysisResults">Analysis results</a>
 Data was saved in a SQLite database. It was then analyzed and visualized with R. We analyzed 
 three different variables containing information about a product: The customer (`CustomerNo`),
 the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
