@@ -35,6 +35,11 @@ public class RouteHandler {
 					return db.getDataByMatGrp();
 				}
 			}));
+			routes.add(new Route("data/getKPIs", new Route.Callback() {
+				public String onCallback() {
+					return db.getKpis();
+				}
+			}));
 			
 			
 		}
