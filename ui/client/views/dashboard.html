@@ -1,5 +1,17 @@
 <div class="page page-dashboard" data-ng-controller="DashboardCtrl">
     <div class="panel panel-default">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Gauge Chart</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <canvas data-gauge-chart data-data="gaugeChart1.data" data-options="gaugeChart1.options" style="width: 220px; height: 110px; "></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Production Live View</strong></div>
         <div class="panel-body">
             <div class="grid-structure">
@@ -75,17 +87,6 @@
         </div>
         <div class="col-lg-3 col-xsm-6">
             <div class="panel mini-box">
-                <span class="box-icon bg-warning">
-                    <i class="fa fa-area-chart"></i>
-                </span>
-                <div class="box-info">
-                    <p class="size-h2">xx %</p>
-                    <p class="text-muted"><span>Avg. Plant Utilization</span></p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-xsm-6">
-            <div class="panel mini-box">
                 <span class="box-icon bg-danger">
                     <i class="fa fa-shopping-cart"></i>
                 </span>
@@ -106,16 +107,18 @@
                         <th>Order Number</th>
                         <th>Customer Number</th>
                         <th>Material Number</th>
-                        <th>Status</th>
+                        <th>Location</th>
+                        <th>Overall Status</th>
                         <th>Progress</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="item in products">
-                        <td><span class="color-success"><i class="fa fa-level-up"></i></span>{{item.erpData.OrderNumber}}</td>
+                        <td>{{item.erpData.OrderNumber}}</td>
                         <td>{{item.erpData.CustomerNumber}}</td>
                         <td>{{item.erpData.MaterialNumber}}</td>
-                        <td><span class="label label-info">{{item.state}}</span></td>
+                        <td><span class="label label-warning">{{item.state}}</span></td>
+                        <td><span class="label" ng-class="item.analysisStatus == 'NOK' ? 'label-danger' : 'label-success'">{{item.analysisStatus}}</span></td>
                         <td>
                             <progressbar class="progressbar-xs progress-striped active" value="item.progress"></progressbar>
                     </tr>
