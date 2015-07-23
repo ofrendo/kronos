@@ -1,5 +1,5 @@
 ## ggplot options
-fontTitleSize <- 22
+fontTitleSize <- 21
 fontAxisTitleSize <- 18
 fontGeomTextSize <- 10
 
