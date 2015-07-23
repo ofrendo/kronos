@@ -9,30 +9,30 @@ Repository for the Summer School in Canada project (6th semester)
 * __/http/__ Directory used to statically serve files via an http server
 * __/lib/__ Stores .jar files for libraries not in Maven
 * __/log/__ Stores .log files that are logged via Log4J
-* __/R/__
+* __/R/__ Data analysis and graph generation
 * __/res/__ Stores resource files
 * __/sim/__ Directory for the simulation .jar, documentation and batch file to start
 the simulation
 * __/src/__ Java files
-* __/target/__ Binary compiled Java files
+* __/target/__ Compiled Java files
 
 # Java Project
-The Java-project is devided into 6 big Parts:
+The Java project is divided into 6 parts:
 * [Collect data](#collect)
 * [Create objects] (#create) 
 * [Product state] (#product)
-* [WebSocket-Server] (#ws)
+* [WebSocket server] (#ws)
 * [Database] (#db)
-* [HTTP-Server] (#http)
+* [HTTP server] (#http)
 
-The Main-class starts the simulation and a ConnectionHandler to collect the data from the event-stream as well as the HTTP- and the WebSocket-Server.
+The `Main` class starts the simulation and a `ConnectionHandler` to collect the data from the event stream as well as the HTTP and the WebSocket server.
 
 ## <a name="collect">Collect data</a>
-To collect the data from the simulation, the connectionHandler starts 3 Listeners that run in different Threads. Two of them are MessageListeners which use a MessageConsumer to read the ERP- and OPC-Data from the event-stream. The Third one uses a FileWatcher, that gets notified when a new file is created with the Spectral-Analysis-data. All 3 Listeners are Observable and give the JSON/XML-String to the Observer.
-The Observer is a MessageHandler, which writes the events into a queue, to be processed further.
+To collect data from the simulation, the `ConnectionHandler` starts 3 listeners that run in different threads. Two of them are `MessageListeners` which use a `MessageConsumer` to read ERP and OPC data from the event stream. The third one (`SAReader`) uses a FileWatcher that gets notified when a new file is created with the spectral analysis data. All 3 listeners are Observable and give the resulting XML/JSON String to the Observer.
+The Observer is a `MessageHandler`, which writes the events into a queue, to be processed further.
 
 ## <a name="create">Create objects</a>
-The queue is processeD by a MessageWorker, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
+The queue is processed by a `MessageWorker`, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which converts the data into a Java object depending on the type (`ERPItem`, `OPCItem`, `SAItem`).
 
 ## <a name="product">Product state</a>
 After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
