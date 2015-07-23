@@ -109,7 +109,7 @@ the customer
 * Each material group shows different `Milling` and `Drilling` processes
 * Each material group shows different ratios of the spectral analysis
 * Each material group and processes show equal `Speed` values
-* The spectral analysis result is not dependant on heat values from the two processes
+* The spectral analysis result is not dependant on `Heat` values from the two processes
 
 
 
