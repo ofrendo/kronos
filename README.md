@@ -124,6 +124,8 @@ The Java project is divided into 6 parts:
 
 The `Main` class starts the simulation and a `ConnectionHandler` to collect the data from the event stream as well as the HTTP and the WebSocket server.
 
+![UML Diagramm mit Gruppierung](pictures/Kronos_Overall_UML_Groups.png)
+
 ### <a name="collect">Collect data</a>
 To collect data from the simulation, the `ConnectionHandler` starts 3 listeners that run in different threads. Two of them are `MessageListeners` which use a `MessageConsumer` to read ERP and OPC data from the event stream. The third one (`SAReader`) uses a FileWatcher that gets notified when a new file is created with the spectral analysis data. All 3 listeners are Observable and give the resulting XML/JSON String to the Observer.
 The Observer is a `MessageHandler`, which writes the events into a queue, to be processed further.

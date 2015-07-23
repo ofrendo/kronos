@@ -37,6 +37,7 @@
                     if ($scope.products[data.orderNumber]) {
                         $scope.products[data.orderNumber].state = data.state;
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
+<<<<<<< Updated upstream
                         if ($scope.products[data.orderNumber].state == "DRILLING_STATION") {
                             $scope.drillingSpeed = $scope.products[data.orderNumber].simData.value;
                             console.log($scope.products[data.orderNumber].state);
@@ -44,6 +45,18 @@
                         if ($scope.products[data.orderNumber].state == "MILLING_STATION") {
                             //$scope.millingSpeed = $scope.products[data.orderNumber].simData.value;
                             //console.log($scope.products[data.orderNumber].state);
+=======
+                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION" && data.simData.itemName == "Drilling Speed") {
+                            $scope.drillingSpeed = data.simData.value;
+                            $scope.gaugeChart1.set($scope.drillingSpeed);
+                            console.log($scope.drillingSpeed);
+                        }
+                        if ($scope.products[data.orderNumber].state == "MILLING_STATION" && data.simData.itemName == "Milling Speed") {
+                            $scope.millingSpeed = data.simData.value;
+                            $scope.gaugeChart1.set($scope.millingSpeed);
+
+                            console.log($scope.millingSpeed);
+>>>>>>> Stashed changes
                         }
                     }
                 }
@@ -97,9 +110,15 @@
 
         $scope.gaugeChart1 = {
             data: {
+<<<<<<< Updated upstream
                 maxValue: 25000, //milling 150000 drilling 25000
                 animationSpeed: 40,
                 val: 2500
+=======
+                maxValue: 20000, //milling 17000 drilling 20000
+                animationSpeed: 40,
+                val: 0
+>>>>>>> Stashed changes
             },
             options: {
                 lines: 12,

@@ -6,7 +6,7 @@
             $scope.isSpecificPage = function() {
                 var path;
                 path = $location.path();
-                return _.contains(['/404', '/pages/500', '/pages/login', '/pages/signin', '/pages/signin1', '/pages/signin2', '/pages/signup', '/pages/signup1', '/pages/signup2', '/pages/forgot', '/pages/lock-screen'], path);
+                return _.contains(['/404', '/pages/500'], path);
             };
             return $scope.main = {
                 brand: 'Cronos',
@@ -21,6 +21,7 @@
         $scope.erpData = []; //the array, where our erp data is pushed to
         $scope.machineData = []; //the array, where our machine data ist pushed to
         $scope.products = {};
+        $scope.successStreak = 0;
         $scope.drillingSpeed = 0;
         ws.$on('$open', function() { //some status info in console, TODO: status info as toast
             console.log("Connection established");
@@ -37,13 +38,51 @@
                     if ($scope.products[data.orderNumber]) {
                         $scope.products[data.orderNumber].state = data.state;
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
-                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION") {
-                            $scope.drillingSpeed = $scope.products[data.orderNumber].simData.value;
-                            console.log($scope.products[data.orderNumber].state);
+                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION" && data.simData.itemName == "Drilling Speed") {
+                            $scope.drillingSpeed = data.simData.value;
+                            drillspeed.load({
+                                columns: [
+                                    ['data', $scope.drillingSpeed]
+                                ]
+                            });
+                            console.log($scope.drillingSpeed);
                         }
-                        if ($scope.products[data.orderNumber].state == "MILLING_STATION") {
-                            //$scope.millingSpeed = $scope.products[data.orderNumber].simData.value;
-                            //console.log($scope.products[data.orderNumber].state);
+                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION" && data.simData.itemName == "Drilling Heat") {
+                            $scope.drillingTemp = data.simData.value.toFixed(2);
+                            drilltemp.load({
+                                columns: [
+                                    ['data', $scope.drillingTemp]
+                                ]
+                            });
+                            console.log($scope.drillingTemp);
+                        }
+                        if ($scope.products[data.orderNumber].state == "BETWEEN_L4_L5") {
+                            drilltemp.load({
+                                columns: [
+                                    ['data', 0]
+                                ]
+                            });
+                        }
+                        if ($scope.products[data.orderNumber].state == "BETWEEN_L3_L4") {
+                            milltemp.load({columns:[['data',0]]});
+                        }
+                        if ($scope.products[data.orderNumber].state == "MILLING_STATION" && data.simData.itemName == "Milling Speed") {
+                            $scope.millingSpeed = data.simData.value;
+                            millspeed.load({
+                                columns: [
+                                    ['data', $scope.millingSpeed]
+                                ]
+                            });
+                            console.log($scope.millingSpeed);
+                        }
+                        if ($scope.products[data.orderNumber].state == "MILLING_STATION" && data.simData.itemName == "Milling Heat") {
+                            $scope.millingTemp = data.simData.value.toFixed(2);
+                            milltemp.load({
+                                columns: [
+                                    ['data', $scope.millingTemp]
+                                ]
+                            });
+                            console.log($scope.millingTemp);
                         }
                     }
                 }
@@ -53,6 +92,11 @@
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
                         if ($scope.products[data.orderNumber].state == "FINISH") {
                             $scope.products[data.orderNumber].analysisStatus = data.simData.overallStatus;
+                            if (data.simData.overallStatus == "OK"){
+                                $scope.successStreak +=1;
+                            } else {
+                                $scope.successStreak = 0;
+                            }
                             var scoperef = $scope;
                             setTimeout(function() {
                                 delete scoperef.products[data.orderNumber];
@@ -62,6 +106,7 @@
                 }
 
             });
+
             $scope.calculateProgress = function(state) {
                 switch (state) {
                     case "INIT":
@@ -91,36 +136,50 @@
                 }
             }
         });
+
+        $scope.genGauge = function(bindTo, max, unit, color) {
+            var gauge = c3.generate({
+                bindto: bindTo,
+                transition: {
+                    duration: 500
+                },
+                data: {
+                    columns: [
+                        ['data', 0]
+                    ],
+                    type: 'gauge'
+                },
+                gauge: {
+                    label: {
+                        format: function(value, ratio) {
+                            return value;
+                        },
+                        show: true // to turn off the min/max labels.
+                    },
+                    min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
+                    max: max, // 100 is default
+                    units: unit,
+                    width: 39 // for adjusting arc thickness
+                },
+                color: {
+                    pattern: [color]
+                },
+                size: {
+                    height: 100
+                }
+            });
+            return gauge;
+        }
+        var drillspeed = $scope.genGauge("#drillgauge", 20000, "rpm", "#66B5D7");
+        var millspeed = $scope.genGauge("#millgauge", 15000, "rpm", "#66B5D7");
+        var drilltemp = $scope.genGauge("#drilltemp", 350, "°C", "#EEC95A");
+        var milltemp = $scope.genGauge("#milltemp", 250, "°C", "#EEC95A");
+
+
+
         ws.$on('$close', function() {
             console.error("Connection lost");
         });
-
-        $scope.gaugeChart1 = {
-            data: {
-                maxValue: 25000, //milling 150000 drilling 25000
-                animationSpeed: 40,
-                val: 2500
-            },
-            options: {
-                lines: 12,
-                angle: 0,
-                lineWidth: 0.47,
-                pointer: {
-                    length: 0.6,
-                    strokeWidth: 0.03,
-                    color: '#000000'
-                },
-                limitMax: 'false',
-                colorStart: '#A3C86D',
-                colorStop: '#A3C86D',
-                strokeColor: '#E0E0E0',
-                generateGradient: true,
-                percentColors: [
-                    [0.0, '#60CD9B'],
-                    [1.0, '#60CD9B']
-                ]
-            }
-        };
 
     }]).controller('HistoryCtrl', ['$scope', '$http', function($scope, $http) {
         var compareData;
