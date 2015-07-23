@@ -49,24 +49,34 @@ After a product is finished (after the spectral-analysis), the data which is con
 The HTTP-Server takes aggregated data out of the database and exposes this data in an REST-API.
 
 
-# Analyseergebnisse
-Die Daten wurden in Form einer SQLite Datenbank abgespeichert und anschlieÃŸend mit R
-analysiert.
+# Analysis results
+Data was saved in a SQLite database. It was then analyzed and visualized with R. We analyzed 
+three different variables containing information about a product: The customer (`CustomerNo`),
+the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
+carried out at the end of the production line.
 
-## Metadaten
+* There are 8 customers
+* There are 12 types of materials
+* The result of the spectral analysis can be `OK` or `Not OK`
 
-### Materialnummern
-#### N Produkte je Kunde und Ausschussrate
+## Customer
+First, we analyzed information about products aggregating by customers. The following graphs
+shows that each customer orders a similar number of products and that the ratio of `OK` to `NOK`
+products is alike. 
+
+As such the spectral analysis result is __not__ dependant on the customer.
+
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
-#### Werteverteilungen (Boxplots): Als 1. Beweis fÃ¼r Materialgruppen
+### MaterialNumber
+#### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
 ##### Milling Heat
 ![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
 
 ##### Drilling Heat
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
-#### Clusteranalyse: Als 2. Beweis fÃ¼r Materialgruppen
+#### Clusteranalyse: Als 2. Beweis für Materialgruppen
 ![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 #### "Milling" Prozess: 3. Unterschiedliche Prozesse je Materialgruppe
@@ -75,7 +85,7 @@ analysiert.
 ![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
 
-## AnalysisResult: Keine Vorhersage mÃ¶glich?
+## AnalysisResult: Keine Vorhersage möglich?
 ### Vergleich zwischen "OK" und "NOK" in selber MatNo
 #### "Milling" Prozess
 ![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
