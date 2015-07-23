@@ -17,16 +17,26 @@ the simulation
 * __/target/__ Binary compiled Java files
 
 
-# Analyseergebnisse
-Die Daten wurden in Form einer SQLite Datenbank abgespeichert und anschließend mit R
-analysiert.
+# Analysis results
+Data was saved in a SQLite database. It was then analyzed and visualized with R. We analyzed 
+three different variables containing information about a product: The customer (`CustomerNo`),
+the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
+carried out at the end of the production line.
 
-## Metadaten
+* There are 8 customers
+* There are 12 types of materials
+* The result of the spectral analysis can be `OK` or `Not OK`
 
-### Materialnummern
-#### N Produkte je Kunde und Ausschussrate
+## Customer
+First, we analyzed information about products aggregating by customers. The following graphs
+shows that each customer orders a similar number of products and that the ratio of `OK` to `NOK`
+products is alike. 
+
+As such the spectral analysis result is __not__ dependant on the customer.
+
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
+### MaterialNumber
 #### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
 ##### Milling Heat
 ![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
