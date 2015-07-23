@@ -143,6 +143,12 @@ The WebSocket server is an observer of the `ProductHandler`. As such it receives
 
 ### <a name="db">Database</a>
 After a product is finished (after the spectral analysis) the data contained in each product is stored in an [SQLite database](#tocDB).
+The tables of the database are as follows:
+![Alt text](/doc/Ind4ERD.png?raw=true "ER-Diagramm SQLite-Datenbank")
+The table Product stores an entry for each product which production has been finished. It stores the data sent by the ERP and the spectral analysis'es data.
+The measure table consists of an entry for each measure (OPCItem) like milling speed, heat, time or drilling speed, heat, time.
+To do some data analysis several views has been added calculating minimums, maximums and averages grouping by different criteria like the result of the spectral analysis result or the material number.
+![Alt text](/doc/Ind4ERD-Views.png?raw=true "ER-Diagramm SQLite-Datenbank")
 
 ### <a name="http">HTTP server</a>
 The HTTP server takes aggregated historical data out of the database and exposes this data in a REST API. The following calls are available:
