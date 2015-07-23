@@ -371,7 +371,7 @@ public class DB {
 	public String getDataByMat() {
 		String result = null;
 		try {
-			String sql = "SELECT * FROM AnalysisResultByMat NATURAL JOIN MatNoMinMaxAvgMeasures";
+			String sql = "SELECT * FROM AnalysisResultByMat NATURAL JOIN MatNoMinMaxAvgMeasures ORDER BY MaterialNo";
 			result = getJsonData(sql);
 		}
 		catch (Exception e) {
