@@ -25,7 +25,7 @@
         $scope.successStreak = 0;
         $scope.drillingSpeed = 0;
         ws.$on('$open', function() { //some status info in console, TODO: status info as toast
-            logger.log("Websocket connection established");
+            logger.logSuccess("Websocket connection established");
             $.get("/data/getKPIs").success(function(data) {
                 $scope.kpiData = data.data[0];
                 logger.logSuccess("Initial KPIs gathered");
