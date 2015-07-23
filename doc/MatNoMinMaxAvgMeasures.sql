@@ -58,4 +58,4 @@ FROM (
 	FROM Product 
 	Natural Join Measure 
 	WHERE Station = "Drilling Station" GROUP BY MaterialNo
-);
+) ORDER BY MaterialNo;
