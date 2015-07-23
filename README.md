@@ -1,14 +1,14 @@
 # Table of contents
-* [Analysis results](tocAnalysisResults)
-* [Java project](tocJavaProject)
-* [Finite state machine](tocFSM)
-* [Database](tocDB)
-* [Visualization](tocVisualization)
-* [Directories](tocDirectories)
+* [Analysis results](#tocAnalysisResults)
+* [Java project](#tocJavaProject)
+* [Finite state machine](#tocFSM)
+* [Database](#tocDB)
+* [Visualization](#tocVisualization)
+* [Directories](#tocDirectories)
 
 
 # <a name="tocAnalysisResults">Analysis results</a>
-Data was saved in a [SQLite database](tocDB). It was then analyzed and visualized with R. We analyzed 
+Data was saved in a [SQLite database](#tocDB). It was then analyzed and visualized with R. We analyzed 
 three different variables containing information about a product: The customer (`CustomerNo`),
 the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
 carried out at the end of the production line.
@@ -140,7 +140,7 @@ After the event is assigned to a `Product` it is given to the WebSocket server a
 The WebSocket server recieves each new event, creates a `MessageObject`, which is then converted to JSON. This string is sent to each client connected to the server.
 
 ### <a name="db">Database</a>
-After a product is finished (after the spectral analysis) the data contained in each product is stored in an [SQLite database](tocDB).
+After a product is finished (after the spectral analysis) the data contained in each product is stored in an [SQLite database](#tocDB).
 
 ### <a name="http">HTTP server</a>
 The HTTP server takes aggregated historical data out of the database and exposes this data in a REST API. The following calls are available:
