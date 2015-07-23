@@ -7,8 +7,8 @@
                     <i class="fa fa-trash"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">{{erpAmount}}</p>
-                    <p class="text-muted"><span>Ausschuss in %</span></p>
+                    <p class="size-h2">{{kpiData.NOKPercentage*100 | number:2}}%</p>
+                    <p class="text-muted"><span>Defective Goods</span></p>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
                     <i class="fa fa-users"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">xxx</p>
+                    <p class="size-h2">{{kpiData.CustomerNo}}</p>
                     <p class="text-muted"><span>Best Customer</span></p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <i class="fa fa-shopping-cart"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">xxx</p>
+                    <p class="size-h2">{{kpiData.NoTotalProducts}}</p>
                     <p class="text-muted"><span>Items Produced</span></p>
                 </div>
             </div>
@@ -40,8 +40,8 @@
                     <i class="fa fa-trophy"></i>
                 </span>
                 <div class="box-info">
-                    <p class="size-h2">{{successStreak}}</p>
-                    <p class="text-muted"><span>Current Success Streak</span></p>
+                    <p class="size-h2">{{kpiData.Streak}}</p>
+                    <p class="text-muted"><span>Success Streak</span></p>
                 </div>
             </div>
         </div>
@@ -120,7 +120,7 @@
             </table>
         </div>
     </div>
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Production Live View</strong></div>
+        <!-- <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Production Live View</strong></div>
     <div class="panel-body">
         <div class="grid-structure">
             <div class="row">
@@ -167,5 +167,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
