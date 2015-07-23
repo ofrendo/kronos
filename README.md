@@ -35,7 +35,7 @@ The Observer is a MessageHandler, which writes the events into a queue, to be pr
 The queue is processeD by a MessageWorker, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
 
 ## <a name="product">Product state</a>
-After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a state-machine which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
+After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
 
 After the event is connected to a product it is given to the WebSocket-Server and the Database.
 
@@ -65,35 +65,94 @@ shows that each customer orders a similar number of products and that the ratio 
 products is alike. 
 
 As such the spectral analysis result is __not__ dependant on the customer.
-
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
-### MaterialNumber
-#### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
+## Material type
+Next, we analyzed product data grouping by the type of material (`MaterialNo`) used. There are 
+12 different types. Here we start to see several differences in the data depending on the type of
+material used. 
+
+### Value distributions of Drilling and Milling Heat
+First, we aggregated data from the `Milling` and `Drilling` processes by calculating the average
+Milling and Drilling Heat per product. After this we grouped the data by material type. The following 
+graphs show the value distributions of the averages per material type:
+
+These graphs show that it __might__ be possible to split the 12 material types into 2 material groups, 
+each consisting of 6 types.
+
 ##### Milling Heat
 ![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
 
 ##### Drilling Heat
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
-#### Clusteranalyse: Als 2. Beweis für Materialgruppen
+
+### Cluster analysis to further show 2 groups of material types
+The scatter plot shows two clusters of average Milling and Drilling Heat, giving
+further evidence of 2 groups of material types.
 ![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
-#### "Milling" Prozess: 3. Unterschiedliche Prozesse je Materialgruppe
+
+
+### Spectral analysis result by material type
+Next, we aggregated the result of the spectral analysis by the material type. The number
+of products produced per material types seems to be insignificant. Assuming two different 
+groups of material types, however, leads to evidence of __worse__ analysis results for the second 
+group of material types.
+![NAnalysisResultByMaterialNo](pictures/compareNAnalysisResultByMaterialNo.png)
+
+
+
+### Milling and Drilling processes
+To confirm our assumption of two different material groups we looked further into the `Milling` 
+and `Drilling` processes. These show the following (per product):
+
+* 6 values measured for `Heat`
+* 3 values measured for `Drilling`
+* The 2nd group of material types show higher `Speed` and `Heat` values, for `Milling` as
+well as `Drilling`
+* The 2nd group of material types show __longer__ processes
+
+The following graphs show two exemplary products, each in a different material group:
+
+##### Milling process
 ![MillingByDiffMatGrp](pictures/compareProductMillingByDiffMatGrp.png)
-#### "Drilling" Prozess: 4. ""
+##### Drilling process
 ![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
 
-## AnalysisResult: Keine Vorhersage möglich?
-### Vergleich zwischen "OK" und "NOK" in selber MatNo
-#### "Milling" Prozess
+## Spectral analysis result
+Lastly, we tried to predict the result of the spectral analysis at the end of the production
+line by analyzing `Milling` and `Drilling` processes. First, we compare two products with the
+same material type, one of which is `OK` while the other is `Not OK`. 
+
+The following graphs show that the spectral analysis result is __not__ dependant on the values
+measured during the processes, because both products show very similar values.
+
+##### Milling process
 ![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
-#### "Drilling" Prozess
+##### Drilling process
 ![DrillingBySameMatGrp](pictures/compareProductDrillingBySameMatGrp.png)
 
-### Diskriminanzanalyse
+### Discriminant analysis
+To confirm the result above we tried using a discriminant analysis. We generated one function
+by taking into account the standardized average of Milling and Drilling Heat values per product.
+The following graph shows the result of filtering by a single material type.
+
+As such we could __not__ predict the spectral analysis result by using a discriminant analysis,
+because the distribution for `OK` and `Not OK` products is very similar for the function.
 ![DiscriminantMillingDrillingHeatAvg](pictures/discriminantDrillingMillingHeat.png)
+
+
+## Conclusion
+Taking into account the analysis above, we were able to make the following assumptions:
+
+* The type of material used and the result of the spectral analysis is __not__ dependant on 
+the customer 
+* The 12 material types are split into 2 material groups
+* Each material group shows different `Milling` and `Drilling` processes
+* Each material group shows different ratios of the spectral analysis
+* The spectral analysis result is not dependant on heat values from the two processes
 
 
 
@@ -136,7 +195,7 @@ JSON file
 }
 ```
 
-# Finite State Machine
+# <a name="fsm">Finite State Machine</a>
 
 To track the current position of a product a Finite State machine is used. 
 

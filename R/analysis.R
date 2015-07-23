@@ -111,9 +111,23 @@ getResultRatio <- function(productAnalysisResult) {
 
 # Einfache Analysen
 analysisResultNumbers <- aggregate(AnalysisResult ~ MaterialNo, dataOnlyProducts, getResultRatio)
-n <- aggregate(ID ~ MaterialNo, dataOnlyProducts, length)[,2]
+N <- aggregate(ID ~ MaterialNo, dataOnlyProducts, length)[,2]
 
-easyAnalysis <- data.frame(analysisResultNumbers, n)
+easyAnalysis <- data.frame(analysisResultNumbers, N)
+names(easyAnalysis) <- c("MaterialNo", "AnalysisResultRatio", "N")
+
+g1 <- ggplot(easyAnalysis, aes(factor(MaterialNo), N)) + 
+  geom_bar(stat="identity") +
+  xlab("MaterialNo") + ggtitle("N by MaterialNo")
+g2 <- ggplot(easyAnalysis, aes(factor(MaterialNo), AnalysisResultRatio)) + 
+  geom_bar(stat="identity") +
+  xlab("MaterialNo") + ggtitle("AnalysisResultRatio by MaterialNo")
+
+openImg("compareNAnalysisResultByMaterialNo.png")
+multiplot(g1, g2, cols=2)
+closeImg()
+
+
 
 
 # Boxplot daten: Verteilung von OK/NOK Daten in Abhängigkeit Material
