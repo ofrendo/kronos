@@ -127,21 +127,63 @@
         console.log("Sind drin");
         $http.get('/data/getDataByAnalysisResult')
         .success(function(data, status, headers, config){
-            console.log("YIPPIE");
-            console.log(data);
-            $scope.compareData = data;
+                console.log("YIPPIE");
+                console.log(data);
+                $scope.compareData = data.data;
+                Morris.Bar({
+                    element: 'compareDrillingHeat',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgDrillingHeat'],
+                    labels: ['Drilling Heat'],
+                    barColors: ['#E8070F'],
+                });
+                Morris.Bar({
+                    element: 'compareDrillingSpeed',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgDrillingSpeed'],
+                    labels: ['Drilling Speed'],
+                    barColors: ['#8D8686'],
+                });
+                Morris.Bar({
+                    element: 'compareDrillingTime',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgDrillingTime'],
+                    labels: ['Drilling Time'],
+                    barColors: ['#3EC9EC'],
+                });
+                Morris.Bar({
+                    element: 'compareMillingHeat',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgMillingHeat'],
+                    labels: ['Milling Heat'],
+                    barColors: ['#E8070F'],
+                });
+                Morris.Bar({
+                    element: 'compareMillingSpeed',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgMillingSpeed'],
+                    labels: ['Milling Speed'],
+                    barColors: ['#8D8686'],
+                });
+                Morris.Bar({
+                    element: 'compareMillingTime',
+                    data: $scope.compareData,
+                    xkey: 'AnalysisResult',
+                    ykeys: ['AvgMillingTime'],
+                    labels: ['Milling Time'],
+                    barColors: ['#3EC9EC'],
+                });
+
         })
         .error(function(data,status,headers,config){
             console.log("Scheiße gelaufen");
         });
 
-        // Morris.Bar({
-        //     element: 'compareDrillingHeat',
-        //     data: "compareData",
-        //     xkey: 'compareData.AnalysisResult',
-        //     ykeys: ['compareData.AvgDrillingHeat'],
-        //     labels: ['OK', 'Not OK'],
-        // });
     }]);
 
 
