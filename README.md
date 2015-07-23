@@ -1,56 +1,14 @@
-# kronos
-Repository for the Summer School in Canada project (6th semester)
-
 # Table of contents
-
-# Directories
-* __/data/__ Stores partly aggregated event data for a finished 
-  product in a SQLite database
-* __/http/__ Directory used to statically serve files via an http server
-* __/lib/__ Stores .jar files for libraries not in Maven
-* __/log/__ Stores .log files that are logged via Log4J
-* __/R/__
-* __/res/__ Stores resource files
-* __/sim/__ Directory for the simulation .jar, documentation and batch file to start
-the simulation
-* __/src/__ Java files
-* __/target/__ Binary compiled Java files
-
-# Java Project
-The Java-project is devided into 6 big Parts:
-* [Collect data](#collect)
-* [Create objects] (#create) 
-* [Product state] (#product)
-* [WebSocket-Server] (#ws)
-* [Database] (#db)
-* [HTTP-Server] (#http)
-
-The Main-class starts the simulation and a ConnectionHandler to collect the data from the event-stream as well as the HTTP- and the WebSocket-Server.
-
-## <a name="collect">Collect data</a>
-To collect the data from the simulation, the connectionHandler starts 3 Listeners that run in different Threads. Two of them are MessageListeners which use a MessageConsumer to read the ERP- and OPC-Data from the event-stream. The Third one uses a FileWatcher, that gets notified when a new file is created with the Spectral-Analysis-data. All 3 Listeners are Observable and give the JSON/XML-String to the Observer.
-The Observer is a MessageHandler, which writes the events into a queue, to be processed further.
-
-## <a name="create">Create objects</a>
-The queue is processeD by a MessageWorker, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
-
-## <a name="product">Product state</a>
-After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
-
-After the event is connected to a product it is given to the WebSocket-Server and the Database.
-
-## <a name="ws">WebSocket-Server</a>
-The WebSocket-Server takes the events, creates a MessageObject, which is then converted to JSON and send to a client, which is connected to the WebSocket.
-
-## <a name="db">Database</a>
-After a product is finished (after the spectral-analysis), the data which is contained in each product is stored in an SQLite-database.
-
-## <a name="http">HTTP-Server</a>
-The HTTP-Server takes aggregated data out of the database and exposes this data in an REST-API.
+* [Analysis results](tocAnalysisResults)
+* [Java project](tocJavaProject)
+* [Finite state machine](tocFSM)
+* [Database](tocDB)
+* [Visualization](tocVisualization)
+* [Directories](tocDirectories)
 
 
-# Analysis results
-Data was saved in a SQLite database. It was then analyzed and visualized with R. We analyzed 
+# <a name="tocAnalysisResults">Analysis results</a>
+Data was saved in a [SQLite database](tocDB). It was then analyzed and visualized with R. We analyzed 
 three different variables containing information about a product: The customer (`CustomerNo`),
 the material type (`MaterialNo`) and the result of the spectral analysis (`AnalysisResult`) 
 carried out at the end of the production line.
@@ -59,7 +17,7 @@ carried out at the end of the production line.
 * There are 12 types of materials
 * The result of the spectral analysis can be `OK` or `Not OK`
 
-## Customer
+### Customer
 First, we analyzed information about products aggregating by customers. The following graphs
 shows that each customer orders a similar number of products and that the ratio of `OK` to `NOK`
 products is alike. 
@@ -67,12 +25,12 @@ products is alike.
 As such the spectral analysis result is __not__ dependant on the customer.
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
-## Material type
+### Material type
 Next, we analyzed product data grouping by the type of material (`MaterialNo`) used. There are 
 12 different types. Here we start to see several differences in the data depending on the type of
 material used. 
 
-### Value distributions of Drilling and Milling Heat
+#### <a name="analysisResultHeatDistribution">Value distributions of Drilling and Milling Heat</a>
 First, we aggregated data from the `Milling` and `Drilling` processes by calculating the average
 Milling and Drilling Heat per product. After this we grouped the data by material type. The following 
 graphs show the value distributions of the averages per material type:
@@ -87,14 +45,14 @@ each consisting of 6 types.
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
 
-### Cluster analysis to further show 2 groups of material types
+#### Cluster analysis to further show 2 groups of material types
 The scatter plot shows two clusters of average Milling and Drilling Heat, giving
 further evidence of 2 groups of material types.
 ![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 
 
-### Spectral analysis result by material type
+#### Spectral analysis result by material type
 Next, we aggregated the result of the spectral analysis by the material type. The number
 of products produced per material types seems to be insignificant. Assuming two different 
 groups of material types, however, leads to evidence of __worse__ analysis results for the second 
@@ -103,15 +61,16 @@ group of material types.
 
 
 
-### Milling and Drilling processes
+#### Milling and Drilling processes
 To confirm our assumption of two different material groups we looked further into the `Milling` 
 and `Drilling` processes. These show the following (per product):
 
 * 6 values measured for `Heat`
-* 3 values measured for `Drilling`
-* The 2nd group of material types show higher `Speed` and `Heat` values, for `Milling` as
+* 3 values measured for `Speed`
+* Each material group shows equal `Speed` values depending on the process
+* The 2nd material group shows higher `Speed` and `Heat` values, for `Milling` as
 well as `Drilling`
-* The 2nd group of material types show __longer__ processes
+* The 2nd material group shows __longer__ processes
 
 The following graphs show two exemplary products, each in a different material group:
 
@@ -121,20 +80,17 @@ The following graphs show two exemplary products, each in a different material g
 ![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
 
-## Spectral analysis result
-Lastly, we tried to predict the result of the spectral analysis at the end of the production
-line by analyzing `Milling` and `Drilling` processes. First, we compare two products with the
-same material type, one of which is `OK` while the other is `Not OK`. 
+#### Spectral analysis result
+Lastly, we tried to predict the result of the spectral analysis at the end of the production line by analyzing `Milling` and `Drilling` processes. Because the `Speed` values are equal depending on material group and process only the `Heat` values can be significant. As such we compare two products with the same material type, one of which is `OK` while the other is `Not OK`. 
 
-The following graphs show that the spectral analysis result is __not__ dependant on the values
-measured during the processes, because both products show very similar values.
+The following graphs show that the spectral analysis result is __not__ dependant on the values measured during the processes, because both products show very similar values. Another argument to support this is given by the [distribution of `Heat` values](analysisResultHeatDistribution), which shows that the distribution of `OK` and `Not OK` is very similar. 
 
 ##### Milling process
 ![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
 ##### Drilling process
 ![DrillingBySameMatGrp](pictures/compareProductDrillingBySameMatGrp.png)
 
-### Discriminant analysis
+#### Discriminant analysis
 To confirm the result above we tried using a discriminant analysis. We generated one function
 by taking into account the standardized average of Milling and Drilling Heat values per product.
 The following graph shows the result of filtering by a single material type.
@@ -144,7 +100,7 @@ because the distribution for `OK` and `Not OK` products is very similar for the 
 ![DiscriminantMillingDrillingHeatAvg](pictures/discriminantDrillingMillingHeat.png)
 
 
-## Conclusion
+### Conclusion
 Taking into account the analysis above, we were able to make the following assumptions:
 
 * The type of material used and the result of the spectral analysis is __not__ dependant on 
@@ -152,7 +108,110 @@ the customer
 * The 12 material types are split into 2 material groups
 * Each material group shows different `Milling` and `Drilling` processes
 * Each material group shows different ratios of the spectral analysis
+* Each material group and processes show equal `Speed` values
 * The spectral analysis result is not dependant on heat values from the two processes
+
+
+
+# <a name="tocJavaProject">Java project</a>
+The Java project is divided into 6 parts:
+* [Collect data](#collect)
+* [Create objects] (#create) 
+* [Product state] (#product)
+* [WebSocket server] (#ws)
+* [Database] (#db)
+* [HTTP server] (#http)
+
+The `Main` class starts the simulation and a `ConnectionHandler` to collect the data from the event stream as well as the HTTP and the WebSocket server.
+
+### <a name="collect">Collect data</a>
+To collect data from the simulation, the `ConnectionHandler` starts 3 listeners that run in different threads. Two of them are `MessageListeners` which use a `MessageConsumer` to read ERP and OPC data from the event stream. The third one (`SAReader`) uses a FileWatcher that gets notified when a new file is created with the spectral analysis data. All 3 listeners are Observable and give the resulting XML/JSON String to the Observer.
+The Observer is a `MessageHandler`, which writes the events into a queue, to be processed further.
+
+### <a name="create">Create objects</a>
+The queue is processed by a `MessageWorker`, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which converts the data into a Java object depending on the type (ERP, OPC, SA).
+
+### <a name="product">Product state</a>
+After the objects are created, the `MessageWorker` passes them to the `ProductHandler`. If the object is a ERP data a new `Product` object is created. Each `Product` contains a [Finite State Machine](#tocFSM) which observes the current state of the product. If the object given to the `ProductHandler` is an `OPCDataItem` or a `SAData` the `ProductHandler` loops over every active `Product` to check if the event can be assigned to the product. This is evaluated with the current state of the `Product` and the trigger which is connected to the object.
+
+After the event is assigned to a `Product` it is given to the WebSocket server and the database.
+
+### <a name="ws">WebSocket server</a>
+The WebSocket server recieves each new event, creates a `MessageObject`, which is then converted to JSON. This string is sent to each client connected to the server.
+
+### <a name="db">Database</a>
+After a product is finished (after the spectral analysis) the data contained in each product is stored in an [SQLite database](tocDB).
+
+### <a name="http">HTTP server</a>
+The HTTP server takes aggregated historical data out of the database and exposes this data in a REST API. The following calls are available:
+
+* `/data/getLastProducts`: Gets aggregated data about the last 25 products
+* `/data/getDataByAnalysisResult`: Gets data grouped by spectral analysis result
+* `/data/getDataByMat`: Gets data grouped by material number
+* `/data/getDataByMatGrp`: Gets data grouped by material group (see [Analysis results](#tocAnalysisResults))
+
+
+
+
+# <a name="tocFSM">Finite state machine</a>
+
+To track the current position of a product a Finite State machine is used. 
+
+The finite State machine has following states:
+- INIT
+- LIGHTBARRIER_1,
+- BETWEEN_L1_L2,
+- LIGHTBARRIER_2,
+- BETWEEN_L2_L3,
+- MILLING_STATION,
+- BETWEEN_L3_L4,
+- DRILLING_STATION,
+- BETWEEN_L4_L5,
+- LIGHTBARRIER_5,
+- END_OF_PRODUCTION,
+- SPECTRAL_ANALYSIS,
+- FINISH
+
+with following triggers:
+- LIGHTBARRIER_1_INTERRUPT
+- LIGHTBARRIER_1_CONNECT
+- LIGHTBARRIER_2_INTERRUPT
+- LIGHTBARRIER_2_CONNECT
+- LIGHTBARRIER_3_INTERRUPT
+- MILLING_STATION
+- LIGHTBARRIER_3_CONNECT
+- LIGHTBARRIER_4_INTERRUPT
+- DRILLING_STATION
+- LIGHTBARRIER_4_CONNECT
+- LIGHTBARRIER_5_INTERRUPT
+- LIGHTBARRIER_5_CONNECT
+- SPECTRAL_ANALYSIS
+
+The product takes following path:
+![UML Model](pictures/FiniteStateMachineUML.png)
+
+
+# <a name="tocDB">Database</a>
+Hier wird die deta gestored
+
+
+# <a name="tocVisualization>Visualization</a>
+Visualization using web technologies
+
+
+# <a name="tocDirectories">Directories</a>
+* __/data/__ Stores partly aggregated event data for a finished 
+  product in a SQLite database
+* __/http/__ Directory used to statically serve files via an http server
+* __/lib/__ Stores .jar files for libraries not in Maven
+* __/log/__ Stores .log files that are logged via Log4J
+* __/R/__ Data analysis and graph generation
+* __/res/__ Stores resource files
+* __/sim/__ Directory for the simulation .jar, documentation and batch file to start
+the simulation
+* __/src/__ Java files
+* __/target/__ Compiled Java files
+
 
 
 
@@ -194,40 +253,3 @@ JSON file
 	"ts_stop":1436978792262
 }
 ```
-
-# <a name="fsm">Finite State Machine</a>
-
-To track the current position of a product a Finite State machine is used. 
-
-The finite State machine has following states:
-- INIT
-- LIGHTBARRIER_1,
-- BETWEEN_L1_L2,
-- LIGHTBARRIER_2,
-- BETWEEN_L2_L3,
-- MILLING_STATION,
-- BETWEEN_L3_L4,
-- DRILLING_STATION,
-- BETWEEN_L4_L5,
-- LIGHTBARRIER_5,
-- END_OF_PRODUCTION,
-- SPECTRAL_ANALYSIS,
-- FINISH
-
-with following triggers:
-- LIGHTBARRIER_1_INTERRUPT
-- LIGHTBARRIER_1_CONNECT
-- LIGHTBARRIER_2_INTERRUPT
-- LIGHTBARRIER_2_CONNECT
-- LIGHTBARRIER_3_INTERRUPT
-- MILLING_STATION
-- LIGHTBARRIER_3_CONNECT
-- LIGHTBARRIER_4_INTERRUPT
-- DRILLING_STATION
-- LIGHTBARRIER_4_CONNECT
-- LIGHTBARRIER_5_INTERRUPT
-- LIGHTBARRIER_5_CONNECT
-- SPECTRAL_ANALYSIS
-
-The product takes following path:
-![UML Model](pictures/FiniteStateMachineUML.png)
