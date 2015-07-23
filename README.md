@@ -27,25 +27,25 @@ The Java project is divided into 6 parts:
 
 The `Main` class starts the simulation and a `ConnectionHandler` to collect the data from the event stream as well as the HTTP and the WebSocket server.
 
-## <a name="collect">Collect data</a>
+### <a name="collect">Collect data</a>
 To collect data from the simulation, the `ConnectionHandler` starts 3 listeners that run in different threads. Two of them are `MessageListeners` which use a `MessageConsumer` to read ERP and OPC data from the event stream. The third one (`SAReader`) uses a FileWatcher that gets notified when a new file is created with the spectral analysis data. All 3 listeners are Observable and give the resulting XML/JSON String to the Observer.
 The Observer is a `MessageHandler`, which writes the events into a queue, to be processed further.
 
-## <a name="create">Create objects</a>
+### <a name="create">Create objects</a>
 The queue is processed by a `MessageWorker`, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which converts the data into a Java object depending on the type (ERP, OPC, SA).
 
-## <a name="product">Product state</a>
+### <a name="product">Product state</a>
 After the objects are created, the `MessageWorker` passes them to the `ProductHandler`. If the object is a ERP data a new `Product` object is created. Each `Product` contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the `ProductHandler` is an `OPCDataItem` or a `SAData` the `ProductHandler` loops over every active `Product` to check if the event can be assigned to the product. This is evaluated with the current state of the `Product` and the trigger which is connected to the object.
 
 After the event is assigned to a `Product` it is given to the WebSocket server and the database.
 
-## <a name="ws">WebSocket server</a>
+### <a name="ws">WebSocket server</a>
 The WebSocket server recieves each new event, creates a `MessageObject`, which is then converted to JSON. This string is sent to each client connected to the server.
 
-## <a name="db">Database</a>
-After a product is finished (after the spectral analysis), the data contained in each product is stored in an SQLite database.
+### <a name="db">Database</a>
+After a product is finished (after the spectral analysis) the data contained in each product is stored in an SQLite database.
 
-## <a name="http">HTTP server</a>
+### <a name="http">HTTP server</a>
 The HTTP server takes aggregated historical data out of the database and exposes this data in a REST API. The following calls are available:
 
 * `/data/getLastProducts`: Gets aggregated data about the last 25 products
@@ -65,7 +65,7 @@ carried out at the end of the production line.
 * There are 12 types of materials
 * The result of the spectral analysis can be `OK` or `Not OK`
 
-## Customer
+### Customer
 First, we analyzed information about products aggregating by customers. The following graphs
 shows that each customer orders a similar number of products and that the ratio of `OK` to `NOK`
 products is alike. 
@@ -73,12 +73,12 @@ products is alike.
 As such the spectral analysis result is __not__ dependant on the customer.
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
-## Material type
+### Material type
 Next, we analyzed product data grouping by the type of material (`MaterialNo`) used. There are 
 12 different types. Here we start to see several differences in the data depending on the type of
 material used. 
 
-### Value distributions of Drilling and Milling Heat
+#### Value distributions of Drilling and Milling Heat
 First, we aggregated data from the `Milling` and `Drilling` processes by calculating the average
 Milling and Drilling Heat per product. After this we grouped the data by material type. The following 
 graphs show the value distributions of the averages per material type:
@@ -93,14 +93,14 @@ each consisting of 6 types.
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
 
-### Cluster analysis to further show 2 groups of material types
+#### Cluster analysis to further show 2 groups of material types
 The scatter plot shows two clusters of average Milling and Drilling Heat, giving
 further evidence of 2 groups of material types.
 ![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 
 
-### Spectral analysis result by material type
+#### Spectral analysis result by material type
 Next, we aggregated the result of the spectral analysis by the material type. The number
 of products produced per material types seems to be insignificant. Assuming two different 
 groups of material types, however, leads to evidence of __worse__ analysis results for the second 
@@ -109,7 +109,7 @@ group of material types.
 
 
 
-### Milling and Drilling processes
+#### Milling and Drilling processes
 To confirm our assumption of two different material groups we looked further into the `Milling` 
 and `Drilling` processes. These show the following (per product):
 
@@ -127,7 +127,7 @@ The following graphs show two exemplary products, each in a different material g
 ![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
 
-## Spectral analysis result
+### Spectral analysis result
 Lastly, we tried to predict the result of the spectral analysis at the end of the production
 line by analyzing `Milling` and `Drilling` processes. First, we compare two products with the
 same material type, one of which is `OK` while the other is `Not OK`. 
@@ -140,7 +140,7 @@ measured during the processes, because both products show very similar values.
 ##### Drilling process
 ![DrillingBySameMatGrp](pictures/compareProductDrillingBySameMatGrp.png)
 
-### Discriminant analysis
+#### Discriminant analysis
 To confirm the result above we tried using a discriminant analysis. We generated one function
 by taking into account the standardized average of Milling and Drilling Heat values per product.
 The following graph shows the result of filtering by a single material type.
@@ -150,7 +150,7 @@ because the distribution for `OK` and `Not OK` products is very similar for the 
 ![DiscriminantMillingDrillingHeatAvg](pictures/discriminantDrillingMillingHeat.png)
 
 
-## Conclusion
+### Conclusion
 Taking into account the analysis above, we were able to make the following assumptions:
 
 * The type of material used and the result of the spectral analysis is __not__ dependant on 
