@@ -103,6 +103,9 @@ public class DB {
 		createView("ProdGroups.sql");
 		createView("ProdGroupOkPercentage.sql");
 		
+		// create KPI view
+		createView("KPIs.sql");
+		
 		Log.info("DB: Views created successfully.");
 	}
 	
@@ -427,6 +430,18 @@ public class DB {
 			}
 		}
 		return row;
+	}
+
+	public String getKpis() {
+		String result = null;
+		try {
+			String sql = "SELECT * FROM KPIs";
+			result = getJsonData(sql);
+		}
+		catch (Exception e) {
+			Log.error("DB: Error getting getKPIs: " + e.getMessage());
+		}	
+		return result;
 	}
 	
 	
