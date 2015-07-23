@@ -18,7 +18,7 @@ the simulation
 
 # Java Project
 The Java-project is devided into 6 big Parts:
-* Collect data
+* [Collect data](#collect)
 * Create objects 
 * Product state
 * WebSocket-Server
@@ -27,7 +27,7 @@ The Java-project is devided into 6 big Parts:
 
 The Main-class starts the simulation and a ConnectionHandler to collect the data from the event-stream as well as the HTTP- and the WebSocket-Server.
 
-## Collect data
+## <a name="collect">Collect data</a>
 To collect the data from the simulation, the connectionHandler starts 3 Listeners that run in different Threads. Two of them are MessageListeners which use a MessageConsumer to read the ERP- and OPC-Data from the event-stream. The Third one uses a FileWatcher, that gets notified when a new file is created with the Spectral-Analysis-data. All 3 Listeners are Observable and give the JSON/XML-String to the Observer.
 The Observer is a MessageHandler, which writes the events into a queue, to be processed further.
 
