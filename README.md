@@ -16,9 +16,26 @@ the simulation
 * __/src/__ Java files
 * __/target/__ Binary compiled Java files
 
+# Java Project
+The Java-project is devided into 6 big Parts:
+* Collect data
+* Create objects 
+* Product state
+* WebSocket-Server
+* HTTP-Server
+* Database
+
+The Main-class starts the simulation and a ConnectionHandler to collect the data from the eventstream as well as the HTTP- and the WebSocket-Server.
+
+## Collect data
+To collect the data from the simulation, the connectionHandler starts 3 Listeners that run in different Threads. Two of them are MessageListeners which use a MessageConsumer to read the ERP- and OPC-Data from the eventstream. The Third one uses a Filewatcher, that gets notified when a new File is created with the Spectral-Analysis-data. All 3 Listeners are Observable and give the JSON/XML-String to the Observer.
+The Observer is a Message, which writes the Events into a queue, to be processed further.
+
+## Create objects
+The queue is processes by a MessageWorker, which is a Thread and constantly takes an object out of the queue. After gettig a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
 
 # Analyseergebnisse
-Die Daten wurden in Form einer SQLite Datenbank abgespeichert und anschließend mit R
+Die Daten wurden in Form einer SQLite Datenbank abgespeichert und anschlieÃŸend mit R
 analysiert.
 
 ## Metadaten
@@ -27,14 +44,14 @@ analysiert.
 #### N Produkte je Kunde und Ausschussrate
 ![NAnalysisResultByCustomerNo](pictures/compareNAnalysisResultByCustomerNo.png)
 
-#### Werteverteilungen (Boxplots): Als 1. Beweis für Materialgruppen
+#### Werteverteilungen (Boxplots): Als 1. Beweis fÃ¼r Materialgruppen
 ##### Milling Heat
 ![MillingHeatByMatNo](pictures/compareMillingHeatByMatNo.png)
 
 ##### Drilling Heat
 ![DrillingHeatByMatNo](pictures/compareDrillingHeatByMatNo.png)
 
-#### Clusteranalyse: Als 2. Beweis für Materialgruppen
+#### Clusteranalyse: Als 2. Beweis fÃ¼r Materialgruppen
 ![ClusterMillingDrillingHeatAvg](pictures/clusterDrillingMillingHeat.png)
 
 #### "Milling" Prozess: 3. Unterschiedliche Prozesse je Materialgruppe
@@ -43,7 +60,7 @@ analysiert.
 ![DrillingByDiffMatGrp](pictures/compareProductDrillingByDiffMatGrp.png)
 
 
-## AnalysisResult: Keine Vorhersage möglich?
+## AnalysisResult: Keine Vorhersage mÃ¶glich?
 ### Vergleich zwischen "OK" und "NOK" in selber MatNo
 #### "Milling" Prozess
 ![MillingBySameMatGrp](pictures/compareProductMillingBySameMatGrp.png)
