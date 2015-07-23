@@ -6,14 +6,14 @@
             $scope.isSpecificPage = function() {
                 var path;
                 path = $location.path();
-                return _.contains(['/404', '/pages/500', '/pages/login', '/pages/signin', '/pages/signin1', '/pages/signin2', '/pages/signup', '/pages/signup1', '/pages/signup2', '/pages/forgot', '/pages/lock-screen'], path);
+                return _.contains(['/404', '/pages/500'], path);
             };
             return $scope.main = {
                 brand: 'Cronos',
-                name: 'Lisa Doe'
+                name: 'Cronos'
             };
         }
-    ]).controller('DashboardCtrl', ['$scope', '$websocket', '$timeout', function($scope, $websocket) {
+    ]).controller('DashboardCtrl', ['$scope', '$websocket', 'logger', function($scope, $websocket, logger) {
         var ws = $websocket.$new("ws://localhost:9003"); //define new ws-address and connect
 
         $scope.hallo = "60";
@@ -21,9 +21,15 @@
         $scope.erpData = []; //the array, where our erp data is pushed to
         $scope.machineData = []; //the array, where our machine data ist pushed to
         $scope.products = {};
+        $scope.kpiData = {};
+        $scope.successStreak = 0;
         $scope.drillingSpeed = 0;
         ws.$on('$open', function() { //some status info in console, TODO: status info as toast
-            console.log("Connection established");
+            logger.log("Websocket connection established");
+            $.get("/data/getKPIs").success(function(data) {
+                $scope.kpiData = data.data[0];
+                logger.logSuccess("Initial KPIs gathered");
+            }).error(function() {});
         });
         ws.$on('$message', function(data) {
             $scope.$apply(function() { //we need to manually apply a scope change, so dynamic array changes will be reflected in view
@@ -37,27 +43,39 @@
                     if ($scope.products[data.orderNumber]) {
                         $scope.products[data.orderNumber].state = data.state;
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
-<<<<<<< Updated upstream
-                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION") {
-                            $scope.drillingSpeed = $scope.products[data.orderNumber].simData.value;
-                            console.log($scope.products[data.orderNumber].state);
-                        }
-                        if ($scope.products[data.orderNumber].state == "MILLING_STATION") {
-                            //$scope.millingSpeed = $scope.products[data.orderNumber].simData.value;
-                            //console.log($scope.products[data.orderNumber].state);
-=======
                         if ($scope.products[data.orderNumber].state == "DRILLING_STATION" && data.simData.itemName == "Drilling Speed") {
                             $scope.drillingSpeed = data.simData.value;
-                            $scope.gaugeChart1.set($scope.drillingSpeed);
-                            console.log($scope.drillingSpeed);
+                            drillspeed.load({
+                                columns: [
+                                    ['data', $scope.drillingSpeed]
+                                ]
+                            });
+                        }
+                        if ($scope.products[data.orderNumber].state == "DRILLING_STATION" && data.simData.itemName == "Drilling Heat") {
+                            $scope.drillingTemp = data.simData.value.toFixed(2);
+                            drilltemp.load({
+                                columns: [
+                                    ['data', $scope.drillingTemp]
+                                ]
+                            });
                         }
                         if ($scope.products[data.orderNumber].state == "MILLING_STATION" && data.simData.itemName == "Milling Speed") {
                             $scope.millingSpeed = data.simData.value;
-                            $scope.gaugeChart1.set($scope.millingSpeed);
-
-                            console.log($scope.millingSpeed);
->>>>>>> Stashed changes
+                            millspeed.load({
+                                columns: [
+                                    ['data', $scope.millingSpeed]
+                                ]
+                            });
                         }
+                        if ($scope.products[data.orderNumber].state == "MILLING_STATION" && data.simData.itemName == "Milling Heat") {
+                            $scope.millingTemp = data.simData.value.toFixed(2);
+                            milltemp.load({
+                                columns: [
+                                    ['data', $scope.millingTemp]
+                                ]
+                            });
+                        }
+
                     }
                 }
                 if (data.type == "saData") {
@@ -66,6 +84,14 @@
                         $scope.products[data.orderNumber].progress += $scope.calculateProgress(data.state);
                         if ($scope.products[data.orderNumber].state == "FINISH") {
                             $scope.products[data.orderNumber].analysisStatus = data.simData.overallStatus;
+                            if (data.simData.overallStatus == "OK") {
+                                $scope.successStreak += 1;
+                            } else {
+                                $scope.successStreak = 0;
+                            }
+                            $.get("/data/getKPIs").success(function(data) {
+                                $scope.kpiData = data.data[0];
+                            }).error(function() {});
                             var scoperef = $scope;
                             setTimeout(function() {
                                 delete scoperef.products[data.orderNumber];
@@ -75,6 +101,7 @@
                 }
 
             });
+
             $scope.calculateProgress = function(state) {
                 switch (state) {
                     case "INIT":
@@ -104,57 +131,63 @@
                 }
             }
         });
+
+        $scope.genGauge = function(bindTo, max, unit, color) {
+            var gauge = c3.generate({
+                bindto: bindTo,
+                transition: {
+                    duration: 500
+                },
+                data: {
+                    columns: [
+                        ['data', 0]
+                    ],
+                    type: 'gauge'
+                },
+                gauge: {
+                    label: {
+                        format: function(value, ratio) {
+                            return value;
+                        },
+                        show: true // to turn off the min/max labels.
+                    },
+                    min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
+                    max: max, // 100 is default
+                    units: unit,
+                    width: 39 // for adjusting arc thickness
+                },
+                color: {
+                    pattern: [color]
+                },
+                size: {
+                    height: 100
+                }
+            });
+            return gauge;
+        }
+        var drillspeed = $scope.genGauge("#drillgauge", 20000, "rpm", "#66B5D7");
+        var millspeed = $scope.genGauge("#millgauge", 15000, "rpm", "#66B5D7");
+        var drilltemp = $scope.genGauge("#drilltemp", 350, "°C", "#EEC95A");
+        var milltemp = $scope.genGauge("#milltemp", 250, "°C", "#EEC95A");
+
+
+
         ws.$on('$close', function() {
-            console.error("Connection lost");
+            logger.logWarning("Websocket Connection lost!");
         });
 
-        $scope.gaugeChart1 = {
-            data: {
-<<<<<<< Updated upstream
-                maxValue: 25000, //milling 150000 drilling 25000
-                animationSpeed: 40,
-                val: 2500
-=======
-                maxValue: 20000, //milling 17000 drilling 20000
-                animationSpeed: 40,
-                val: 0
->>>>>>> Stashed changes
-            },
-            options: {
-                lines: 12,
-                angle: 0,
-                lineWidth: 0.47,
-                pointer: {
-                    length: 0.6,
-                    strokeWidth: 0.03,
-                    color: '#000000'
-                },
-                limitMax: 'false',
-                colorStart: '#A3C86D',
-                colorStop: '#A3C86D',
-                strokeColor: '#E0E0E0',
-                generateGradient: true,
-                percentColors: [
-                    [0.0, '#60CD9B'],
-                    [1.0, '#60CD9B']
-                ]
-            }
-        };
-
-    }]).controller('HistoryCtrl', ['$scope', '$http', function($scope, $http) {
+    }]).controller('HistoryCtrl', ['$scope', '$http','logger', function($scope, $http, logger) {
         var compareData;
-        console.log("Sind drin");
         $http.get('/data/getDataByAnalysisResult')
-        .success(function(data, status, headers, config){
-                console.log("YIPPIE");
-                console.log(data);
+            .success(function(data, status, headers, config) {
+                logger.log("Analysis Results updated!");
                 $scope.compareData = data.data;
-                var colorFunc = function(row, series, type){
-                    if(row.label == "OK") return "#61A656";
+                var colorFunc = function(row, series, type) {
+                    if (row.label == "OK") return "#61A656";
                     else return "#d32030";
                 };
 
-                for(var i = 0; i < $scope.compareData.length; i++){
+                for (var i = 0; i < $scope.compareData.length; i++) {
                     $scope.compareData[i].AvgDrillingHeat = Math.round($scope.compareData[i].AvgDrillingHeat * 10) / 10;
                     $scope.compareData[i].AvgMillingHeat = Math.round($scope.compareData[i].AvgMillingHeat * 10) / 10;
                     $scope.compareData[i].AvgDrillingSpeed = Math.round($scope.compareData[i].AvgDrillingSpeed);
@@ -218,24 +251,23 @@
                     postUnits: ' s'
                 });
 
-        })
-        .error(function(data,status,headers,config){
-            console.log("Scheiße gelaufen");
-        });
+            })
+            .error(function(data, status, headers, config) {
+                logger.logError("Failed to get analysis results!");
+            });
 
-    }]).controller('MaterialCtrl', ['$scope', '$http', function($scope, $http) {
+    }]).controller('MaterialCtrl', ['$scope', '$http','logger', function($scope, $http, logger) {
         var compareMaterial;
         $http.get('/data/getDataByMat')
-        .success(function(data, status, headers, config){
-                console.log("YIPPIE-Material");
-                console.log(data);
+            .success(function(data, status, headers, config) {
+                logger.logSuccess("Material Results successfully updated!");
                 $scope.compareMaterial = data.data;
-                var colorFunc = function(row, series, type){
-                    if(row.label < "7500") return "#5B90BF";
+                var colorFunc = function(row, series, type) {
+                    if (row.label < "7500") return "#5B90BF";
                     else return "#d08770";
                 };
 
-                for(var i = 0; i < $scope.compareMaterial.length; i++){
+                for (var i = 0; i < $scope.compareMaterial.length; i++) {
                     $scope.compareMaterial[i].AvgDrillingHeat = Math.round($scope.compareMaterial[i].AvgDrillingHeat * 10) / 10;
                     $scope.compareMaterial[i].AvgMillingHeat = Math.round($scope.compareMaterial[i].AvgMillingHeat * 10) / 10;
                     $scope.compareMaterial[i].AvgDrillingSpeed = Math.round($scope.compareMaterial[i].AvgDrillingSpeed);
@@ -309,10 +341,10 @@
                     postUnits: '%'
                 });
 
-        })
-        .error(function(data,status,headers,config){
-            console.log("Scheiße gelaufen");
-        });
+            })
+            .error(function(data, status, headers, config) {
+                logger.logError("Failed to get material results!");
+            });
 
     }]);
 
