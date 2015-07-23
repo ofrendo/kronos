@@ -154,10 +154,14 @@ The HTTP server takes aggregated historical data out of the database and exposes
 
 
 # <a name="tocFSM">Finite state machine</a>
+To track the current position of a product a Finite State machine is used. In the simulation products are manufactured on a production line. First, ERP data is received from the simulation. Next the production starts. `Lightbarrier 1` and `Lightbarrier 2` are used to track the position of the product at the beginning of the production line. `Lightbarrier 3` is combined with the `Milling Station`. If `Lightbarrier 3` is interrupted the product arrived at the milling station. The signifies that the first process, __Milling__, has started.
+ 
+After the __Milling__ process has finished the product is sent to the `Drilling station`, where `Lightbarrier 4` is used to track the position. Here the second process, __Drilling__, has started. After this process has finished the product continues to `Lightbarrier 5`, which means the product is finished and removed from the production line. Lastly, the `Spectral Analysis` checks the status of the product. The status of the product can be `OK` or `Not OK`.
 
-To track the current position of a product a Finite State machine is used. 
+To represent a product on the production line a finite state machine is used. Each product takes the linear path in the following UML diagram: 
+![UML Model](pictures/FiniteStateMachineUML.png)
 
-The finite State machine has following states:
+The finite state machine consists of the states: 
 - INIT
 - LIGHTBARRIER_1,
 - BETWEEN_L1_L2,
@@ -172,7 +176,7 @@ The finite State machine has following states:
 - SPECTRAL_ANALYSIS,
 - FINISH
 
-with following triggers:
+It uses these triggers to transfer between states:
 - LIGHTBARRIER_1_INTERRUPT
 - LIGHTBARRIER_1_CONNECT
 - LIGHTBARRIER_2_INTERRUPT
@@ -186,9 +190,6 @@ with following triggers:
 - LIGHTBARRIER_5_INTERRUPT
 - LIGHTBARRIER_5_CONNECT
 - SPECTRAL_ANALYSIS
-
-The product takes following path:
-![UML Model](pictures/FiniteStateMachineUML.png)
 
 
 # <a name="tocDB">Database</a>
