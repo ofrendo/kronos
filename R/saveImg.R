@@ -1,12 +1,12 @@
 ## ggplot options
-fontTitleSize <- 35
-fontAxisTitleSize <- 25
+fontTitleSize <- 23
+fontAxisTitleSize <- 18
 fontGeomTextSize <- 10
 
 getGGTheme <- function() {
-  #return (theme(plot.title=element_text(size=fontTitleSize),
-  #              axis.title=element_text(size=fontAxisTitleSize)))
-  return (theme())
+  return (theme(plot.title=element_text(size=fontTitleSize),
+                axis.title=element_text(size=fontAxisTitleSize)))
+  #return (theme())
 }
 
 

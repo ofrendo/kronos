@@ -96,7 +96,8 @@ aData$lda <- scale(f1(aData))
 g <- ggplot(aData, aes(lda)) + geom_bar() +
   facet_grid(dataOnlyProducts.AnalysisResult ~ .) +
   xlab("F1") + 
-  ggtitle(paste0("Discriminant analysis Milling/Drilling Heat Avg, MatGrp=", aData[1, 3]))
+  ggtitle(paste0("Discriminant analysis Heat Avg\n MatGrp=", aData[1, 3])) +
+  getGGTheme()
 
 openImg("discriminantDrillingMillingHeat.png")
 print(g)
@@ -118,10 +119,12 @@ names(easyAnalysis) <- c("MaterialNo", "AnalysisResultRatio", "N")
 
 g1 <- ggplot(easyAnalysis, aes(factor(MaterialNo), N)) + 
   geom_bar(stat="identity") +
-  xlab("MaterialNo") + ggtitle("N by MaterialNo")
+  xlab("MaterialNo") + ggtitle("N by MaterialNo") +
+  getGGTheme()
 g2 <- ggplot(easyAnalysis, aes(factor(MaterialNo), AnalysisResultRatio)) + 
   geom_bar(stat="identity") +
-  xlab("MaterialNo") + ggtitle("AnalysisResultRatio by MaterialNo")
+  xlab("MaterialNo") + ggtitle("AnalysisResultRatio by MaterialNo") +
+  getGGTheme()
 
 openImg("compareNAnalysisResultByMaterialNo.png")
 multiplot(g1, g2, cols=2)
@@ -136,7 +139,8 @@ plotAndSaveBoxplot <- function(varName, title, fName) {
   g <- ggplot(data, aes(relevel(factor(AnalysisResult), "OK"), Value)) + 
     geom_boxplot() +
     facet_grid(. ~ MaterialNo) +
-    ggtitle(paste0(title, ", n=", length(unique(data$ID)))) + xlab("AnalysisResult")
+    ggtitle(paste0(title, ", n=", length(unique(data$ID)))) + xlab("AnalysisResult") +
+    getGGTheme()
   openImg(fName)
   print(g)
   closeImg()
@@ -188,10 +192,12 @@ names(dataByCustomer) <- c("CustomerNo", "AnalysisResultRatio", "N")
 
 g1 <- ggplot(dataByCustomer, aes(factor(CustomerNo), N)) + 
   geom_bar(stat="identity") +
-  xlab("CustomerNo") + ggtitle("N by CustomerNo")
+  xlab("CustomerNo") + ggtitle("N by CustomerNo") +
+  getGGTheme()
 g2 <- ggplot(dataByCustomer, aes(factor(CustomerNo), AnalysisResultRatio)) + 
   geom_bar(stat="identity") +
-  xlab("CustomerNo") + ggtitle("AnalysisResultRatio by CustomerNo")
+  xlab("CustomerNo") + ggtitle("AnalysisResultRatio by CustomerNo") +
+  getGGTheme()
 
 openImg("compareNAnalysisResultByCustomerNo.png")
 multiplot(g1, g2, cols=2)
@@ -208,7 +214,8 @@ g <- ggplot(clusterData, aes(x=dataMillingHeatAvg, y=dataDrillingHeatAvg, colour
   geom_point() +
   xlab("Milling Heat Avg") + ylab("Drilling Heat Avg") +
   ggtitle("Cluster by Drilling/Milling Heat Avg") +
-  theme(legend.position="none")
+  theme(legend.position="none") +
+  getGGTheme()
 
 openImg("clusterDrillingMillingHeat.png")
 print(g)
