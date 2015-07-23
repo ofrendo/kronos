@@ -35,7 +35,7 @@ The Observer is a MessageHandler, which writes the events into a queue, to be pr
 The queue is processeD by a MessageWorker, which is also a Thread and constantly looks in the queue for new messages. After getting a message, the worker reads the type of the message and calls a factory which unmarshalls the data into a java-object, depending on the type. (ERPItem, OPCItem, SAItem)
 
 ## <a name="product">Product state</a>
-After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a state-machine which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
+After the objects are created, the MessageWorker passes them to the ProductHandler. If the object is an ERPItem a new product-object is created. Every product contains a [Finite State Machine](#fsm) which observes the current state of the product. If the object given to the ProductHandler is an OPCItem or a SAItem the ProductHandler loops over every active product and tries to assign the event to product. This is evaluated with the current state of the product and the trigger which is connected to the Item.
 
 After the event is connected to a product it is given to the WebSocket-Server and the Database.
 
@@ -136,7 +136,7 @@ JSON file
 }
 ```
 
-# Finite State Machine
+# <a name="fsm">Finite State Machine</a>
 
 To track the current position of a product a Finite State machine is used. 
 
