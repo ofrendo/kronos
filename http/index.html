@@ -11,9 +11,15 @@
         <!-- needs images, font... therefore can not be part of ui.css -->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
         <!-- end needs images -->
-
             <link rel="stylesheet" href="styles/main.css">
-
+		<style>
+			.panel-body .morris-hover.morris-default-style {
+				display:none !important;
+			}
+			.panel-body:hover .morris-hover.morris-default-style {
+				display:block !important;
+			}
+		</style>
     </head>
     <body data-ng-app="app" id="app" data-custom-background data-off-canvas-nav>
         <!--[if lt IE 9]>
