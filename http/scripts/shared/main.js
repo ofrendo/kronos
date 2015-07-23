@@ -33,6 +33,8 @@
         });
         ws.$on('$message', function(data) {
             $scope.$apply(function() { //we need to manually apply a scope change, so dynamic array changes will be reflected in view
+                $.get("/data/getKPIs").success(function(data) {
+                $scope.kpiData = data.data[0];
                 if (data.type == "erpData") {
                     $scope.products[data.orderNumber] = {};
                     $scope.products[data.orderNumber].erpData = data.simData;
@@ -89,9 +91,6 @@
                             } else {
                                 $scope.successStreak = 0;
                             }
-                            $.get("/data/getKPIs").success(function(data) {
-                                $scope.kpiData = data.data[0];
-                            }).error(function() {});
                             var scoperef = $scope;
                             setTimeout(function() {
                                 delete scoperef.products[data.orderNumber];

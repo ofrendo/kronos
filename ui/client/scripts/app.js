@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('app', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'easypiechart', 'textAngular', 'ngTagsInput', 'ngWebsocket', 'app.ui.ctrls', 'app.ui.services', 'app.controllers', 'app.directives', 'app.chart.ctrls', 'app.chart.directives']).config([
+    angular.module('app', ['ngRoute', 'ngAnimate', 'ui.bootstrap', 'easypiechart', 'textAngular', 'ngTagsInput', 'ngWebsocket', 'app.ui.services', 'app.controllers', 'app.directives', 'app.chart.directives']).config([
         '$routeProvider',
         function($routeProvider) {
             return $routeProvider.when('/', {
