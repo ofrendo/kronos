@@ -207,6 +207,27 @@ Hier wird die deta gestored
 #<a name="tocVisualization">Visualization</a>
 Visualization using web technologies
 
+To visualise our data and the running production process, a UI was built based on the industry standard web technologies. The stack consists of:
+- Bootstrap v3
+- compass
+- AngularJS
+- flot
+- d3 and c3
+- jQuery
+- fontAwesome
+- modernizr
+- raphael
+- ng-websockets
+- underscore 
+- and several other libraries.
+
+Further, node, bower and grunt were used extensively for development and a simplified and optimized workflow.
+For realtime data exchange a WebSocket connection was used to track the production process and view - e.g. - the temperatures, rpms and current location of the product on the production line.
+
+For historical data analysis and visualisation, several RESTful-Endpoints were created and are presented with the help of morris.js.
+
+Finally, for production use, the web frontend is heavily processed and optimized by Grunt and copied to the http directory.
+For developmental use, grunt, node and liveReload were relied upon.
 
 # <a name="tocDirectories">Directories</a>
 * __/data/__ Stores partly aggregated event data for a finished 
