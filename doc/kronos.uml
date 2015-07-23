@@ -4,7 +4,7 @@
     <eAnnotations xmi:id="_pMNQ0DCHEeWlMpF-4bareg" source="http://ns.yatta.de/umllab">
       <contents xmi:type="ecore:EAnnotation" xmi:id="_pMN34DCHEeWlMpF-4bareg" source="codegen">
         <details xmi:id="_pMN34TCHEeWlMpF-4bareg" key="codegenDirectory" value="/kronos/src"/>
-        <details xmi:id="_pwH2MDCHEeWlMpF-4bareg" key="AssociatedSourceCode" value="/kronos/src/kronos/Main.java;1721979661/1;/kronos/src/kronos/db/DB.java;3888517842/1;/kronos/src/kronos/db/LogDB.java;3789338002/1;/kronos/src/kronos/fsm/PartStates.java;1088498863/1;/kronos/src/kronos/fsm/StateMachineHandler.java;1506088137/1;/kronos/src/kronos/fsm/Triggers.java;2413224943/1;/kronos/src/kronos/model/ERPData.java;3846462868/1;/kronos/src/kronos/model/OPCDataItem.java;412662225/1;/kronos/src/kronos/model/Product.java;561511312/1;/kronos/src/kronos/model/SAData.java;655925559/1;/kronos/src/kronos/model/SimData.java;3764672082/1;/kronos/src/kronos/model/SimDataFactory.java;2072716190/1;/kronos/src/kronos/server/http/HTTPServer.java;481488506/1;/kronos/src/kronos/server/http/HTTPServlet.java;3904568759/1;/kronos/src/kronos/server/http/rest/Route.java;2457705041/1;/kronos/src/kronos/server/http/rest/RouteHandler.java;2695264752/1;/kronos/src/kronos/server/ws/WSMessage.java;1365586364/1;/kronos/src/kronos/server/ws/WSServer.java;2483627964/1;/kronos/src/kronos/sim/CEventProcessor.java;1242904174/1;/kronos/src/kronos/sim/ConnectionHandler.java;735222428/1;/kronos/src/kronos/sim/MessageHandler.java;2520007411/1;/kronos/src/kronos/sim/MessageObject.java;747111193/1;/kronos/src/kronos/sim/MessageWorker.java;449136939/1;/kronos/src/kronos/sim/ProductHandler.java;1902776212/1;/kronos/src/kronos/sim/Simulation.java;613358796/1;/kronos/src/kronos/sim/source/MessageListener.java;1177428747/1;/kronos/src/kronos/sim/source/SAReader.java;3432679822/1;/kronos/src/kronos/sim/source/SimSource.java;297731142/1;/kronos/src/kronos/sim/source/SimSourceType.java;3450125512/1;/kronos/src/kronos/test/TestCEventProcessor.java;1078408719/1;/kronos/src/kronos/test/TestDB.java;3064088641/1;/kronos/src/kronos/test/TestServerRestAPI.java;3662644791/1;/kronos/src/kronos/test/TestServerStart.java;1478407831/1;/kronos/src/kronos/test/TestSimConnect.java;1117119872/1;/kronos/src/kronos/test/TestSimTopics.java;3999669697/1;/kronos/src/kronos/test/TestStateMachine.java;1806902742/1;/kronos/src/kronos/test/TestSuiteDataSources.java;257043430/1;/kronos/src/kronos/test/TestUsesSim.java;913548604/1;/kronos/src/kronos/util/Log.java;186096182/1;"/>
+        <details xmi:id="_pwH2MDCHEeWlMpF-4bareg" key="AssociatedSourceCode" value="/kronos/src/kronos/Main.java;1721979661/1;/kronos/src/kronos/db/DB.java;3888517842/1;/kronos/src/kronos/db/LogDB.java;3789338002/1;/kronos/src/kronos/fsm/PartStates.java;1088498863/1;/kronos/src/kronos/fsm/StateMachineHandler.java;1506088137/1;/kronos/src/kronos/fsm/Triggers.java;2413224943/1;/kronos/src/kronos/model/ERPData.java;3846462868/1;/kronos/src/kronos/model/OPCDataItem.java;412662225/1;/kronos/src/kronos/model/Product.java;561511312/1;/kronos/src/kronos/model/SAData.java;655925559/1;/kronos/src/kronos/model/SimData.java;3764672082/1;/kronos/src/kronos/model/SimDataFactory.java;2072716190/1;/kronos/src/kronos/server/http/HTTPServer.java;481488506/1;/kronos/src/kronos/server/http/HTTPServlet.java;1562704422/1;/kronos/src/kronos/server/http/rest/Route.java;2457705041/1;/kronos/src/kronos/server/http/rest/RouteHandler.java;2695264752/1;/kronos/src/kronos/server/ws/WSMessage.java;1365586364/1;/kronos/src/kronos/server/ws/WSServer.java;2483627964/1;/kronos/src/kronos/sim/CEventProcessor.java;1242904174/1;/kronos/src/kronos/sim/ConnectionHandler.java;735222428/1;/kronos/src/kronos/sim/MessageHandler.java;2520007411/1;/kronos/src/kronos/sim/MessageObject.java;747111193/1;/kronos/src/kronos/sim/MessageWorker.java;449136939/1;/kronos/src/kronos/sim/ProductHandler.java;1902776212/1;/kronos/src/kronos/sim/Simulation.java;613358796/1;/kronos/src/kronos/sim/source/MessageListener.java;1177428747/1;/kronos/src/kronos/sim/source/SAReader.java;3432679822/1;/kronos/src/kronos/sim/source/SimSource.java;297731142/1;/kronos/src/kronos/sim/source/SimSourceType.java;3450125512/1;/kronos/src/kronos/test/TestCEventProcessor.java;1078408719/1;/kronos/src/kronos/test/TestDB.java;3064088641/1;/kronos/src/kronos/test/TestServerRestAPI.java;3662644791/1;/kronos/src/kronos/test/TestServerStart.java;1478407831/1;/kronos/src/kronos/test/TestSimConnect.java;1117119872/1;/kronos/src/kronos/test/TestSimTopics.java;3999669697/1;/kronos/src/kronos/test/TestStateMachine.java;1806902742/1;/kronos/src/kronos/test/TestSuiteDataSources.java;257043430/1;/kronos/src/kronos/test/TestUsesSim.java;913548604/1;/kronos/src/kronos/util/Log.java;186096182/1;"/>
       </contents>
     </eAnnotations>
     <elementImport xmi:id="_phOekDCHEeWlMpF-4bareg">
@@ -201,6 +201,103 @@ server.&#xD;
               <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QYEn0TCSEeWKod2uCAN30Q"/>
               <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QYEn0jCSEeWKod2uCAN30Q" value="*"/>
             </ownedEnd>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Class" xmi:id="_L4a6wDCUEeWKod2uCAN30Q" name="HTTPServlet">
+            <ownedComment xmi:id="_L4snljCUEeWKod2uCAN30Q">
+              <body>See http://www.javaxt.com/javaxt-server/Overview.&#xD;
+@author D059373&#xD;
+ *</body>
+            </ownedComment>
+            <generalization xmi:id="_L4fMMTCUEeWKod2uCAN30Q" general="_pobSwDCHEeWlMpF-4bareg"/>
+            <ownedAttribute xmi:id="_L4rZcDCUEeWKod2uCAN30Q" name="routeHandler" visibility="private" type="_pjqHgDCHEeWlMpF-4bareg" association="_L4t1sDCUEeWKod2uCAN30Q"/>
+            <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_L4sAgTCUEeWKod2uCAN30Q" name="HTTPServlet" specification="_L4cI4DCUEeWKod2uCAN30Q">
+              <ownedParameter xmi:id="_L4sAgjCUEeWKod2uCAN30Q" type="_L4a6wDCUEeWKod2uCAN30Q" direction="return"/>
+              <language>java</language>
+              <body>this.routeHandler = new RouteHandler();		&#xD;
+	</body>
+            </ownedBehavior>
+            <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_L4snkDCUEeWKod2uCAN30Q" name="processRequest" specification="_L4cv8DCUEeWKod2uCAN30Q">
+              <ownedParameter xmi:id="_L4snkTCUEeWKod2uCAN30Q" name="request" type="_pobSwjCHEeWlMpF-4bareg"/>
+              <ownedParameter xmi:id="_L4snkjCUEeWKod2uCAN30Q" name="response" type="_pob50TCHEeWlMpF-4bareg"/>
+              <language>java</language>
+              <body>String path = request.getURL().getPath();&#xD;
+     if (path.length()>1 &amp;&amp; path.startsWith(&quot;/&quot;)) path = path.substring(1);&#xD;
+		&#xD;
+     Log.info(&quot;HTTPServlet: Recieved request for &quot; + path);&#xD;
+     &#xD;
+     //Peel off the first part of the path. We'll use this to determine whether to serve&#xD;
+     //static or dynamic content.&#xD;
+     String service = path.toLowerCase();&#xD;
+     if (service.contains(&quot;/&quot;)) service = service.substring(0, service.indexOf(&quot;/&quot;));&#xD;
+     &#xD;
+     if (path.equals(&quot;/&quot;)) {&#xD;
+     	path = &quot;index.html&quot;;&#xD;
+     }&#xD;
+     &#xD;
+     //Construct a physical file path using the url&#xD;
+     File file = new File(&quot;http/&quot; + path);&#xD;
+     &#xD;
+     //If the file doesn't exist, check REST API or return an error&#xD;
+     if (!file.exists() || file.isDirectory()) {&#xD;
+     	String APIResult = routeHandler.handleRoute(path);&#xD;
+     	if (APIResult == null) {&#xD;
+     		response.setStatus(404);&#xD;
+         	Log.info(&quot;HTTPServlet: Returning 404&quot;);&#xD;
+     	}&#xD;
+     	response.setContentType(&quot;application/json&quot;);&#xD;
+     	return;&#xD;
+     }&#xD;
+     else{ //Dump the file content to the servlet output stream&#xD;
+         response.write(file, getContentType(file), true);&#xD;
+         Log.info(&quot;HTTPServlet: Returning file contents&quot;);&#xD;
+     }&#xD;
+     &#xD;
+	</body>
+            </ownedBehavior>
+            <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_L4snkzCUEeWKod2uCAN30Q" name="getContentType" specification="_L4elIDCUEeWKod2uCAN30Q">
+              <ownedParameter xmi:id="_L4snlDCUEeWKod2uCAN30Q" name="file" type="_poGioDCHEeWlMpF-4bareg"/>
+              <ownedParameter xmi:id="_L4snlTCUEeWKod2uCAN30Q" direction="return">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              </ownedParameter>
+              <language>java</language>
+              <body>String fileName = file.getName();&#xD;
+		String fileExtension = &quot;&quot;;&#xD;
+     if (fileName.contains(&quot;.&quot;)){&#xD;
+         fileExtension = fileName.substring(fileName.lastIndexOf(&quot;.&quot;)+1).toLowerCase();&#xD;
+     }&#xD;
+ &#xD;
+     if (fileExtension.equals(&quot;css&quot;)) return &quot;text/css&quot;;&#xD;
+     if (fileExtension.equals(&quot;js&quot;))  return &quot;text/javascript&quot;;&#xD;
+      return &quot;text/html&quot;;&#xD;
+	</body>
+            </ownedBehavior>
+            <ownedOperation xmi:id="_L4cI4DCUEeWKod2uCAN30Q" name="HTTPServlet" method="_L4sAgTCUEeWKod2uCAN30Q">
+              <eAnnotations xmi:id="_L4cI4TCUEeWKod2uCAN30Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+                <details xmi:id="_L4cI4jCUEeWKod2uCAN30Q" key="create"/>
+              </eAnnotations>
+              <ownedComment xmi:id="_L4snlzCUEeWKod2uCAN30Q">
+                <body>Servlet for serving files statically from directory /http</body>
+              </ownedComment>
+              <ownedParameter xmi:id="_L4cI4zCUEeWKod2uCAN30Q" type="_L4a6wDCUEeWKod2uCAN30Q" direction="return"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_L4cv8DCUEeWKod2uCAN30Q" name="processRequest" method="_L4snkDCUEeWKod2uCAN30Q" raisedException="_L4o9MjCUEeWKod2uCAN30Q _L4o9MDCUEeWKod2uCAN30Q">
+              <ownedParameter xmi:id="_L4cv8TCUEeWKod2uCAN30Q" name="request" type="_pobSwjCHEeWlMpF-4bareg"/>
+              <ownedParameter xmi:id="_L4cv8jCUEeWKod2uCAN30Q" name="response" type="_pob50TCHEeWlMpF-4bareg"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_L4elIDCUEeWKod2uCAN30Q" name="getContentType" method="_L4snkzCUEeWKod2uCAN30Q">
+              <ownedComment xmi:id="_L4tOoDCUEeWKod2uCAN30Q">
+                <body>Gets the content type from a file name to be used for HTTP&#xD;
+	 * @param file File to be analysed&#xD;
+	 * @return Possible return values: &quot;text/css&quot;, &quot;text/javascript&quot;, &quot;text/html&quot;</body>
+              </ownedComment>
+              <ownedParameter xmi:id="_L4elITCUEeWKod2uCAN30Q" name="file" type="_poGioDCHEeWlMpF-4bareg"/>
+              <ownedParameter xmi:id="_L4fMMDCUEeWKod2uCAN30Q" direction="return">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              </ownedParameter>
+            </ownedOperation>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Association" xmi:id="_L4t1sDCUEeWKod2uCAN30Q" name="" memberEnd="_L4t1sTCUEeWKod2uCAN30Q _L4rZcDCUEeWKod2uCAN30Q">
+            <ownedEnd xmi:id="_L4t1sTCUEeWKod2uCAN30Q" name="" type="_L4a6wDCUEeWKod2uCAN30Q" association="_L4t1sDCUEeWKod2uCAN30Q"/>
           </packagedElement>
         </packagedElement>
         <packagedElement xmi:type="uml:Package" xmi:id="_phPsszCHEeWlMpF-4bareg" name="ws">
@@ -1696,7 +1793,9 @@ xml and json strings.&#xD;
           </ownedEnd>
         </packagedElement>
       </packagedElement>
-      <packagedElement xmi:type="uml:Package" xmi:id="_phSI8TCHEeWlMpF-4bareg" name="util"/>
+      <packagedElement xmi:type="uml:Package" xmi:id="_phSI8TCHEeWlMpF-4bareg" name="util">
+        <packagedElement xmi:type="uml:Class" xmi:id="_L4pkQTCUEeWKod2uCAN30Q" name="Log"/>
+      </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_phWaYDCHEeWlMpF-4bareg" name="db">
         <packagedElement xmi:type="uml:Class" xmi:id="_pi4rcDCHEeWlMpF-4bareg" name="DB">
           <ownedComment xmi:id="_pqAAEDCHEeWlMpF-4bareg">
@@ -2498,6 +2597,7 @@ xml and json strings.&#xD;
         <packagedElement xmi:type="uml:Class" xmi:id="_poHJsTCHEeWlMpF-4bareg" name="FileInputStream"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_poZdkTCHEeWlMpF-4bareg" name="StringReader"/>
         <packagedElement xmi:type="uml:Class" xmi:id="_po4lwDCHEeWlMpF-4bareg" name="PrintStream"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_L4o9MDCUEeWKod2uCAN30Q" name="IOException"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Package" xmi:id="_phRh4DCHEeWlMpF-4bareg" name="nio">
         <packagedElement xmi:type="uml:Package" xmi:id="_phRh4TCHEeWlMpF-4bareg" name="file">
@@ -2594,6 +2694,7 @@ xml and json strings.&#xD;
           <packagedElement xmi:type="uml:Class" xmi:id="_pobSwDCHEeWlMpF-4bareg" name="HttpServlet"/>
           <packagedElement xmi:type="uml:Class" xmi:id="_pobSwjCHEeWlMpF-4bareg" name="HttpServletRequest"/>
           <packagedElement xmi:type="uml:Class" xmi:id="_pob50TCHEeWlMpF-4bareg" name="HttpServletResponse"/>
+          <packagedElement xmi:type="uml:Class" xmi:id="_L4o9MjCUEeWKod2uCAN30Q" name="ServletException"/>
         </packagedElement>
       </packagedElement>
     </packagedElement>
@@ -2892,4 +2993,13 @@ xml and json strings.&#xD;
   <UMLLabProfile:Reference xmi:id="_pqS7AjCHEeWlMpF-4bareg" base_Element="_pqS7ADCHEeWlMpF-4bareg"/>
   <UMLLabProfile:Reference xmi:id="_pqS7BTCHEeWlMpF-4bareg" base_Element="_pqS7AzCHEeWlMpF-4bareg"/>
   <UMLLabProfile:Reference xmi:id="_pqTiEDCHEeWlMpF-4bareg" base_Element="_pqS7BjCHEeWlMpF-4bareg"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_L4dXADCUEeWKod2uCAN30Q" base_Element="_L4cv8DCUEeWKod2uCAN30Q"/>
+  <UMLLabProfile:Annotations xmi:id="_L4d-EDCUEeWKod2uCAN30Q" base_Element="_L4cv8DCUEeWKod2uCAN30Q">
+    <annotations xmi:id="_L4d-ETCUEeWKod2uCAN30Q" name="Override"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_L4o9MTCUEeWKod2uCAN30Q" base_Element="_L4o9MDCUEeWKod2uCAN30Q"/>
+  <UMLLabProfile:Reference xmi:id="_L4pkQDCUEeWKod2uCAN30Q" base_Element="_L4o9MjCUEeWKod2uCAN30Q"/>
+  <UMLLabProfile:Reference xmi:id="_L4qLUDCUEeWKod2uCAN30Q" base_Element="_L4pkQTCUEeWKod2uCAN30Q"/>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_L4sAgDCUEeWKod2uCAN30Q" base_Element="_L4rZcDCUEeWKod2uCAN30Q"/>
+  <UMLLabProfile:Reference xmi:id="_L4ucwDCUEeWKod2uCAN30Q" base_Element="_L4t1sDCUEeWKod2uCAN30Q"/>
 </xmi:XMI>
