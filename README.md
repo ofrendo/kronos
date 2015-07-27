@@ -195,19 +195,19 @@ It uses these triggers to transfer between states:
 
 
 # <a name="tocDB">Database</a>
-The sqlite database stores the historical data processed by cronos.
+The sqlite database stores the historical data processed by Kronos.
 The database is structured as follows:
 ![Alt text](/doc/Ind4ERDSpacing.png?raw=true "ER-Diagramm SQLite-Datenbank")
-The table Product stores an entry for each product which production has been finished. It stores the data sent by the ERP and the spectral analysis'es data.
-The measure table consists of an entry for each measure (OPCItem) like milling speed, heat, time or drilling speed, heat, time.
-To do some data analysis several views have been added calculating minima, maxima and averages grouping by different criteria like the result of the spectral analysis result or the material number.
+The table Product stores an entry for each product which production has been finished. It stores the data sent by the ERP and the spectral analysis data.
+The measure table consists of an entry for each measure (OPCItem): milling speed, heat, time or drilling speed, heat and time.
+In order to enable data analysis several views have been added calculating minima, maxima and averages grouping by different criteria such as the result of the spectral analysis or the material number.
 ![Alt text](/doc/Ind4ERD-Views.png?raw=true "ER-Diagramm SQLite-Datenbank")
 
 
 #<a name="tocVisualization">Visualization</a>
 Visualization using web technologies
 
-To visualise our data and the running production process, a UI was built based on the industry standard web technologies. The stack consists of:
+To visualise our data and the running production process, a UI was built based on industry standard web technologies. The stack consists of:
 - Bootstrap v3
 - compass
 - AngularJS
@@ -221,7 +221,7 @@ To visualise our data and the running production process, a UI was built based o
 - underscore 
 - and several other libraries.
 
-Further, node, bower and grunt were used extensively for development and a simplified and optimized workflow.
+Further node, bower and grunt were used extensively for development and a simplified and optimized workflow.
 For realtime data exchange a WebSocket connection was used to track the production process and view - e.g. - the temperatures, rpms and current location of the product on the production line.
 
 For historical data analysis and visualisation, several RESTful-Endpoints were created and are presented with the help of morris.js.
